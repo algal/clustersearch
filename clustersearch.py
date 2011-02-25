@@ -72,8 +72,4 @@ def dorun(length,alphabetsize,numOfColors):
     visited, path = search(origin)
 
     return dict([("Distinct_colors", len(set(visited.values()))),("path_length", len(path))])
-#    return (len(set(visited.values())), len(path))
-    
 
-    
-    
