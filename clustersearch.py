@@ -41,14 +41,14 @@ def search(root):
     while to_traverse:
         # process head of queue of nodes still to be traversed
         cursor = to_traverse.pop(0)
-        print("Traversing from node %s" % cursor)
+        log("Traversing from node %s" % cursor)
         # compute the neighbors not previously observed
         neighbors = set(mut(cursor)) - set(observed_nodes.keys())
-        print("\tFound %s had neighbors %s of which the previously unobserved were %s" % (cursor, mut(cursor), neighbors))
+        log("\tFound %s had neighbors %s of which the previously unobserved were %s" % (cursor, mut(cursor), neighbors))
         if neighbors:
             # else, assign them colors
             newnodes = dict([(s,colorOf(s)) for s in neighbors])
-            print("\tObserved these nodes to be colored: %s" % newnodes)
+            log("\tObserved these nodes to be colored: %s" % newnodes)
             # plan to visit only the special ones later
             to_traverse.extend([i for i in neighbors if newnodes[i]==SPECIAL_COLOR])
             # add them to the db of observed nodes
