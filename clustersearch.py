@@ -67,7 +67,7 @@ def dorun(length,alphabetsize,numOfColors):
     global alphabet
     global colors
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
-    colors = "abcdefghijklmnopqrstuvwxyz"[0:numOfColors]
+    colors = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:numOfColors]
     origin = ''.join([alphabet[0] for i in range(length)])
     return search(origin)[0]
 
@@ -109,7 +109,7 @@ def summarize_stats(data):
     result.append(mean( [row[6] for row in data] ) )
     return result
 
-def calcAverages(length,alphabetsize,numOfColors,runcount=20):
+def calcAverages(length,alphabetsize,numOfColors,runcount=200):
     """ Returns
     [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimier),avg(numberof_unique_colors)]
     """
