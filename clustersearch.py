@@ -66,7 +66,10 @@ def search(root):
 def dorun(length,alphabetsize,numOfColors):
     """Does a search run.
 
-    NOTE: modified global variables alphabet and colors"""
+    NOTE:
+    - modified global variables alphabet and colors
+    - alphabetsize and numOfColors < 26
+    """
     global alphabet
     global colors
 
