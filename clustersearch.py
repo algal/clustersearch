@@ -1,5 +1,9 @@
 
+# global variables defining defaults.
 alphabet = "CGAU"
+colors = ["white", "black", "red"]
+
+
 def mut(point):
     """Returns set of all neighbors of POINT"""
     neighbors = list()
@@ -11,7 +15,6 @@ def mut(point):
             neighbors.append(variant)
     return neighbors
 
-colors = ["white", "black", "red"]
 def colorOf(point):
     """Given a point, computes its color"""
     import random
@@ -25,7 +28,7 @@ def search(root):
     color colorOf(x).
 
     Returns a dictionary of the observed nodes and their colors."""
-    SPECIAL_COLOR = "white"
+    SPECIAL_COLOR = colors[0]
     
     observed_nodes = dict()
     observed_nodes[root]=SPECIAL_COLOR
@@ -59,7 +62,23 @@ def search(root):
 
     return (observed_nodes,traversed)
 
-# def dorun(length,alphabetsize,colors):
-#     alphabet = "FGHI"
-#     return search("FF")
+
+def dorun(length,alphabetsize,numOfColors):
+    """Does a search run.
+
+    NOTE: modified global variables alphabet and colors"""
+    global alphabet
+    global colors
+
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
+    colors = "abcdefghijklmnopqrstuvwxyz"[0:numOfColors]
+    origin = ''.join([alphabet[0] for i in range(length)])
+
+    visited, path = search(origin)
+
+    return dict([("Distinct_colors", len(set(visited.values()))),("path_length", len(path))])
+#    return (len(set(visited.values())), len(path))
+    
+
+    
     
