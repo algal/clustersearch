@@ -57,9 +57,8 @@ def dorun(length,alphabetsize,numOfColors):
     """Does a search run.
 
     NOTE:
-    - modified global variables alphabet and colors
-    - alphabetsize and numOfColors < 26
-    """
+    - modifies global variables alphabet and colors
+    - alphabetsize and numOfColors must be < 26"""
     global alphabet
     global colors
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
