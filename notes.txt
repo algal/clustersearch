@@ -1,0 +1,22 @@
+
+Given: d a dictionary node-> color
+
+
+1. clustersize
+   size of a self-connected component all colored white
+
+   len([i for i in d.values() if i=="white"])
+
+2. perimeter_of_the_cluster
+   size of the set of non-white nodes in the mutational
+   neighborhood of the cluster.
+
+   len([i for i in d.values() if i != "white"])
+ 
+3. edge_length
+   total number of edges connecting white to non-white
+
+4. number_of_unique_colors
+   == size of the set of visisted non-white colors
+
+   len(set([i for i in d.values() if i != "white"]))
