@@ -3,7 +3,6 @@
 alphabet = "CGAU"
 colors = ["white", "black", "red"]
 
-
 def mut(point):
     """Returns set of all neighbors of POINT"""
     neighbors = list()
@@ -64,12 +63,9 @@ def dorun(length,alphabetsize,numOfColors):
     """
     global alphabet
     global colors
-
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
     colors = "abcdefghijklmnopqrstuvwxyz"[0:numOfColors]
     origin = ''.join([alphabet[0] for i in range(length)])
-
     visited, path = search(origin)
-
     return dict([("Distinct_colors", len(set(visited.values()))),("path_length", len(path))])
 
