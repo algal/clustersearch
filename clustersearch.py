@@ -3,6 +3,11 @@
 alphabet = "CGAU"
 colors = ["white", "black", "red"]
 
+debug = False
+def log(str):
+    if debug:
+        print(str)
+
 def mut(point):
     """Returns set of all neighbors of POINT"""
     neighbors = list()
@@ -74,4 +79,41 @@ def calcStats(nodes):
     results["number_of_unique_colors"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
     return results
 
+
+def makeRunRecord(length,alphabetsize,numOfColors):
+    results = calcStats(dorun(length,alphabetsize,numOfColors))
+    row = list()
+    row = [length,alphabetsize,numOfColors]
+    row.append(results["cluster_size"])
+    row.append(results["perimeter_of_the_cluster"])
+    row.append(results["number_of_unique_colors"])
+    return row
+
+def do_many_runs(runcount,length,alphabetsize,numOfColors):
+    results = list()
+    for runid in range(1,runcount+1):
+        row = list()
+        row.append(runid)
+        row.extend( makeRunRecord(length,alphabetsize,numOfColors) )
+        results.append(row)
+    return results
+
+def mean(seq):
+    return float(sum(seq)) / float(len(seq))
+
+def summarize_stats(data):
+    result=list()
+    result.extend(data[0][1:4])
+    result.append(mean( [row[4] for row in data] ) )
+    result.append(mean( [row[5] for row in data] ) )
+    result.append(mean( [row[6] for row in data] ) )
+    return result
+
+def calcAverages(length,alphabetsize,numOfColors,runcount=20):
+    """ Returns
+    [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimier),avg(numberof_unique_colors)]
+    """
+    rows = do_many_runs(runcount,length,alphabetsize,numOfColors)
+    stats = summarize_stats(rows)
+    return stats
 
