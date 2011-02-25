@@ -67,8 +67,8 @@ def dorun(length,alphabetsize,numOfColors):
     return search(origin)[0]
 
 def calcStats(nodes):
-    results = dict()
     SPECIAL_COLOR = colors[0]
+    results = dict()
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
     results["perimeter_of_the_cluster"] = len([i for i in nodes.values() if i != SPECIAL_COLOR])
     results["number_of_unique_colors"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
