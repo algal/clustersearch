@@ -29,26 +29,19 @@ def search(root):
 
     Returns a dictionary of the observed nodes and their colors."""
     SPECIAL_COLOR = colors[0]
-    
     observed_nodes = dict()
     observed_nodes[root]=SPECIAL_COLOR
-    
     traversed = list()
-
     to_traverse = list()
     to_traverse.append(root)
 
     while to_traverse:
         # process head of queue of nodes still to be traversed
         cursor = to_traverse.pop(0)
-
         print("Traversing from node %s" % cursor)
-
         # compute the neighbors not previously observed
         neighbors = set(mut(cursor)) - set(observed_nodes.keys())
-
         print("\tFound %s had neighbors %s of which the previously unobserved were %s" % (cursor, mut(cursor), neighbors))
-
         if neighbors:
             # else, assign them colors
             newnodes = dict([(s,colorOf(s)) for s in neighbors])
@@ -59,7 +52,6 @@ def search(root):
             observed_nodes.update(newnodes)
             # mark the current node as traversed
             traversed.append(cursor)
-
     return (observed_nodes,traversed)
 
 
