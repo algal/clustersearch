@@ -33,7 +33,6 @@ def search(root):
     traversed = list()
     to_traverse = list()
     to_traverse.append(root)
-
     while to_traverse:
         # process head of queue of nodes still to be traversed
         cursor = to_traverse.pop(0)
