@@ -26,7 +26,7 @@ def colorOf(point):
 
 def search(root):
     """Searches breadth-first from root node, recording color of every
-    node observed, but traversing onward only from "white" nodes.
+    node observed, but traversing onward only from 'white' nodes.
 
     Nodes x and y are connected if (x in mut(y)). Each node x has
     color colorOf(x).
