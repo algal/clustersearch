@@ -133,23 +133,21 @@ def calcAverages(length,alphabetsize,numOfColors,runcount=200):
 def calcAveragesOverRangedInputs(length,alphabetsize,numOfColors,runcount):
     """Calculates average stats separately for specified inputs or ranges of inputs.
 
-    For example,
-    calcAveragesOverRangedInputs(3,4,5,100)
+    For example, calcAveragesOverRangedInputs(3,4,5,100)
     does 100 runs with length=3,alphabetsize=4,numOfColors=5.
 
-    and,
-    calcAveragesOverRangedInputs(range(3,11),4,5,100)
+    and, calcAveragesOverRangedInputs(range(3,11),4,5,100)
     does 100 runs each for every length in range(3,11) with alphabetsize=4,numOfColors=5.    
     """
     def rangify(x):
-        if type(x) == type(int):
+        if type(x) == type(1):
             return range(x,x+1)
         else:
             return x
     length = rangify(length)
     alphabetsize = rangify(alphabetsize)
     numOfColors = rangify(numOfColors)
-    
+
     return [calcAverages(mylength,myalphabetsize,mynumOfColors,runcount)
             for mylength in length
             for myalphabetsize in alphabetsize
@@ -165,6 +163,3 @@ def saveAsCSV(table, filename):
     fileobj = open(filename, "w")
     my_writer  = csv.writer(fileobj)
     my_writer.writerows(table)
-    
-        
-    
