@@ -22,15 +22,14 @@ int main() {
   m["b"]="B";
   m["c"]="C";
 
-  mapkey_iterator keybegin(m.begin(), get_key);
-  mapkey_iterator keyend(m.end(), get_key);
-
   // iterate over the map's (key,val) pairs as usual
   for(map_iterator i = m.begin(); i != m.end(); i++) {
     std::cout << i->first << " " << i->second << std::endl;
   }
 
   // iterate over the keys using the transformed iterators
+  mapkey_iterator keybegin(m.begin(), get_key);
+  mapkey_iterator keyend(m.end(), get_key);
   for(mapkey_iterator i = keybegin; i != keyend; i++) {
     std::cout << *i << std::endl;
   }
