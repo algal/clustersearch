@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8.1)
 
-ENABLE_TESTING()
-
 # set to use the system clang
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -26,6 +24,7 @@ message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
 # executables
 
+include_directories(${Boost_INCLUDE_DIR})
 add_executable (keyiterate.out keyiterate.cpp)
 
 #####
