@@ -125,10 +125,11 @@ def summarize_stats(data):
     return result
 
 def calcAverages(length,alphabetsize,numOfColors,runcount=200):
-    """ Returns
+    """Calculates average stats over multiple runs.
     [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimiter_size),avg(perimiter_color_count),avg(exits_size)]
     """
     rows = do_many_runs(runcount,length,alphabetsize,numOfColors)
     stats = summarize_stats(rows)
     return stats
+
 
