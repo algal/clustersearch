@@ -134,6 +134,7 @@ def calcAveragesOverNumOfColors(length,alphabetsize,runcount, rangeOfNumOfColors
     """Calculates average stats separately for range of numOfColors.
 
     For instance, rangeOfNumOfColors = range(5,100,10).
+    Performs RUNCOUNT runs for every value in rangeOfNumOfColors
     """
     results = [calcAverages(length,alphabetsize,numOfColors=m,runcount) for m in rangeOfNumOfColors]
     
