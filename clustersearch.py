@@ -87,7 +87,7 @@ def calcStats(nodes):
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
     results["perimeter_size"] = len([i for i in nodes.values() if i != SPECIAL_COLOR])
     results["perimeter_color_count"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
-    results["exits_size"] = len([(x,y) for x in d.keys() for y in d.keys() if x < y and d[x] != d[y] and x in mut(y)]);
+    results["exits_size"] = len([(x,y) for x in nodes.keys() for y in nodes.keys() if (x < y) and (x in mut(y)) and (nodes[x] != nodes[y])]);
     return results
 
 
@@ -98,6 +98,7 @@ def makeRunRecord(length,alphabetsize,numOfColors):
     row.append(results["cluster_size"])
     row.append(results["perimeter_size"])
     row.append(results["perimeter_color_count"])
+    row.append(results["exits_size"])
     return row
 
 def do_many_runs(runcount,length,alphabetsize,numOfColors):
