@@ -130,16 +130,17 @@ def calcAverages(length,alphabetsize,numOfColors,runcount=200):
     result.append(mean( [row[7] for row in rows] ) )
     return result
 
-def calcAveragesOverNumOfColors(length,alphabetsize,rangeOfNumOfColors,runcount):
-    """Calculates average stats separately for range of numOfColors.
-
-    For instance, rangeOfNumOfColors = range(5,100,10).
-    Performs RUNCOUNT runs for every value in rangeOfNumOfColors
-    """
-    return [calcAverages(length,alphabetsize,m,runcount) for m in rangeOfNumOfColors]
-    
 def calcAveragesOverRangedInputs(length,alphabetsize,numOfColors,runcount):
-    "Calculates average stats separately for specified inputs or ranges of inputs."
+    """Calculates average stats separately for specified inputs or ranges of inputs.
+
+    For example,
+    calcAveragesOverRangedInputs(3,4,5,100)
+    does 100 runs with length=3,alphabetsize=4,numOfColors=5.
+
+    and,
+    calcAveragesOverRangedInputs(range(3,11),4,5,100)
+    does 100 runs each for every length in range(3,11) with alphabetsize=4,numOfColors=5.    
+    """
     def rangify(x):
         if type(x) == type(int):
             return range(x,x+1)
