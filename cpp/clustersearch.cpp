@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iterator>
 
+#include "boost/iterator/transform_iterator.hpp"
 
 using std::map;
 using std::string;
@@ -12,7 +13,7 @@ using std::list;
 using std::cout;
 using std::endl;
 using std::set;
-#using std::inserter
+//using std::inserter
 
 typedef string geno;
 typedef string pheno;
@@ -21,7 +22,7 @@ pheno colors[] = {"white", "red", "blue"};
 /**
 FIXME: implement
 */
-set<geno> mut(geno g) { return set<geno>; }
+set<geno> mut(geno g) { return set<geno>(); }
 
 pheno colorOf(geno g) { return colors[0]; }
 
@@ -29,7 +30,7 @@ pheno colorOf(geno g) { return colors[0]; }
 typedef map<geno,pheno>::iterator map_iterator;
 typedef map<geno,pheno>::key_type (*get_key_t)(map<geno,pheno>::value_type);
 typedef boost::transform_iterator<get_key_t, map_iterator> key_iterator;
-map<Key,Val>::key_type get_key(map<Key,Val>::value_type aPair) { return aPair.first; }
+map<geno,pheno>::key_type get_key(map<geno,pheno>::value_type aPair) { return aPair.first; }
 
 /**
    Searches breadth-first from root node, recording color of every
@@ -60,7 +61,7 @@ map<geno,pheno> search(const geno& root) {
 		   std::inserter(new_neighbors, new_neighbors.end()));
 
     if(!new_neighbors.empty()) {
-      set<geno> newnodes;
+      map<geno,pheno> newnodes;
       for(list<geno>::iterator g = new_neighbors.begin(); g != new_neighbors.end(); ++g) {
 	newnodes[*g] = colorOf(*g);
 	if (newnodes[*g] == SPECIAL_COLOR) 
@@ -73,3 +74,7 @@ map<geno,pheno> search(const geno& root) {
 }
       
 
+int main()
+{
+  std::cout << "Hello, world" << std::endl;
+}
