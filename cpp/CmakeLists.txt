@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 2.8.1)
+
+ENABLE_TESTING()
+
+# set to use the system clang
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+
+####
+#### system description
+####
+
+####
+#### project description
+####
+
+project(keyiterate)
+
+####
+#### external libraries
+####
+
+find_package(Boost 1.41.0 REQUIRED)
+message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
+message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
+
+# executables
+
+add_executable (keyiterate.out keyiterate.cpp)
+
+#####
+##### Instructions
+#####
+# 0. ls CmakeLists.txt = true
+# 1. mkdir build
+# 2. cd build
+# 3. cmake ..
+# 4. make
