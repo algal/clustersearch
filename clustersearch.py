@@ -77,7 +77,7 @@ def doRun(length,alphabetsize,numOfColors):
     global alphabet
     global colors
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
-    colors = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:numOfColors]
+    colors = list(range(numOfColors))
     origin = ''.join([alphabet[0] for i in range(length)])
     return search(origin)
 
