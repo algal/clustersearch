@@ -126,7 +126,7 @@ def summarize_stats(data):
 
 def calcAverages(length,alphabetsize,numOfColors,runcount=200):
     """ Returns
-    [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimier),avg(numberof_unique_colors)]
+    [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimiter_size),avg(perimiter_color_count),avg(exits_size)]
     """
     rows = do_many_runs(runcount,length,alphabetsize,numOfColors)
     stats = summarize_stats(rows)
