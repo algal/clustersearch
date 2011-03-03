@@ -4,7 +4,6 @@
 #include <set>
 #include <algorithm>
 #include <iterator>
-
 #include "boost/iterator/transform_iterator.hpp"
 
 using std::map;
@@ -61,13 +60,13 @@ map<geno,pheno> search(const geno& root) {
 		   std::inserter(new_neighbors, new_neighbors.end()));
 
     if(!new_neighbors.empty()) {
-      map<geno,pheno> newnodes;
+      map<geno,pheno> newly_observed;
       for(list<geno>::iterator g = new_neighbors.begin(); g != new_neighbors.end(); ++g) {
-	newnodes[*g] = colorOf(*g);
-	if (newnodes[*g] == SPECIAL_COLOR) 
+	newly_observed[*g] = colorOf(*g);
+	if (newly_observed[*g] == SPECIAL_COLOR) 
 	  to_traverse.push_back(*g);
       }
-      observed.insert(newnodes.begin(),newnodes.end());
+      observed.insert(newly_observed.begin(),newly_observed.end());
     }
   }
   return observed;
