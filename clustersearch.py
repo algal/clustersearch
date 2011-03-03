@@ -103,7 +103,8 @@ def makeRunRecord(length,alphabetsize,numOfColors):
     row.append(results["exits_size"])
     return row
 
-def do_many_runs(runcount,length,alphabetsize,numOfColors):
+def do_many_runs(length,alphabetsize,numOfColors,runcount):
+    """Does multiple identical runs with a set of input params"""
     results = list()
     for runid in range(1,runcount+1):
         row = list()
@@ -115,21 +116,33 @@ def do_many_runs(runcount,length,alphabetsize,numOfColors):
 def mean(seq):
     return float(sum(seq)) / float(len(seq))
 
-def summarize_stats(data):
-    result=list()
-    result.extend(data[0][1:4])
-    result.append(mean( [row[4] for row in data] ) )
-    result.append(mean( [row[5] for row in data] ) )
-    result.append(mean( [row[6] for row in data] ) )
-    result.append(mean( [row[7] for row in data] ) )
-    return result
-
 def calcAverages(length,alphabetsize,numOfColors,runcount=200):
     """Calculates average stats over multiple runs.
-    [length,alphabetsize,numOfColors,avg(cluster_size),avg(perimiter_size),avg(perimiter_color_count),avg(exits_size)]
+    [length,alphabetsize,numOfColors,
+    avg(cluster_size),avg(perimiter_size),avg(perimiter_color_count),avg(exits_size)]
     """
-    rows = do_many_runs(runcount,length,alphabetsize,numOfColors)
-    stats = summarize_stats(rows)
-    return stats
+    rows = do_many_runs(length,alphabetsize,numOfColors,runcount)
+    result = list()
+    result.extend(rows[0][1:4])    # drop runcount, cp length,alphabetsize,numOfColors
+    result.append(mean( [row[4] for row in rows] ) )
+    result.append(mean( [row[5] for row in rows] ) )
+    result.append(mean( [row[6] for row in rows] ) )
+    result.append(mean( [row[7] for row in rows] ) )
+    return result
 
+def calcAveragesOverNumOfColors(length,alphabetsize,runcount, rangeOfNumOfColors):
+    """Calculates average stats separately for range of numOfColors.
 
+    For instance, rangeOfNumOfColors = range(5,100,10).
+    """
+    results = [calcAverages(length,alphabetsize,numOfColors=m,runcount) for m in rangeOfNumOfColors]
+    
+def saveAsCSV(table, filename):
+    "Saves a list of lists as csv"
+    import csv
+    fileobj = open(filename, "w")
+    my_writer  = csv.writer(fileobj)
+    my_writer.writerows(table)
+    
+        
+    
