@@ -87,7 +87,7 @@ def calcStats(nodes):
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
     results["perimeter_size"] = len([i for i in nodes.values() if i != SPECIAL_COLOR])
     results["perimeter_color_count"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
-    results["exits_size"] = 0;
+    results["exits_size"] = len([(x,y) for x in d.keys() for y in d.keys() if x < y and d[x] != d[y] and x in mut(y)]);
     return results
 
 
