@@ -55,7 +55,8 @@ def search(root):
             observed_nodes.update(newnodes)
             # mark the current node as traversed
             traversed.append(cursor)
-    return (observed_nodes,traversed)
+    #we ignore traversal path for now.
+    return observed_nodes
 
 
 def dorun(length,alphabetsize,numOfColors):
@@ -69,7 +70,7 @@ def dorun(length,alphabetsize,numOfColors):
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:alphabetsize]
     colors = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[0:numOfColors]
     origin = ''.join([alphabet[0] for i in range(length)])
-    return search(origin)[0]
+    return search(origin)
 
 def calcStats(nodes):
     SPECIAL_COLOR = colors[0]
