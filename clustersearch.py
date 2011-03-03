@@ -60,7 +60,16 @@ def search(root):
 
 
 def dorun(length,alphabetsize,numOfColors):
-    """Does a search run.
+    """Do a search run.
+
+    Returns dictionary over all points in a cluster (i.e., neutral
+    network) and its mutational neighborhood, 'picked' from random
+    string graph with string LENGTH, built from an alphabet of
+    ALPHABETSIZE, where every node is painted one color out of
+    NUMOFCOLORS.
+
+    'Picks' this cluster by doing a breadth-first search, assigning
+    colors randomly as it progresses.
 
     NOTE:
     - modifies global variables alphabet and colors
