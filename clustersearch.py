@@ -82,6 +82,7 @@ def doRun(length,alphabetsize,numOfColors):
     return search(origin)
 
 def calcStats(nodes):
+    "Calculates various descriptive statistics for one search"
     SPECIAL_COLOR = colors[0]
     results = dict()
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
