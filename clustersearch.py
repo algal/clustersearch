@@ -59,7 +59,7 @@ def search(root):
     return observed_nodes
 
 
-def dorun(length,alphabetsize,numOfColors):
+def doRun(length,alphabetsize,numOfColors):
     """Do a search run.
 
     Returns dictionary over all points in a cluster (i.e., neutral
@@ -86,17 +86,18 @@ def calcStats(nodes):
     results = dict()
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
     results["perimeter_size"] = len([i for i in nodes.values() if i != SPECIAL_COLOR])
-    results["number_of_unique_colors"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
+    results["perimeter_color_count"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
+    results["exits_size"] = 0;
     return results
 
 
 def makeRunRecord(length,alphabetsize,numOfColors):
-    results = calcStats(dorun(length,alphabetsize,numOfColors))
+    results = calcStats(doRun(length,alphabetsize,numOfColors))
     row = list()
     row = [length,alphabetsize,numOfColors]
     row.append(results["cluster_size"])
     row.append(results["perimeter_size"])
-    row.append(results["number_of_unique_colors"])
+    row.append(results["perimeter_color_count"])
     return row
 
 def do_many_runs(runcount,length,alphabetsize,numOfColors):
