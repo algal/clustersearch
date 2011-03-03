@@ -130,13 +130,13 @@ def calcAverages(length,alphabetsize,numOfColors,runcount=200):
     result.append(mean( [row[7] for row in rows] ) )
     return result
 
-def calcAveragesOverNumOfColors(length,alphabetsize,runcount, rangeOfNumOfColors):
+def calcAveragesOverNumOfColors(length,alphabetsize,rangeOfNumOfColors,runcount):
     """Calculates average stats separately for range of numOfColors.
 
     For instance, rangeOfNumOfColors = range(5,100,10).
     Performs RUNCOUNT runs for every value in rangeOfNumOfColors
     """
-    results = [calcAverages(length,alphabetsize,numOfColors=m,runcount) for m in rangeOfNumOfColors]
+    results = [calcAverages(length,alphabetsize,m,runcount) for m in rangeOfNumOfColors]
     
 def saveAsCSV(table, filename):
     """Saves a list of lists as csv.
