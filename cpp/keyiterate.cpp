@@ -5,19 +5,19 @@
 
 using std::map;
 
-typedef std::string geno;
-typedef std::string pheno;
+typedef std::string Key;
+typedef std::string Val;
 
-map<geno,pheno>::key_type get_key(map<geno,pheno>::value_type aPair) {
+map<Key,Val>::key_type get_key(map<Key,Val>::value_type aPair) {
   return aPair.first;
 }
 
-typedef map<geno,pheno>::key_type (*get_key_t)(map<geno,pheno>::value_type);
-typedef map<geno,pheno>::iterator map_iterator;
+typedef map<Key,Val>::key_type (*get_key_t)(map<Key,Val>::value_type);
+typedef map<Key,Val>::iterator map_iterator;
 typedef boost::transform_iterator<get_key_t, map_iterator> mapkey_iterator;
 
 int main() {
-  map<geno,pheno> m;
+  map<Key,Val> m;
   m["a"]="A";
   m["b"]="B";
   m["c"]="C";
