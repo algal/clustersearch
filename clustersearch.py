@@ -92,6 +92,7 @@ def calcStats(nodes):
 
 
 def makeRunRecord(length,alphabetsize,numOfColors):
+    "Returns a list of statistics for a single search -- i.e., a row."
     results = calcStats(doRun(length,alphabetsize,numOfColors))
     row = list()
     row = [length,alphabetsize,numOfColors]
