@@ -93,7 +93,7 @@ def calcStats(nodes):
 
 
 def makeRunRecord(length,alphabetsize,numOfColors):
-    "Returns a list of statistics for a single search -- i.e., a row."
+    "Returns inputs and resulting statistics for a single search -- i.e., a row."
     results = calcStats(doRun(length,alphabetsize,numOfColors))
     row = list()
     row = [length,alphabetsize,numOfColors]
@@ -121,6 +121,7 @@ def summarize_stats(data):
     result.append(mean( [row[4] for row in data] ) )
     result.append(mean( [row[5] for row in data] ) )
     result.append(mean( [row[6] for row in data] ) )
+    result.append(mean( [row[7] for row in data] ) )
     return result
 
 def calcAverages(length,alphabetsize,numOfColors,runcount=200):
