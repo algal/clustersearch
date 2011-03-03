@@ -139,7 +139,11 @@ def calcAveragesOverNumOfColors(length,alphabetsize,runcount, rangeOfNumOfColors
     results = [calcAverages(length,alphabetsize,numOfColors=m,runcount) for m in rangeOfNumOfColors]
     
 def saveAsCSV(table, filename):
-    "Saves a list of lists as csv"
+    """Saves a list of lists as csv.
+
+    For instance, can be used with output of
+    calcAveragesOverNumOfColors or of do_many_runs
+    """
     import csv
     fileobj = open(filename, "w")
     my_writer  = csv.writer(fileobj)
