@@ -136,7 +136,7 @@ def calcAveragesOverNumOfColors(length,alphabetsize,rangeOfNumOfColors,runcount)
     For instance, rangeOfNumOfColors = range(5,100,10).
     Performs RUNCOUNT runs for every value in rangeOfNumOfColors
     """
-    results = [calcAverages(length,alphabetsize,m,runcount) for m in rangeOfNumOfColors]
+    return [calcAverages(length,alphabetsize,m,runcount) for m in rangeOfNumOfColors]
     
 def saveAsCSV(table, filename):
     """Saves a list of lists as csv.
