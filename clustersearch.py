@@ -138,6 +138,22 @@ def calcAveragesOverNumOfColors(length,alphabetsize,rangeOfNumOfColors,runcount)
     """
     return [calcAverages(length,alphabetsize,m,runcount) for m in rangeOfNumOfColors]
     
+def calcAveragesOverRangedInputs(length,alphabetsize,numOfColors,runcount):
+    "Calculates average stats separately for specified inputs or ranges of inputs."
+    def rangify(x):
+        if type(x) == type(int):
+            return range(x,x+1)
+        else:
+            return x
+    length = rangify(length)
+    alphabetsize = rangify(alphabetsize)
+    numOfColors = rangify(numOfColors)
+    
+    return [calcAverages(mylength,myalphabetsize,mynumOfColors,runcount)
+            for mylength in length
+            for myalphabetsize in alphabetsize
+            for mynumOfColors in numOfColors]
+    
 def saveAsCSV(table, filename):
     """Saves a list of lists as csv.
 
