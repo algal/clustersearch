@@ -4,7 +4,6 @@
 #include "boost/iterator/transform_iterator.hpp"
 
 using std::map;
-
 typedef std::string Key;
 typedef std::string Val;
 
