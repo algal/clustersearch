@@ -10,7 +10,6 @@
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
 
-using std::map;
 using std::string;
 using std::list;
 using std::cout;
@@ -107,9 +106,9 @@ std::ostream & operator<<(std::ostream & out, unordered_map<TKey,TVal> & m) {
 
 /* prints a map<TKey,TVal> */
 template <class TKey, class TVal>
-std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
+std::ostream & operator<<(std::ostream & out, std::map<TKey,TVal> & m) {
   out << "{";
-  for(typename map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
+  for(typename std::map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
     out << item_it->first << ": " << item_it->second << ", ";
   }
   out << "}";
