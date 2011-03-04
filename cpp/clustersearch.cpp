@@ -39,6 +39,7 @@ set<string> mut(const string g) {
 	string mutant(g);
 	mutant[pos] = *alternative;
 	result.insert(result.end(),mutant);
+	//	cout << "generated mutant " << mutant << endl;
       }
     }
   }
