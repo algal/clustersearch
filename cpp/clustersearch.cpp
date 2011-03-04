@@ -6,7 +6,6 @@
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
-#include "boost/iterator/transform_iterator.hpp"
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
 
@@ -144,30 +143,15 @@ pheno colorOf(const geno g) {
   return rand() % numOfColors;
 }
 
-// iterators over map keys
-typedef unordered_map<geno,pheno>::iterator map_iterator;
-typedef unordered_map<geno,pheno>::key_type (*get_key_t)(unordered_map<geno,pheno>::value_type);
-typedef boost::transform_iterator<get_key_t, map_iterator> key_iterator;
-unordered_map<geno,pheno>::key_type get_key(const unordered_map<geno,pheno>::value_type aPair) { return aPair.first; }
-
-/** s1 -[s2begin,s2end)
-    assumes s1 and s2 are (mathematical) sets.
-*/
-template <class T, class IntIt>
+// s1 - keys(m)
+template <class T, class TVal>
 vector<T> set_difference(vector<T> & s1, 
-			 IntIt s2begin,
-			 IntIt s2end) {
+			 unordered_map<T,TVal> m) {
   vector<T> result;
   for(typename vector<T>::iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
-    bool addit = true;
-    for(IntIt it = s2begin; it != s2end; ++it) {
-      if( *it_add == *it ) {
-	addit = false;
-	break;
-      }
-    }
-    if ( addit )
+    if (m.find(*it_add) == m.end() ) {
       result.push_back(*it_add);
+    }
   }
   return result;
 }
@@ -196,7 +180,7 @@ unordered_map<geno,pheno> search(const geno& root) {
     cout << "Traversing from node " << cursor << endl;
     // compute the neighbors not previously observed
     vector<geno> all_neighbors(mut(cursor));
-    vector<geno> new_neighbors(set_difference(all_neighbors, key_iterator(observed.begin(), get_key), key_iterator(observed.end(), get_key)));
+    vector<geno> new_neighbors(set_difference(all_neighbors, observed));
     cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
     // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
