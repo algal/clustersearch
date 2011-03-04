@@ -192,16 +192,12 @@ unordered_map<geno,pheno> search(const geno& root) {
       unordered_map<geno,pheno> newly_observed;
       for(vector<geno>::iterator g = new_neighbors.begin(); 
 	  g != new_neighbors.end(); ++g) {
-	// "discover" the colors 
-	newly_observed[*g] = colorOf(*g);
-	// plan to visit only the special ones later
-	if (newly_observed[*g] == CLUSTER_COLOR) {
+	// "discover" the colors and record the visit
+	if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
+	  // and  plan to visit only the special ones later
 	  to_traverse.push_back(*g);
 	}
       }
-//      cout << "\tObserved these nodes to be colored: " << newly_observed << endl;
-      // add them to the db of observed nodes
-      observed.insert(newly_observed.begin(),newly_observed.end());
     }
   }
   return observed;
