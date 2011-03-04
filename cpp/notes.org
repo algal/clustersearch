@@ -5,7 +5,9 @@
 ** move PRINT support into other file
 ** setup logging macro or boost logging
 ** switch to int-based datatype for genos
+** implement func for doing runs and calculating stats
 ** 
+
 
 
 * notes on performance
