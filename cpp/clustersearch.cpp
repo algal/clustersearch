@@ -23,10 +23,10 @@ typedef int pheno;
 size_t numOfColors = 3;
 pheno colors[] = {0,1,2,3};
 
-string alphabet = "ABC";
+string alphabet = "ABC"; // must be in lexicographical order
 
 /**
-   Generates mutants of a genotype.
+   Returns mutants in lexicographical order.
 */
 set<string> mut(const string g) { 
   set<string> result;
