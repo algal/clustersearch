@@ -1,5 +1,13 @@
 
 
+* todo
+
+** move PRINT support into other file
+** setup logging macro or boost logging
+** switch to int-based datatype for genos
+** 
+
+
 * notes on performance
 
 ** Python outperforming CPP.
