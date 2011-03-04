@@ -12,7 +12,7 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 #### project description
 ####
 
-project(keyiterate)
+project(clustersearch)
 
 ####
 #### external libraries
@@ -26,6 +26,8 @@ message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
 include_directories(${Boost_INCLUDE_DIR})
 add_executable (keyiterate.out keyiterate.cpp)
+add_executable (clustersearch.out clustersearch.cpp)
+
 
 #####
 ##### Instructions
