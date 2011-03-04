@@ -18,11 +18,10 @@ using std::set;
 
 
 typedef string geno;
-typedef string pheno;
-
+typedef int pheno;
 
 size_t numOfColors = 3;
-pheno colors[] = {"white", "red", "blue"};
+pheno colors[] = {0,1,2,3};
 
 string alphabet = "ABC";
 
@@ -99,20 +98,22 @@ map<geno,pheno> search(const geno& root) {
   return observed;
 }
 
-/* prints a set<string> */
-std::ostream & operator<<(std::ostream & out, set<string> & s) {
+/* prints a set<T>, where T is printable */
+template <class T>
+std::ostream & operator<<(std::ostream & out, set<T> & s) {
   out << "{";
-  for(set<string>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+  for(typename set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
     out << *item_it << " ";
   }
   out << "}";
   return out;
 }      
 
-/* prints a map<string,string> */
-std::ostream & operator<<(std::ostream & out, map<string,string> & m) {
+/* prints a map<TKey,TVal> */
+template <class TKey, class TVal>
+std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
   out << "{";
-  for(map<string,string>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
+  for(typename map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
     out << item_it->first << ": " << item_it->second << ", ";
   }
   out << "}";
