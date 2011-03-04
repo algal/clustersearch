@@ -222,7 +222,9 @@ int main()
   */
 
   cout << "search starting at " << g << endl;
-  unordered_map<geno,pheno> m(search(g));
+  unordered_map<geno,pheno> mm(search(g));
+  std::map<geno,pheno> m;
+  m.insert(mm.begin(),mm.end());
   cout << m << endl;
 
   // for(int i =0; i < 10; ++i) {
