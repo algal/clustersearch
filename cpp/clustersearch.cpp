@@ -15,14 +15,29 @@ using std::cout;
 using std::endl;
 using std::set;
 
-
 typedef string geno;
 typedef unsigned int pheno;
 
+// don't touch these globals, which define how all functions work
+string alphabet = "ABC"; // must be in lexicographical order
 size_t numOfColors = 3;
 const pheno CLUSTER_COLOR = 0;
 
-string alphabet = "ABC"; // must be in lexicographical order
+/** Initialize the alphabet to a different size */
+void initialize_alphabet_size(unsigned int length) {
+  const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  if (length > 52) {
+    std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
+    length=52;
+  }
+  alphabet = max_alphabet.substr(0,length);
+}
+
+/** Initialize the number of possible phenotypes */
+void initialize_numOfColors(const unsigned int num) { 
+  numOfColors = num; 
+}
+
 
 /**
    Returns mutants in lexicographical order.
@@ -99,7 +114,7 @@ map<geno,pheno> search(const geno& root) {
   return observed;
 }
 
-/* prints a set<T>, where T is printable */
+/* prints a set<T> */
 template <class T>
 std::ostream & operator<<(std::ostream & out, set<T> & s) {
   out << "{";
@@ -124,14 +139,17 @@ std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
 int main()
 {
   srand(time(NULL)); // seed the random number generator
+  initialize_alphabet_size(10);
+  initialize_numOfColors(3);
 
   geno g = "AAAA";
-  cout << "mutants of " << g << " are " << endl;
+  cout << "mutants of " << g << " are: ";
   set<geno> s(mut(g));
   cout << s << endl;
 
-  map<geno,pheno> m = search("AAA");
 
+  cout << "search starting at " << g << " observed: ";
+  map<geno,pheno> m = search(g);
   cout << m << endl;
   return 0;
 }
