@@ -139,16 +139,21 @@ vector<string> mut(const string g) {
 
 /* generates random int phenotype */
 inline
-pheno colorOf(const geno g) {
+pheno colorOf(const geno & g) {
   return rand() % numOfColors;
 }
 
-// s1 - keys(m)
+/* s1 - keys(m)
+   
+   @param[in] s1 a mathematical set
+   @param[in] m an unordered_map whose keys
+
+ */
 template <class T, class TVal>
-vector<T> set_difference(vector<T> & s1, 
-			 unordered_map<T,TVal> m) {
+vector<T> set_difference(const vector<T> & s1, 
+			 const unordered_map<T,TVal> & m) {
   vector<T> result;
-  for(typename vector<T>::iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
+  for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
     if (m.find(*it_add) == m.end() ) {
       result.push_back(*it_add);
     }
@@ -177,11 +182,11 @@ unordered_map<geno,pheno> search(const geno& root) {
     // process head of queue of nodes till to be traversed
     cursor = to_traverse.front();
     to_traverse.pop_front();
-    cout << "Traversing from node " << cursor << endl;
+//    cout << "Traversing from node " << cursor << endl;
     // compute the neighbors not previously observed
     vector<geno> all_neighbors(mut(cursor));
     vector<geno> new_neighbors(set_difference(all_neighbors, observed));
-    cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
+//    cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
     // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
       unordered_map<geno,pheno> newly_observed;
@@ -194,7 +199,7 @@ unordered_map<geno,pheno> search(const geno& root) {
 	  to_traverse.push_back(*g);
 	}
       }
-      cout << "\tObserved these nodes to be colored: " << newly_observed << endl;
+//      cout << "\tObserved these nodes to be colored: " << newly_observed << endl;
       // add them to the db of observed nodes
       observed.insert(newly_observed.begin(),newly_observed.end());
     }
@@ -210,7 +215,6 @@ int main()
   initialize_alphabet_size(10);
   initialize_numOfColors(3);
 
-
   /*
   cout << "mutants of " << g << " are: ";
   set<geno> s(mut(g));
@@ -218,7 +222,7 @@ int main()
   */
 
   cout << "search starting at " << g << endl;
-  unordered_map<geno,pheno> m = search(g);
+  unordered_map<geno,pheno> m(search(g));
   cout << m << endl;
 
   // for(int i =0; i < 10; ++i) {
