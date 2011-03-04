@@ -17,15 +17,17 @@ using std::set;
 
 
 typedef string geno;
-typedef int pheno;
+typedef unsigned int pheno;
 
 size_t numOfColors = 3;
-pheno colors[] = {0,1,2,3};
+const pheno CLUSTER_COLOR = 0;
 
 string alphabet = "ABC"; // must be in lexicographical order
 
 /**
    Returns mutants in lexicographical order.
+
+   TODO: could refactor to use list<string> not set<string>
 */
 set<string> mut(const string g) { 
   set<string> result;
@@ -46,9 +48,10 @@ set<string> mut(const string g) {
 }
 
 
-/* generates random phenotype */
+/* generates random int phenotype */
+inline
 pheno colorOf(const geno g) {
-  return colors[rand() % numOfColors]; 
+  return rand() % numOfColors;
 }
 
 // iterators over map keys
@@ -67,10 +70,8 @@ map<geno,pheno>::key_type get_key(const map<geno,pheno>::value_type aPair) { ret
    Returns a std::map of the observed nodes and their colors.
 */
 map<geno,pheno> search(const geno& root) {
-  const pheno SPECIAL_COLOR = colors[0];
-
   map<geno,pheno> observed;
-  observed[root]=SPECIAL_COLOR;
+  observed[root]=CLUSTER_COLOR;
 
   list<geno> to_traverse;
   to_traverse.push_back(root);
@@ -89,7 +90,7 @@ map<geno,pheno> search(const geno& root) {
       map<geno,pheno> newly_observed;
       for(list<geno>::iterator g = new_neighbors.begin(); g != new_neighbors.end(); ++g) {
 	newly_observed[*g] = colorOf(*g);
-	if (newly_observed[*g] == SPECIAL_COLOR) 
+	if (newly_observed[*g] == CLUSTER_COLOR) 
 	  to_traverse.push_back(*g);
       }
       observed.insert(newly_observed.begin(),newly_observed.end());
