@@ -1,7 +1,7 @@
 #include <iostream>
+#include <set>
 #include <list>
 #include <map>
-#include <set>
 #include <algorithm>
 #include <iterator>
 #include "boost/iterator/transform_iterator.hpp"
@@ -18,10 +18,31 @@ typedef string geno;
 typedef string pheno;
 
 pheno colors[] = {"white", "red", "blue"};
+
+string alphabet = "ABC";
+
 /**
-FIXME: implement
+   Generates mutants of a genotype.
 */
-set<geno> mut(geno g) { return set<geno>(); }
+set<geno> mut(geno g) { 
+  set<geno> result;
+
+  const size_t geno_length = g.length();
+  for(int pos = geno_length - 1; pos != -1; --pos) { // go backwards to generate in-order
+    string::iterator alphabet_end;
+    for(string::iterator alternative = alphabet.begin(), alphabet_end = alphabet.end();
+	alternative != alphabet_end; ++alternative) {
+      if (*alternative != g[pos]) {
+	string mutant(g);
+	mutant[pos] = *alternative;
+	result.insert(result.end(),mutant);
+	cout << "generated mutant: " << mutant << endl;
+      }
+    }
+  }
+  return result;
+}
+
 
 pheno colorOf(geno g) { return colors[0]; }
 
@@ -71,9 +92,22 @@ map<geno,pheno> search(const geno& root) {
   }
   return observed;
 }
-      
+
+/* prints a set<string> */
+std::ostream & operator<< (std::ostream & out, set<string> & s) {
+  out << "{";
+  for(set<string>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+    out << *item_it << " ";
+  }
+  out << "}";
+  return out;
+}      
 
 int main()
 {
-  std::cout << "Hello, world" << std::endl;
+  geno g = "AAAA";
+  cout << "mutants of " << g << " are " << endl;
+  set<geno> s(mut(g));
+  cout << s << endl;
+  return 0;
 }
