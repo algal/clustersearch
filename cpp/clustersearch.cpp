@@ -218,7 +218,7 @@ int main()
   */
 
   // display one search
-  if (true) {
+  if (false) {
     cout << "search starting at " << g << endl;
     unordered_map<geno,pheno> mm(search(g));
     std::map<geno,pheno> m;
@@ -226,10 +226,11 @@ int main()
     cout << m << endl;
   }
 
-  // // benchmark 10 searches
-  // for(int i =0; i < 10; ++i) {
-  //   search(g);
-  // }
-
+  if (true) {
+    // benchmark 10 random searches
+    for(int i =0; i < 10; ++i) {
+      search(g);
+    }
+  }
   return 0;
 }
