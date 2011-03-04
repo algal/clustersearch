@@ -38,6 +38,45 @@ void initialize_numOfColors(const unsigned int num) {
   numOfColors = num; 
 }
 
+/** creates string with all chars equal, implicitly defining length of
+    all string in the genotype space */
+string createRootString(size_t length) { 
+  return string(length, alphabet[0]); 
+}
+  
+
+/* prints a list<T> */
+template <class T>
+std::ostream & operator<<(std::ostream & out, list<T> & s) {
+  out << "[";
+  for(typename list<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+    out << *item_it << " ";
+  }
+  out << "]";
+  return out;
+}      
+
+/* prints a set<T> */
+template <class T>
+std::ostream & operator<<(std::ostream & out, set<T> & s) {
+  out << "{";
+  for(typename set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+    out << *item_it << " ";
+  }
+  out << "}";
+  return out;
+}      
+
+/* prints a map<TKey,TVal> */
+template <class TKey, class TVal>
+std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
+  out << "{";
+  for(typename map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
+    out << item_it->first << ": " << item_it->second << ", ";
+  }
+  out << "}";
+  return out;
+}      
 
 /**
    Returns mutants in lexicographical order.
@@ -93,63 +132,58 @@ map<geno,pheno> search(const geno& root) {
 
   geno cursor;
   while( !to_traverse.empty() ) {
+    // process head of queue of nodes till to be traversed
     cursor = to_traverse.front();
     to_traverse.pop_front();
+    cout << "Traversing from node " << cursor << endl;
+    // compute the neighbors not previously observed
     set<geno> all_neighbors(mut(cursor));
     list<geno> new_neighbors;
     set_difference(all_neighbors.begin(),all_neighbors.end(),
 		   key_iterator(observed.begin(), get_key), key_iterator(observed.end(), get_key),
 		   std::inserter(new_neighbors, new_neighbors.end()));
-
+    cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
+    // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
       map<geno,pheno> newly_observed;
       for(list<geno>::iterator g = new_neighbors.begin(); g != new_neighbors.end(); ++g) {
+	// "discover" the colors 
 	newly_observed[*g] = colorOf(*g);
-	if (newly_observed[*g] == CLUSTER_COLOR) 
+	// plan to visit only the special ones later
+	if (newly_observed[*g] == CLUSTER_COLOR) {
 	  to_traverse.push_back(*g);
+	}
       }
+      cout << "\tObserved these nodes to be colored: " << newly_observed << endl;
+      // add them to the db of observed nodes
       observed.insert(newly_observed.begin(),newly_observed.end());
     }
   }
   return observed;
 }
 
-/* prints a set<T> */
-template <class T>
-std::ostream & operator<<(std::ostream & out, set<T> & s) {
-  out << "{";
-  for(typename set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
-    out << *item_it << " ";
-  }
-  out << "}";
-  return out;
-}      
-
-/* prints a map<TKey,TVal> */
-template <class TKey, class TVal>
-std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
-  out << "{";
-  for(typename map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
-    out << item_it->first << ": " << item_it->second << ", ";
-  }
-  out << "}";
-  return out;
-}      
-
 int main()
 {
   srand(time(NULL)); // seed the random number generator
+  geno g = createRootString(4);
   initialize_alphabet_size(10);
   initialize_numOfColors(3);
 
-  geno g = "AAAA";
+
+  /*
   cout << "mutants of " << g << " are: ";
   set<geno> s(mut(g));
   cout << s << endl;
+  */
 
-
-  cout << "search starting at " << g << " observed: ";
+  cout << "search starting at " << g << endl;
   map<geno,pheno> m = search(g);
   cout << m << endl;
+
+  // for(int i =0; i < 10; ++i) {
+  //   map<geno,pheno> m = search(g);
+  //   //    mut(g);
+  // }
+
   return 0;
 }
