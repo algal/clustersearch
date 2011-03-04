@@ -27,6 +27,8 @@ string alphabet = "ABC";
 set<geno> mut(geno g) { 
   set<geno> result;
 
+  list<set<geno>::iterator> ends;
+
   const size_t geno_length = g.length();
   for(int pos = geno_length - 1; pos != -1; --pos) { // go backwards to generate in-order
     string::iterator alphabet_end;
@@ -36,10 +38,16 @@ set<geno> mut(geno g) {
 	string mutant(g);
 	mutant[pos] = *alternative;
 	result.insert(result.end(),mutant);
-	cout << "generated mutant: " << mutant << endl;
+	//	cout << "generated mutant: " << mutant << endl;
       }
     }
   }
+
+  for(list<set<geno>::iterator>::iterator it = ends.begin(); it != ends.end(); ++it) {
+    if(*it != ends.front()) 
+      cout << "nonequality detected" << endl;
+  }
+    
   return result;
 }
 
