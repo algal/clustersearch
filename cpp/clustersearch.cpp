@@ -2,11 +2,13 @@
 #include <set>
 #include <list>
 #include <map>
-#include <algorithm>
+#include <vector>
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
 #include "boost/iterator/transform_iterator.hpp"
+#include "boost/tr1/unordered_map.hpp"
+#include "boost/tr1/unordered_set.hpp"
 
 using std::map;
 using std::string;
@@ -14,6 +16,10 @@ using std::list;
 using std::cout;
 using std::endl;
 using std::set;
+using std::vector;
+
+using std::tr1::unordered_set;
+using std::tr1::unordered_map;
 
 typedef string geno;
 typedef unsigned int pheno;
@@ -43,7 +49,7 @@ void initialize_numOfColors(const unsigned int num) {
 string createRootString(size_t length) { 
   return string(length, alphabet[0]); 
 }
-  
+
 
 /* prints a list<T> */
 template <class T>
@@ -56,12 +62,44 @@ std::ostream & operator<<(std::ostream & out, list<T> & s) {
   return out;
 }      
 
+/* prints a unordered_set<T> */
+template <class T>
+std::ostream & operator<<(std::ostream & out, unordered_set<T> & s) {
+  out << "{";
+  for(typename unordered_set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+    out << *item_it << " ";
+  }
+  out << "}";
+  return out;
+}      
+
+/* prints a vector<T> */
+template <class T>
+std::ostream & operator<<(std::ostream & out, vector<T> & s) {
+  out << "{";
+  for(typename vector<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+    out << *item_it << " ";
+  }
+  out << "}";
+  return out;
+}      
 /* prints a set<T> */
 template <class T>
 std::ostream & operator<<(std::ostream & out, set<T> & s) {
   out << "{";
   for(typename set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
     out << *item_it << " ";
+  }
+  out << "}";
+  return out;
+}      
+
+/* prints a unordered_map<TKey,TVal> */
+template <class TKey, class TVal>
+std::ostream & operator<<(std::ostream & out, unordered_map<TKey,TVal> & m) {
+  out << "{";
+  for(typename unordered_map<TKey,TVal>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
+    out << item_it->first << ": " << item_it->second << ", ";
   }
   out << "}";
   return out;
@@ -79,10 +117,11 @@ std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
 }      
 
 /**
-   Returns mutants in lexicographical order.
+   Returns mutants
 */
-set<string> mut(const string g) { 
-  set<string> result;
+vector<string> mut(const string g) { 
+  vector<string> result;
+  result.reserve((alphabet.size() -1) * g.length() );
   const size_t geno_length = g.length(); // go right-to-left to generate in-order
   for(int pos = geno_length - 1; pos != -1; --pos) { 
     string::iterator alphabet_end;
@@ -91,7 +130,7 @@ set<string> mut(const string g) {
       if (*alternative != g[pos]) {
 	string mutant(g);
 	mutant[pos] = *alternative;
-	result.insert(result.end(),mutant);
+	result.push_back(mutant);
 	//	cout << "generated mutant " << mutant << endl;
       }
     }
@@ -107,22 +146,52 @@ pheno colorOf(const geno g) {
 }
 
 // iterators over map keys
-typedef map<geno,pheno>::iterator map_iterator;
-typedef map<geno,pheno>::key_type (*get_key_t)(map<geno,pheno>::value_type);
+typedef unordered_map<geno,pheno>::iterator map_iterator;
+typedef unordered_map<geno,pheno>::key_type (*get_key_t)(unordered_map<geno,pheno>::value_type);
 typedef boost::transform_iterator<get_key_t, map_iterator> key_iterator;
-map<geno,pheno>::key_type get_key(const map<geno,pheno>::value_type aPair) { return aPair.first; }
+unordered_map<geno,pheno>::key_type get_key(const unordered_map<geno,pheno>::value_type aPair) { return aPair.first; }
+
+/** s1 -[s2begin,s2end)
+
+    assumes s1 and s2 are (mathematical) sets.
+*/
+template <class T, class IntIt>
+vector<T> set_difference(vector<T> & s1, 
+			 IntIt s2begin,
+			 IntIt s2end) {
+  vector<T> result(s1);
+  for(IntIt it = s2begin; it != s2end; ++it) {
+    if( std::find(result.begin(),result.end(),*it) != result.end() ) {
+      result.erase( it );
+    }
+  }
+  return result;
+}
+
+// returns s1 - s2
+template <class T>
+unordered_set<T> unordered_set_difference(const unordered_set<T> & s1, 
+					  const unordered_set<T> & s2) {
+  unordered_set<T> result(s1);
+  for(typename unordered_set<T>::const_iterator it = s2.begin(); it != s2.end(); ++it) {
+    if( result.find(*it) != result.end() ) {
+      result.erase( *it );
+    }
+  }
+  return result;
+}
 
 /**
-   Searches breadth-first from root node, recording color of every
-   node observed, but traversing onward only from nodes with the color
+   Searches breadth-first from ROOT, recording the color of every node
+   observed, but traversing onward only from nodes with the same color.
 
-   Nodes x and y are connected if (x in mut(y)). Each node x has
+   Nodes x and y are connected if x is in mut(y). Each node x has
    color colorOf(x).
 
    Returns a std::map of the observed nodes and their colors.
 */
-map<geno,pheno> search(const geno& root) {
-  map<geno,pheno> observed;
+unordered_map<geno,pheno> search(const geno& root) {
+  unordered_map<geno,pheno> observed;
   observed[root]=CLUSTER_COLOR;
 
   list<geno> to_traverse;
@@ -135,16 +204,14 @@ map<geno,pheno> search(const geno& root) {
     to_traverse.pop_front();
     cout << "Traversing from node " << cursor << endl;
     // compute the neighbors not previously observed
-    set<geno> all_neighbors(mut(cursor));
-    list<geno> new_neighbors;
-    set_difference(all_neighbors.begin(),all_neighbors.end(),
-		   key_iterator(observed.begin(), get_key), key_iterator(observed.end(), get_key),
-		   std::inserter(new_neighbors, new_neighbors.end()));
+    vector<geno> all_neighbors(mut(cursor));
+    vector<geno> new_neighbors(set_difference(all_neighbors, key_iterator(observed.begin(), get_key), key_iterator(observed.end(), get_key)));
     cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
     // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
-      map<geno,pheno> newly_observed;
-      for(list<geno>::iterator g = new_neighbors.begin(); g != new_neighbors.end(); ++g) {
+      unordered_map<geno,pheno> newly_observed;
+      for(vector<geno>::iterator g = new_neighbors.begin(); 
+	  g != new_neighbors.end(); ++g) {
 	// "discover" the colors 
 	newly_observed[*g] = colorOf(*g);
 	// plan to visit only the special ones later
@@ -176,7 +243,7 @@ int main()
   */
 
   cout << "search starting at " << g << endl;
-  map<geno,pheno> m = search(g);
+  unordered_map<geno,pheno> m = search(g);
   cout << m << endl;
 
   // for(int i =0; i < 10; ++i) {
