@@ -152,31 +152,23 @@ typedef boost::transform_iterator<get_key_t, map_iterator> key_iterator;
 unordered_map<geno,pheno>::key_type get_key(const unordered_map<geno,pheno>::value_type aPair) { return aPair.first; }
 
 /** s1 -[s2begin,s2end)
-
     assumes s1 and s2 are (mathematical) sets.
 */
 template <class T, class IntIt>
 vector<T> set_difference(vector<T> & s1, 
 			 IntIt s2begin,
 			 IntIt s2end) {
-  vector<T> result(s1);
-  for(IntIt it = s2begin; it != s2end; ++it) {
-    if( std::find(result.begin(),result.end(),*it) != result.end() ) {
-      result.erase( it );
+  vector<T> result;
+  for(typename vector<T>::iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
+    bool addit = true;
+    for(IntIt it = s2begin; it != s2end; ++it) {
+      if( *it_add == *it ) {
+	addit = false;
+	break;
+      }
     }
-  }
-  return result;
-}
-
-// returns s1 - s2
-template <class T>
-unordered_set<T> unordered_set_difference(const unordered_set<T> & s1, 
-					  const unordered_set<T> & s2) {
-  unordered_set<T> result(s1);
-  for(typename unordered_set<T>::const_iterator it = s2.begin(); it != s2.end(); ++it) {
-    if( result.find(*it) != result.end() ) {
-      result.erase( *it );
-    }
+    if ( addit )
+      result.push_back(*it_add);
   }
   return result;
 }
