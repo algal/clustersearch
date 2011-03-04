@@ -46,7 +46,7 @@ def search(root):
         neighbors = set(mut(cursor)) - set(observed_nodes.keys())
         log("\tFound %s had neighbors %s of which the previously unobserved were %s" % (cursor, mut(cursor), neighbors))
         if neighbors:
-            # else, assign them colors
+            # "discover" their colors
             newnodes = dict([(s,colorOf(s)) for s in neighbors])
             log("\tObserved these nodes to be colored: %s" % newnodes)
             # plan to visit only the special ones later
