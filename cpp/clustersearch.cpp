@@ -162,7 +162,8 @@ map<geno,pheno> search(const geno& root) {
 
 int main()
 {
-  srand(time(NULL)); // seed the random number generator
+  //  srand(time(NULL)); // seed the random number generator
+  srand(0); // seed the random number generator
   geno g = createRootString(4);
   initialize_alphabet_size(10);
   initialize_numOfColors(3);
