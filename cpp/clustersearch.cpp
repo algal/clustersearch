@@ -85,7 +85,7 @@ std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
 */
 set<string> mut(const string g) { 
   set<string> result;
-  const size_t geno_length = g.length(); // go backwards to generate in-order
+  const size_t geno_length = g.length(); // go right-to-left to generate in-order
   for(int pos = geno_length - 1; pos != -1; --pos) { 
     string::iterator alphabet_end;
     for(string::iterator alternative = alphabet.begin(), alphabet_end = alphabet.end();
