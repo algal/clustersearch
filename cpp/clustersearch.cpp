@@ -80,8 +80,6 @@ std::ostream & operator<<(std::ostream & out, map<TKey,TVal> & m) {
 
 /**
    Returns mutants in lexicographical order.
-
-   TODO: could refactor to use list<string> not set<string>
 */
 set<string> mut(const string g) { 
   set<string> result;
