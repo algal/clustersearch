@@ -4,6 +4,9 @@
 #include <map>
 #include <algorithm>
 #include <iterator>
+#include <ctime>
+#include <cstdlib>
+
 #include "boost/iterator/transform_iterator.hpp"
 
 using std::map;
@@ -12,11 +15,13 @@ using std::list;
 using std::cout;
 using std::endl;
 using std::set;
-//using std::inserter
+
 
 typedef string geno;
 typedef string pheno;
 
+
+size_t numOfColors = 3;
 pheno colors[] = {"white", "red", "blue"};
 
 string alphabet = "ABC";
@@ -24,7 +29,7 @@ string alphabet = "ABC";
 /**
    Generates mutants of a genotype.
 */
-set<string> mut(string g) { 
+set<string> mut(const string g) { 
   set<string> result;
   const size_t geno_length = g.length(); // go backwards to generate in-order
   for(int pos = geno_length - 1; pos != -1; --pos) { 
@@ -35,7 +40,6 @@ set<string> mut(string g) {
 	string mutant(g);
 	mutant[pos] = *alternative;
 	result.insert(result.end(),mutant);
-	//	cout << "generated mutant: " << mutant << endl;
       }
     }
   }
@@ -43,13 +47,16 @@ set<string> mut(string g) {
 }
 
 
-pheno colorOf(geno g) { return colors[0]; }
+/* generates random phenotype */
+pheno colorOf(const geno g) {
+  return colors[rand() % numOfColors]; 
+}
 
 // iterators over map keys
 typedef map<geno,pheno>::iterator map_iterator;
 typedef map<geno,pheno>::key_type (*get_key_t)(map<geno,pheno>::value_type);
 typedef boost::transform_iterator<get_key_t, map_iterator> key_iterator;
-map<geno,pheno>::key_type get_key(map<geno,pheno>::value_type aPair) { return aPair.first; }
+map<geno,pheno>::key_type get_key(const map<geno,pheno>::value_type aPair) { return aPair.first; }
 
 /**
    Searches breadth-first from root node, recording color of every
@@ -93,7 +100,7 @@ map<geno,pheno> search(const geno& root) {
 }
 
 /* prints a set<string> */
-std::ostream & operator<< (std::ostream & out, set<string> & s) {
+std::ostream & operator<<(std::ostream & out, set<string> & s) {
   out << "{";
   for(set<string>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
     out << *item_it << " ";
@@ -102,11 +109,27 @@ std::ostream & operator<< (std::ostream & out, set<string> & s) {
   return out;
 }      
 
+/* prints a map<string,string> */
+std::ostream & operator<<(std::ostream & out, map<string,string> & m) {
+  out << "{";
+  for(map<string,string>::iterator item_it = m.begin(); item_it != m.end(); ++item_it) {
+    out << item_it->first << ": " << item_it->second << ", ";
+  }
+  out << "}";
+  return out;
+}      
+
 int main()
 {
+  srand(time(NULL)); // seed the random number generator
+
   geno g = "AAAA";
   cout << "mutants of " << g << " are " << endl;
   set<geno> s(mut(g));
   cout << s << endl;
+
+  map<geno,pheno> m = search("AAA");
+
+  cout << m << endl;
   return 0;
 }
