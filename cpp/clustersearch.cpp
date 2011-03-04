@@ -6,7 +6,6 @@
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
-
 #include "boost/iterator/transform_iterator.hpp"
 
 using std::map;
