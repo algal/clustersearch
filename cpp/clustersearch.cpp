@@ -217,15 +217,18 @@ int main()
   cout << s << endl;
   */
 
-  cout << "search starting at " << g << endl;
-  unordered_map<geno,pheno> mm(search(g));
-  std::map<geno,pheno> m;
-  m.insert(mm.begin(),mm.end());
-  cout << m << endl;
+  // display one search
+  if (true) {
+    cout << "search starting at " << g << endl;
+    unordered_map<geno,pheno> mm(search(g));
+    std::map<geno,pheno> m;
+    m.insert(mm.begin(),mm.end());
+    cout << m << endl;
+  }
 
+  // // benchmark 10 searches
   // for(int i =0; i < 10; ++i) {
-  //   map<geno,pheno> m = search(g);
-  //   //    mut(g);
+  //   search(g);
   // }
 
   return 0;
