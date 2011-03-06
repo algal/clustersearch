@@ -28,9 +28,11 @@
     where CustomType in {enum with alphabetsize elements}
 
 ** implement func for doing runs and calculating stats
+
+   Boost accumulators can calculate mean and variance incrementally.
+   faster to do calculate on complete results of run?
+
 ** 
-
-
 
 * notes on performance
 
