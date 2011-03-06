@@ -32,7 +32,11 @@
    Boost accumulators can calculate mean and variance incrementally.
    faster to do calculate on complete results of run?
 
-** 
+** look into implementing with libc++ for better perf
+
+   http://developer.apple.com/library/mac/#documentation/CompilerTools/Conceptual/index.html
+
+
 
 * notes on performance
 
