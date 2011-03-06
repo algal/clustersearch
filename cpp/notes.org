@@ -4,7 +4,29 @@
 
 ** move PRINT support into other file
 ** setup logging macro or boost logging
-** switch to int-based datatype for genos
+** switch geno type for better perf?
+
+   need to configure alphabetsize and string size at runtime.
+
+   Issues: std::string dynamically allocates storage.
+   - calls to malloc slower than stack allocation
+   - indirection required for every lookup
+
+   Issues: std::string optimized for alphabetsize =256 (extended ASCII).
+   - fatter representation, more copying, worse caching
+
+   Issues: generation of mutants also needs to be fast.
+   - possibly SLOWER with representation as a unit
+   -
+ 
+*** alternative representations
+
+    uint (interpret string as number where base=alphabetsize)?
+    short[]
+    char[]
+    basic_string<customCharT>
+    where CustomType in {enum with alphabetsize elements}
+
 ** implement func for doing runs and calculating stats
 ** 
 
