@@ -2,11 +2,17 @@
 
 * todo
 
+** TODO implement func for doing runs and calculating stats
+
+   Boost accumulators can calculate mean and variance incrementally.
+   faster to do calculate on complete results of run?
+** TODO setup logging macro or boost logging
 ** move PRINT support into other file
-** setup logging macro or boost logging
-** switch geno type for better perf?
+** perf possibilities
 
    need to configure alphabetsize and string size at runtime.
+
+*** alternative representations for geno
 
    Issues: std::string dynamically allocates storage.
    - calls to malloc slower than stack allocation
@@ -15,26 +21,34 @@
    Issues: std::string optimized for alphabetsize =256 (extended ASCII).
    - fatter representation, more copying, worse caching
 
-   Issues: generation of mutants also needs to be fast.
-   - possibly SLOWER with representation as a unit
-   -
- 
-*** alternative representations
-
     uint (interpret string as number where base=alphabetsize)?
     short[]
     char[]
     basic_string<customCharT>
-    where CustomType in {enum with alphabetsize elements}
+      where CustomType in {enum with alphabetsize elements}
 
-** implement func for doing runs and calculating stats
+*** std::string::reserve() to hint runtime to free excess memory
 
-   Boost accumulators can calculate mean and variance incrementally.
-   faster to do calculate on complete results of run?
+*** optimizations of mut()
 
-** look into implementing with libc++ for better perf
+   instead of generating alternative alphabet letters, do lookup from
+   static table?
 
-   http://developer.apple.com/library/mac/#documentation/CompilerTools/Conceptual/index.html
+   instead of building adding mutants incrementally, create whole
+   block of original string with 
+   vector<string>( (alphabetsize-1)*(length), geno)
+   and then mutate thee chars individually?
+   (requires ability to mutate vector's elems, rather than copy them.)
+   
+  Issues: generation of mutants also needs to be fast.
+   - possibly SLOWER with representation as a unit
+     - 
+ 
+
+
+*** recompile with libc++
+
+    http://developer.apple.com/library/mac/#documentation/CompilerTools/Conceptual/index.html
 
 
 
