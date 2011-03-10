@@ -1,8 +1,13 @@
+#ifndef PRINTABLE_H
+#define PRINTABLE_H
+
 #include <iostream>
 #include <set>
 #include <list>
 #include <map>
 #include <vector>
+#include "boost/tr1/unordered_map.hpp"
+#include "boost/tr1/unordered_set.hpp"
 
 
 /* prints a list<T> */
@@ -71,3 +76,4 @@ std::ostream & operator<<(std::ostream & out, std::map<TKey,TVal> & m) {
   return out;
 }      
 
+#endif
