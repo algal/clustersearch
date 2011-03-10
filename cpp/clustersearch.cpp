@@ -9,6 +9,8 @@
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
 
+#include "printable.hpp"
+
 using std::string;
 using std::list;
 using std::cout;
@@ -80,8 +82,8 @@ pheno colorOf(const geno & g) {
 
 /* s1 - keys(m)
    
-   @param[in] s1 a mathematical set
-   @param[in] m an unordered_map whose keys
+   @param[in] s1 a mathematical set of Ts
+   @param[in] m an unordered_map with keys of T
 
  */
 template <class T, class TVal>
