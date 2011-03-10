@@ -4,19 +4,13 @@ cmake_minimum_required(VERSION 2.8.1)
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
-####
 #### system description
-####
 
-####
 #### project description
-####
 
 project(clustersearch)
 
-####
 #### external libraries
-####
 
 find_package(Boost 1.41.0 REQUIRED)
 message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
