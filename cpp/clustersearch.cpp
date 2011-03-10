@@ -25,31 +25,37 @@ typedef string geno;
 typedef unsigned int pheno;
 
 // don't touch these globals, which define how all functions work
-string alphabet = "ABC"; // must be in lexicographical order
-size_t numOfColors = 3;
 const pheno CLUSTER_COLOR = 0;
+size_t numOfColors = 3;
+string alphabet = "ABC"; // must be in lexicographical order
+unsigned int length=0;
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int length) {
   const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   if (length > 52) {
     std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
-    length=52;
+    ::length = 52;
   }
   alphabet = max_alphabet.substr(0,length);
 }
 
 /** Initialize the number of possible phenotypes */
 void initialize_numOfColors(const unsigned int num) { 
-  numOfColors = num; 
+  ::numOfColors = num; 
 }
 
 /** creates string with all chars equal, implicitly defining length of
     all string in the genotype space */
-string createRootString(size_t length) { 
+string createRootString() { 
   return string(length, alphabet[0]); 
 }
 
+/** creates string with all chars equal, implicitly defining length of
+    all string in the genotype space */
+void initialize_length(size_t length) { 
+  ::length = length;
+}
 
 /**
    Returns mutants
@@ -140,13 +146,18 @@ unordered_map<geno,pheno> search(const geno& root) {
   return observed;
 }
 
+unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+  initialize_alphabet_size(alphabetsize);
+  initialize_numOfColors(numOfColors);
+  initialize_length(length);
+
+  geno origin = createRootString();
+  return search(origin);
+}
 int main()
 {
   //  srand(time(NULL)); // seed the random number generator
   srand(0); // seed the random number generator
-  geno g = createRootString(4);
-  initialize_alphabet_size(10);
-  initialize_numOfColors(3);
 
   /*
   cout << "mutants of " << g << " are: ";
@@ -155,18 +166,17 @@ int main()
   */
 
   // display one search
-  if (false) {
-    cout << "search starting at " << g << endl;
-    unordered_map<geno,pheno> mm(search(g));
+  if (true) {
+    unordered_map<geno,pheno> mm(doRun(4,10,3));
     std::map<geno,pheno> m;
     m.insert(mm.begin(),mm.end());
     cout << m << endl;
   }
 
-  if (true) {
+  if (false) {
     // benchmark 10 random searches
     for(int i =0; i < 20; ++i) {
-      search(g);
+      doRun(4,10,3);
     }
   }
   return 0;
