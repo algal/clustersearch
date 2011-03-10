@@ -88,7 +88,7 @@ def calcStats(nodes):
     results["cluster_size"] = len([i for i in nodes.values() if i==SPECIAL_COLOR])
     results["perimeter_size"] = len([i for i in nodes.values() if i != SPECIAL_COLOR])
     results["perimeter_color_count"] = len(set([i for i in nodes.values() if i != SPECIAL_COLOR]))
-    results["exits_size"] = len([(x,y) for x in nodes.keys() for y in nodes.keys() if (x in mut(y)) and (nodes[x] != nodes[y])]); // FIXME
+    results["exits_size"] = len([(x,y) for x in nodes.keys() for y in nodes.keys() if (x in mut(y)) and (nodes[x] != nodes[y])]); # FIXME
     return results
 
 
