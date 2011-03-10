@@ -47,14 +47,14 @@ void initialize_numOfColors(const unsigned int num) {
 
 /** creates string with all chars equal, implicitly defining length of
     all string in the genotype space */
-string createRootString() { 
-  return string(length, alphabet[0]); 
+void initialize_length(size_t length) { 
+  ::length = length;
 }
 
 /** creates string with all chars equal, implicitly defining length of
     all string in the genotype space */
-void initialize_length(size_t length) { 
-  ::length = length;
+string createRootString() { 
+  return string(length, alphabet[0]); 
 }
 
 /**
@@ -146,6 +146,23 @@ unordered_map<geno,pheno> search(const geno& root) {
   return observed;
 }
 
+/**
+   Do a search run.
+   
+   Returns dictionary over all points in a cluster (i.e., neutral
+   network) and its mutational neighborhood, 'picked' from random
+   string graph with string LENGTH, built from an alphabet of
+   ALPHABETSIZE, where every node is painted one color out of
+   NUMOFCOLORS.
+   
+   'Picks' this cluster by doing a breadth-first search, assigning
+   colors randomly as it progresses.
+   
+   NOTE:
+   - modifies global variables alphabet and colors
+   - alphabetsize and numOfColors must be < 26 
+
+*/
 unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
@@ -154,6 +171,7 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   geno origin = createRootString();
   return search(origin);
 }
+
 int main()
 {
   //  srand(time(NULL)); // seed the random number generator
