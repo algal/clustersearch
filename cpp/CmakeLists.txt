@@ -10,6 +10,9 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 project(clustersearch)
 
+#set(CMAKE_BUILD_TYPE Release) # generic optimization
+set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
+
 #### external libraries
 
 find_package(Boost 1.41.0 REQUIRED)
