@@ -2,13 +2,14 @@
 
 * todo
 
-** TODO implement func for doing runs and calculating stats
+** TODO implement func for calculating stats
 
    Boost accumulators can calculate mean and variance incrementally.
    faster to do calculate on complete results of run?
 ** TODO setup logging macro or boost logging
-** move PRINT support into other file
-** perf possibilities
+** DONE implement func for doing runs 
+** DONE move PRINT support into other file
+** TODO lookinto perf possibilities
 
    need to configure alphabetsize and string size at runtime.
 

@@ -184,14 +184,14 @@ int main()
   */
 
   // display one search
-  if (true) {
+  if (false) {
     unordered_map<geno,pheno> mm(doRun(4,10,3));
     std::map<geno,pheno> m;
     m.insert(mm.begin(),mm.end());
     cout << m << endl;
   }
 
-  if (false) {
+  if (true) {
     // benchmark 10 random searches
     for(int i =0; i < 20; ++i) {
       doRun(4,10,3);
