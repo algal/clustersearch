@@ -7,7 +7,6 @@
 #include <ctime>
 #include <cstdlib>
 #include "boost/tr1/unordered_map.hpp"
-#include "boost/tr1/unordered_set.hpp"
 
 #include "printable.hpp"
 
@@ -18,7 +17,6 @@ using std::endl;
 using std::set;
 using std::vector;
 
-using std::tr1::unordered_set;
 using std::tr1::unordered_map;
 
 typedef string geno;
@@ -185,7 +183,7 @@ int main()
 
   // display one search
   if (false) {
-    unordered_map<geno,pheno> mm(doRun(4,10,3));
+    unordered_map<geno,pheno> mm(doRun(11,2,2));
     std::map<geno,pheno> m;
     m.insert(mm.begin(),mm.end());
     cout << m << endl;
@@ -193,8 +191,8 @@ int main()
 
   if (true) {
     // benchmark 10 random searches
-    for(int i =0; i < 20; ++i) {
-      doRun(4,10,3);
+    for(int i =0; i < 100; ++i) {
+      doRun(11,2,2);
     }
   }
   return 0;
