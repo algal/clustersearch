@@ -24,7 +24,7 @@ using std::tr1::unordered_map;
 using std::tr1::unordered_set;
 
 typedef string geno;
-typedef unsigned char pheno;
+typedef unsigned int pheno;
 
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
@@ -100,6 +100,24 @@ vector<T> set_difference(const vector<T> & s1,
   vector<T> result;
   for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
     if (m.find(*it_add) == m.end() ) {
+      result.push_back(*it_add);
+    }
+  }
+  return result;
+}
+
+/* intersection of (s1  keys(m))
+   
+   @param[in] s1 a mathematical set of Ts
+   @param[in] m an unordered_map with keys of T
+
+ */
+template <class T, class TVal>
+vector<T> set_intersection(const vector<T> & s1, 
+			 const unordered_map<T,TVal> & m) {
+  vector<T> result;
+  for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
+    if (m.find(*it_add) != m.end() ) {
       result.push_back(*it_add);
     }
   }
@@ -195,18 +213,20 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   unsigned int perimeter_size =0;
 
   // for every item in the perimeter ...
-  unordered_map<geno,pheno>::const_iterator end(m.end());
-  for(unordered_map<geno,pheno>::const_iterator it = m.begin(); it != end; ++it) {
+  for(unordered_map<geno,pheno>::const_iterator it = m.begin(); it != m.end(); ++it) {
     const geno g = it->first;
     const pheno p = it->second;
+    cout << "searching g=" << g << endl;
     if(p != CLUSTER_COLOR) {
+      cout << "\twhich is in the perimeter" << endl;
       // ... tally it, add its pheno to a unique set
       ++perimeter_size;
       perimeter_colors.insert(p);
 
-      const vector<geno> mutants( mut(g) );
-      vector<geno>::const_iterator end_mut( mutants.end() );
-      for(vector<geno>::const_iterator it_mut = mutants.begin(); it_mut != end_mut; ++it_mut) {
+      cout << "\tadded its color" << endl;
+      vector<geno> mutants( set_intersection( mut(g),m) );
+      cout << "\tcalculated its (observed) mutants: " << mutants << endl;
+      for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
 	if(m.at(*it_mut) == CLUSTER_COLOR) {
 	  ++exits_size;
 	}
@@ -247,18 +267,24 @@ int main()
   */
 
   // display one search
-  if (false) {
-    unordered_map<geno,pheno> mm(doRun(11,2,2));
-    std::map<geno,pheno> m;
-    m.insert(mm.begin(),mm.end());
-    cout << m << endl;
+  if (true) {
+    unordered_map<geno,pheno> mm(doRun(4,4,5));
+    cout << mm << endl;
+    
+    cluster_measures results = calculate_measures_from_run(mm);
+    cout << "cluster_size = " << results.cluster_size << endl;
+    cout << "results.perimeter_size = " << results.perimeter_size << endl;
+    cout << "results.colors = " << results.colors << endl;
+    cout << "results.exits_size = " << results.exits_size << endl;
   }
 
-  if (true) {
+  if (false) {
     // benchmark 10 random searches
     for(int i =0; i < 1000; ++i) {
-      doRun(11,2,2);
+      doRun(4,4,5);
     }
   }
+
+  
   return 0;
 }
