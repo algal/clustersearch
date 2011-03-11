@@ -6,8 +6,10 @@
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+// #include <tr1/unordered_map>
+// #include <tr1/unordered_set>
+#include "boost/tr1/unordered_map.hpp"
+#include "boost/tr1/unordered_set.hpp"
 
 #include "printable.hpp"
 
