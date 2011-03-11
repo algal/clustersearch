@@ -55,18 +55,6 @@ std::ostream & operator<<(std::ostream & out, std::set<T> & s) {
   return out;
 }      
 
-/* prints a unordered_map<TKey,TVal> */
-template <class TKey, class TVal>
-std::ostream & operator<<(std::ostream & out, std::tr1::unordered_map<TKey,TVal> & m) {
-  out << "{";
-  for(typename std::tr1::unordered_map<TKey,TVal>::iterator item_it = m.begin(); 
-      item_it != m.end(); ++item_it) {
-    out << item_it->first << ": " << item_it->second << ", ";
-  }
-  out << "}";
-  return out;
-}      
-
 /* prints a map<TKey,TVal> */
 template <class TKey, class TVal>
 std::ostream & operator<<(std::ostream & out, std::map<TKey,TVal> & m) {
@@ -75,6 +63,15 @@ std::ostream & operator<<(std::ostream & out, std::map<TKey,TVal> & m) {
     out << item_it->first << ": " << item_it->second << ", ";
   }
   out << "}";
+  return out;
+}      
+
+/* prints a unordered_map<TKey,TVal> */
+template <class TKey, class TVal>
+std::ostream & operator<<(std::ostream & out, std::tr1::unordered_map<TKey,TVal> & mm) {
+  std::map<TKey,TVal> m;
+  m.insert(mm.begin(),mm.end());
+  out << m;
   return out;
 }      
 
