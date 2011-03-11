@@ -252,12 +252,6 @@ cluster_measures calculate_measures(const unsigned int length, const unsigned in
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
-extern "C"
-unsigned int cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
-  return m.size();
-}
-
 int main(int argc, char *argv[])
 {
   cout << "Called with " << argc-1 << " arguments. Try calling with length alphabetsize numofColors." << endl;
