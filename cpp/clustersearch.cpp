@@ -7,6 +7,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <tr1/unordered_map>
+#include <tr1/unordered_set>
 
 #include "printable.hpp"
 
@@ -18,6 +19,7 @@ using std::set;
 using std::vector;
 
 using std::tr1::unordered_map;
+using std::tr1::unordered_set;
 
 typedef string geno;
 typedef unsigned char pheno;
@@ -169,6 +171,60 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   const geno origin = createRootString();
   return search(origin);
 }
+
+extern "C" struct cluster_measures {
+  unsigned int cluster_size;
+  unsigned int perimeter_size;
+  unsigned int colors;
+  unsigned int exits_size;
+};
+
+/**
+   Calculates measures of a cluster.
+
+   Relies on that the search only observes the cluster and its perimeter.
+ */
+cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m) {
+  cluster_measures results;
+
+  unordered_set<pheno> perimeter_colors;
+  unsigned int exits_size=0;
+  unsigned int perimeter_size =0;
+
+  // for every item in the perimeter ...
+  unordered_map<geno,pheno>::const_iterator end(m.end());
+  for(unordered_map<geno,pheno>::const_iterator it = m.begin(); it != end; ++it) {
+    const geno g = it->first;
+    const pheno p = it->second;
+    if(p != CLUSTER_COLOR) {
+      // ... tally it, add its pheno to a unique set
+      ++perimeter_size;
+      perimeter_colors.insert(p);
+
+      const vector<geno> mutants( mut(g) );
+      vector<geno>::const_iterator end_mut( mutants.end() );
+      for(vector<geno>::const_iterator it_mut = mutants.begin(); it_mut != end_mut; ++it_mut) {
+	if(m.at(*it_mut) == CLUSTER_COLOR) {
+	  ++exits_size;
+	}
+      }
+    }
+  }
+
+  results.perimeter_size = perimeter_size;
+  results.cluster_size = m.size() - results.perimeter_size;
+  results.colors = perimeter_colors.size();
+  results.exits_size = exits_size;
+
+  return results;
+}
+
+extern "C" cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+  srand(0);
+  return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
+}
+
+
 
 extern "C" size_t cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   srand(0);
