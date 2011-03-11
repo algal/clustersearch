@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
     cout << "\talphabetsize = " << alphabetsize << endl;
     cout << "\tnumOfColors = " << numOfColors << endl;
 
-    unordered_map<geno,pheno> mm(doRun(3,2,3));
+    unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
     cout << mm << endl;
     
     cluster_measures results = calculate_measures_from_run(mm);
