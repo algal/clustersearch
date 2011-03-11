@@ -243,14 +243,19 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 }
 
 extern "C"
+void srand(unsigned int seed) {
+  std::srand(seed);
+}
+
+extern "C"
 cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  srand(0);
+  std::srand(0);
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
 extern "C"
 unsigned int cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  srand(0);
+  std::srand(0);
   unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
   return m.size();
 }
@@ -258,7 +263,7 @@ unsigned int cluster_size(const unsigned int length, const unsigned int alphabet
 int main()
 {
   //  srand(time(NULL)); // seed the random number generator
-  srand(0); // seed the random number generator
+  std::srand(0); // seed the random number generator
 
   /*
   cout << "mutants of " << g << " are: ";

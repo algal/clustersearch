@@ -11,6 +11,8 @@ foo.argtypes = [ c_uint,c_uint,c_uint]
 calculate_measures = libclustersearch.calculate_measures
 calculate_measures.argtypes = [ c_uint,c_uint,c_uint]
 
+srand = libclustersearch.srand
+srand.argtypes = [ c_uint ]
 
 #from ctypes import *
 from ctypes import Structure
