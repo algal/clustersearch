@@ -6,8 +6,8 @@
 #include <list>
 #include <map>
 #include <vector>
-#include "boost/tr1/unordered_map.hpp"
-#include "boost/tr1/unordered_set.hpp"
+#include <tr1/unordered_map>
+#include <tr1/unordered_set>
 
 
 /* prints a list<T> */

@@ -6,7 +6,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
-#include "boost/tr1/unordered_map.hpp"
+#include <tr1/unordered_map>
 
 #include "printable.hpp"
 

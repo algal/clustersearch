@@ -13,17 +13,16 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
 project(CLUSTERSEARCH)
 
-set(CMAKE_BUILD_TYPE Release) # generic optimization
-#set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
+#set(CMAKE_BUILD_TYPE Release) # generic optimization
+set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 
 #### external libraries
 
-find_package(Boost 1.41.0 REQUIRED)
-message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
-message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
+# find_package(Boost 1.41.0 REQUIRED)
+# message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
+# message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
 # executables
-include_directories(${Boost_INCLUDE_DIR})
 add_executable (clustersearch clustersearch.cpp)
 
 
