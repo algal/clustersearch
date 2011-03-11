@@ -249,7 +249,7 @@ cluster_measures calculate_measures(const unsigned int length, const unsigned in
 }
 
 extern "C"
-size_t cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+unsigned int cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   srand(0);
   unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
   return m.size();
