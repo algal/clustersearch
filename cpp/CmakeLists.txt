@@ -1,17 +1,20 @@
 cmake_minimum_required(VERSION 2.8.1)
 
-# set to use the system clang
+#### compiler toolchain
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+
+# set(CMAKE_C_COMPILER "/sw/bin/gcc-fsf-4.5")
+# set(CMAKE_CXX_COMPILER "/sw/bin/c++-fsf-4.5")
 
 #### system description
 
 #### project description
 
-project(clustersearch)
+project(CLUSTERSEARCH)
 
-#set(CMAKE_BUILD_TYPE Release) # generic optimization
-set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
+set(CMAKE_BUILD_TYPE Release) # generic optimization
+#set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 
 #### external libraries
 
@@ -20,10 +23,8 @@ message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
 message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
 # executables
-
 include_directories(${Boost_INCLUDE_DIR})
-add_executable (keyiterate.out keyiterate.cpp)
-add_executable (clustersearch.out clustersearch.cpp)
+add_executable (clustersearch clustersearch.cpp)
 
 
 #####
