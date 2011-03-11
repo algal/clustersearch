@@ -35,7 +35,7 @@ void initialize_alphabet_size(unsigned int length) {
     std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
     ::length = 52;
   }
-  alphabet = max_alphabet.substr(0,length);
+  ::alphabet = max_alphabet.substr(0,length);
 }
 
 /** Initialize the number of possible phenotypes */
@@ -52,7 +52,7 @@ void initialize_length(size_t length) {
 /** creates string with all chars equal, implicitly defining length of
     all string in the genotype space */
 string createRootString() { 
-  return string(length, alphabet[0]); 
+  return string(::length, alphabet[0]); 
 }
 
 /**
@@ -60,14 +60,14 @@ string createRootString() {
 */
 vector<string> mut(const string g) { 
   vector<string> result;
-  result.reserve((alphabet.size() -1) * g.length() );
-  const size_t geno_length = g.length(); // go right-to-left to generate in-order
-  for(int pos = geno_length - 1; pos != -1; --pos) { 
+  result.reserve((alphabet.size() -1) * ::length );
+  for(int pos = ::length - 1; pos != -1; --pos) { 
     string::iterator alphabet_end;
     for(string::iterator alternative = alphabet.begin(), alphabet_end = alphabet.end();
 	alternative != alphabet_end; ++alternative) {
       if (*alternative != g[pos]) {
 	string mutant(g);
+	mutant.reserve(::length); // may improve perf
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
 	//	cout << "generated mutant " << mutant << endl;
@@ -191,7 +191,7 @@ int main()
 
   if (true) {
     // benchmark 10 random searches
-    for(int i =0; i < 100; ++i) {
+    for(int i =0; i < 1000; ++i) {
       doRun(11,2,2);
     }
   }

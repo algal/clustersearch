@@ -52,26 +52,9 @@
     http://developer.apple.com/library/mac/#documentation/CompilerTools/Conceptual/index.html
 
 
+*** boost::tr1::unordered_map outperforming gcc-4.2/unordered_map
 
-* notes on performance
+*** tuned hashing function for unordered_map
 
-** Python outperforming CPP.
 
-   unclear why.
-
-   CPP mut() function faster than python mut() function
-
-   Python search() faster than cpp() search.
-
-***   tried switching mut() to return list<geno> instead of set<geno>.
-
-      broke set_difference
-
-***   tried extracting a key collection insted of using transform_iterator.
-
-      same correct result. killed performance.
-
-*** profiling suggests that cpp version may be spending a lot of time creating/destroying strings.
-
-*** maybe b/c cpp map is a tree, and python map is a hashtable?
 
