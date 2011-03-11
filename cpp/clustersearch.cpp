@@ -258,19 +258,41 @@ unsigned int cluster_size(const unsigned int length, const unsigned int alphabet
   return m.size();
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-  //  srand(time(NULL)); // seed the random number generator
-  std::srand(0); // seed the random number generator
+  cout << "Called with " << argc-1 << " arguments. Try calling with length alphabetsize numofColors." << endl;
 
-  /*
-  cout << "mutants of " << g << " are: ";
-  set<geno> s(mut(g));
-  cout << s << endl;
-  */
+  unsigned int seed;
+  unsigned int length;
+  unsigned int alphabetsize;
+  unsigned int numOfColors;
+
+  seed = 0;
+  
+  if (argc == 1) {
+    length = 3;
+    alphabetsize =2;
+    numOfColors =3;
+  }
+  else if(argc == 4) {
+    length		= std::atoi(argv[1]);
+    alphabetsize	= std::atoi(argv[2]);
+    numOfColors		= std::atoi(argv[3]);
+  }
+  else {
+    exit(1);
+  }
+
+  //  srand(time(NULL)); // seed the random number generator
+  std::srand(seed); // seed the random number generator
 
   // display one search
   if (true) {
+    cout << "searching with:" << endl;
+    cout << "\tlength = " << length << endl;
+    cout << "\talphabetsize = " << alphabetsize << endl;
+    cout << "\tnumOfColors = " << numOfColors << endl;
+
     unordered_map<geno,pheno> mm(doRun(3,2,3));
     cout << mm << endl;
     
