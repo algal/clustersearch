@@ -28,7 +28,7 @@ typedef unsigned char pheno;
 
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
-pheno numOfColors = 3;
+unsigned int numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
 unsigned int length=0;
 
@@ -174,7 +174,8 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   return search(origin);
 }
 
-extern "C" struct cluster_measures {
+extern "C" 
+struct cluster_measures {
   unsigned int cluster_size;
   unsigned int perimeter_size;
   unsigned int colors;
@@ -221,14 +222,14 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   return results;
 }
 
-extern "C" cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+extern "C"
+cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   srand(0);
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
-
-
-extern "C" size_t cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+extern "C"
+size_t cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   srand(0);
   unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
   return m.size();
