@@ -249,13 +249,11 @@ void srand(unsigned int seed) {
 
 extern "C"
 cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  std::srand(0);
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
 extern "C"
 unsigned int cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  std::srand(0);
   unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
   return m.size();
 }
@@ -273,7 +271,7 @@ int main()
 
   // display one search
   if (true) {
-    unordered_map<geno,pheno> mm(doRun(4,2,3));
+    unordered_map<geno,pheno> mm(doRun(3,2,3));
     cout << mm << endl;
     
     cluster_measures results = calculate_measures_from_run(mm);
