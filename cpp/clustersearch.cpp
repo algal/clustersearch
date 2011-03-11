@@ -166,7 +166,7 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   initialize_numOfColors(numOfColors);
   initialize_length(length);
 
-  geno origin = createRootString();
+  const geno origin = createRootString();
   return search(origin);
 }
 
