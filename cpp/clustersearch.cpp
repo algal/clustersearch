@@ -20,11 +20,11 @@ using std::vector;
 using std::tr1::unordered_map;
 
 typedef string geno;
-typedef unsigned int pheno;
+typedef unsigned char pheno;
 
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
-size_t numOfColors = 3;
+pheno numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
 unsigned int length=0;
 
@@ -168,6 +168,12 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
 
   const geno origin = createRootString();
   return search(origin);
+}
+
+extern "C" size_t cluster_size(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+  srand(0);
+  unordered_map<geno,pheno> m(doRun(length,alphabetsize,numOfColors));
+  return m.size();
 }
 
 int main()

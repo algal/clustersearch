@@ -23,8 +23,7 @@ set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 # message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
 # executables
-add_executable (clustersearch clustersearch.cpp)
-
+add_library(clustersearch SHARED clustersearch.cpp)
 
 #####
 ##### Instructions
