@@ -16,6 +16,11 @@ project(CLUSTERSEARCH)
 #set(CMAKE_BUILD_TYPE Release) # generic optimization
 set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 
+# tell clang to use libcxx instead of the system standard libstdc++
+set(CMAKE_CXX_FLAGS "-stdlib=libc++") # clang super-optimization
+#set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
+
+
 #### external libraries
 
 # find_package(Boost 1.41.0 REQUIRED)

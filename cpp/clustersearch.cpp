@@ -6,7 +6,8 @@
 #include <iterator>
 #include <ctime>
 #include <cstdlib>
-#include <tr1/unordered_map>
+//#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "printable.hpp"
 
@@ -17,7 +18,8 @@ using std::endl;
 using std::set;
 using std::vector;
 
-using std::tr1::unordered_map;
+//using std::tr1::unordered_map;
+using std::unordered_map;
 
 typedef string geno;
 typedef unsigned int pheno;
@@ -191,7 +193,7 @@ int main()
 
   if (true) {
     // benchmark 10 random searches
-    for(int i =0; i < 1000; ++i) {
+    for(int i =0; i < 100; ++i) {
       doRun(11,2,2);
     }
   }

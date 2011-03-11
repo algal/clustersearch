@@ -6,8 +6,10 @@
 #include <list>
 #include <map>
 #include <vector>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+// #include <tr1/unordered_map>
+// #include <tr1/unordered_set>
+#include <unordered_map>
+#include <unordered_set>
 
 
 /* prints a list<T> */
@@ -23,9 +25,9 @@ std::ostream & operator<<(std::ostream & out, std::list<T> & s) {
 
 /* prints a unordered_set<T> */
 template <class T>
-std::ostream & operator<<(std::ostream & out, std::tr1::unordered_set<T> & s) {
+std::ostream & operator<<(std::ostream & out, std::unordered_set<T> & s) {
   out << "{";
-  for(typename std::tr1::unordered_set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
+  for(typename std::unordered_set<T>::iterator item_it = s.begin(); item_it != s.end(); ++item_it) {
     out << *item_it << " ";
   }
   out << "}";
@@ -55,9 +57,9 @@ std::ostream & operator<<(std::ostream & out, std::set<T> & s) {
 
 /* prints a unordered_map<TKey,TVal> */
 template <class TKey, class TVal>
-std::ostream & operator<<(std::ostream & out, std::tr1::unordered_map<TKey,TVal> & m) {
+std::ostream & operator<<(std::ostream & out, std::unordered_map<TKey,TVal> & m) {
   out << "{";
-  for(typename std::tr1::unordered_map<TKey,TVal>::iterator item_it = m.begin(); 
+  for(typename std::unordered_map<TKey,TVal>::iterator item_it = m.begin(); 
       item_it != m.end(); ++item_it) {
     out << item_it->first << ": " << item_it->second << ", ";
   }
