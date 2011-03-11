@@ -52,6 +52,14 @@
     http://developer.apple.com/library/mac/#documentation/CompilerTools/Conceptual/index.html
 
 
+    performance ranking:
+    clang++, compiling libstdcxx-gcc4.2, with boost::tr1::unordered_map
+    clang++, compiling libstdcxx-gcc4.2, with stdcxx-gcc4.2 unordered_map
+    clang++ compiling libc++
+    clang++ compiling libc++ with std=c++0x gives errors
+
+    clang++ beats g++4.2
+
 *** boost::tr1::unordered_map outperforming gcc-4.2/unordered_map
 
 *** tuned hashing function for unordered_map
