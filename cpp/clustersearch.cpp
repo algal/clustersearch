@@ -227,12 +227,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
       vector<geno> mutants( set_intersection( mut(g),m) );
       //      cout << "\tcalculated its (observed) mutants: " << mutants << endl;
       for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
-	/**
-	   FIXME: unordered_map<K,V>::at(K) is not required. only
-	   required for sequential containers. refactor to use
-	   unordered_map<K,V>::find
-	 */
-	if(m.at(*it_mut) == CLUSTER_COLOR) {
+	if(m.find(*it_mut)->second == CLUSTER_COLOR) {
 	  ++exits_size;
 	}
       }
