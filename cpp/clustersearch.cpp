@@ -106,15 +106,15 @@ vector<T> set_difference(const vector<T> & s1,
   return result;
 }
 
-/* intersection of (s1  keys(m))
+/* intersection of s1 and keys(m)
    
    @param[in] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
 
  */
 template <class T, class TVal>
-vector<T> set_intersection(const vector<T> & s1, 
-			 const unordered_map<T,TVal> & m) {
+vector<T> set_intersection(const vector<T> & s1,
+			   const unordered_map<T,TVal> & m) {
   vector<T> result;
   for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
     if (m.find(*it_add) != m.end() ) {
@@ -227,6 +227,11 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
       vector<geno> mutants( set_intersection( mut(g),m) );
       //      cout << "\tcalculated its (observed) mutants: " << mutants << endl;
       for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
+	/**
+	   FIXME: unordered_map<K,V>::at(K) is not required. only
+	   required for sequential containers. refactor to use
+	   unordered_map<K,V>::find
+	 */
 	if(m.at(*it_mut) == CLUSTER_COLOR) {
 	  ++exits_size;
 	}
