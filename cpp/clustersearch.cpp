@@ -27,18 +27,17 @@ using std::tr1::unordered_set;
 typedef string geno;
 typedef unsigned int pheno;
 
-typedef std::tr1::mt19937 random_engine_t;
-typedef std::tr1::uniform_int<int> random_distribution_t;
-typedef std::tr1::variate_generator<random_engine_t, random_distribution_t> random_generator_t;
-
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
 unsigned int numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
 unsigned int length=0;
-random_engine_t random_engine(0);
-random_distribution_t random_distribution(0,numOfColors-1);
-random_generator_t die(random_engine,random_distribution);
+
+typedef std::tr1::mt19937 random_engine_t;
+typedef std::tr1::uniform_int<int> random_distribution_t;
+typedef std::tr1::variate_generator<random_engine_t, random_distribution_t> random_generator_t;
+random_generator_t die(random_engine_t(0),
+		       random_distribution_t(0,numOfColors-1));
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int length) {
@@ -255,9 +254,8 @@ extern "C"
 void reseed(unsigned int seed) {
   std::srand(seed);
 
-  random_engine_t engine(seed);
-  random_distribution_t dist(0,numOfColors-1);
-  ::die = random_generator_t(engine,dist);
+  ::die = random_generator_t(random_engine_t(seed),
+			     random_distribution_t(0, numOfColors-1));
 }
 
 extern "C"
