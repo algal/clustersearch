@@ -8,6 +8,7 @@
 // #include <tr1/unordered_set>
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
+#include "boost/tr1/random.hpp"
 
 #include "boost/accumulators/accumulators.hpp"
 #include "boost/accumulators/statistics/stats.hpp"
@@ -38,6 +39,10 @@ using std::tr1::unordered_set;
 typedef string geno;
 typedef unsigned int pheno;
 
+typedef std::tr1::mt19937 random_engine_t;
+typedef std::tr1::uniform_int<int> random_distribution_t;
+typedef std::tr1::variate_generator<random_engine_t, random_distribution_t> random_generator_t;
+
 namespace configs {
   // don't touch these globals, which define how all functions work
   unsigned int numOfColors = 3;
@@ -53,6 +58,11 @@ namespace configs {
   const double UNIFORM_DISTRIBUTION=0.0;
   double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
+
+random_engine_t random_engine(0);
+random_distribution_t random_distribution(0,numOfColors-1);
+random_generator_t die(random_engine,random_distribution);
+
 }
 
 /** Initialize the alphabet to a different size */
@@ -326,6 +336,10 @@ unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const
 extern "C"
 void reseed(unsigned int seed) {
   std::srand(seed);
+
+  random_engine_t engine(seed);
+  random_distribution_t dist(0,numOfColors-1);
+  configs::die = random_generator_t(engine,dist);
 }
 
 extern "C" 
