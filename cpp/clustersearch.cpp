@@ -730,6 +730,24 @@ int main(int argc, char *argv[])
       cout << string(*varname) << '\n';
     }
   }
+  else if (mode="test4") {
+    for(int i =0; i < 3; ++i) {
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+      if( result1 != result2) 
+	cout << "doRun() identical on 1st call after re-seeding" << endl;
+       else
+	 cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+    }
+  }
+  else if (mode="test5") {
+    for(int i = 0; i < 100; ++i)
+      cout << die() << endl;
+  }
   else {
     exit(0);
   }
