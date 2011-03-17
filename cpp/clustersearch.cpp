@@ -41,13 +41,13 @@ string alphabet = "ABC"; // must be in lexicographical order
 unsigned int length=0;
 
 /** Initialize the alphabet to a different size */
-void initialize_alphabet_size(unsigned int length) {
+void initialize_alphabet_size(unsigned int alphabet_size) {
   const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  if (length > 52) {
+  if (alphabet_size > 52) {
     std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
-    ::length = 52;
+    alphabet_size = 52;
   }
-  ::alphabet = max_alphabet.substr(0,length);
+  ::alphabet = max_alphabet.substr(0,alphabet_size);
 }
 
 /** Initialize the number of possible phenotypes */
