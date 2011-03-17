@@ -316,7 +316,7 @@ int main(int argc, char *argv[])
   }
 
   // check 2nd call of random
-  if (true) {
+  if (false) {
     for(int i =0; i < 3; ++i) {
       std::srand(seed); // seed the random number generator
       (void) doRun(10,4,5);
@@ -330,6 +330,11 @@ int main(int argc, char *argv[])
 	 cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
     }
   }
-  
+
+  // check rand
+  if (true) {
+    for(int i = 0; i < 100; ++i)
+      cout << die() << endl;
+  }
   return 0;
 }
