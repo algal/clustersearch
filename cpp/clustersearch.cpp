@@ -38,16 +38,18 @@ typedef unsigned int pheno;
 const pheno CLUSTER_COLOR = 0;
 unsigned int numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
+size_t alphabet_size = 3;
 unsigned int length=0;
 
 /** Initialize the alphabet to a different size */
-void initialize_alphabet_size(unsigned int alphabet_size) {
+void initialize_alphabet_size(unsigned int new_alpha_size) {
   const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  if (alphabet_size > 52) {
+  if (new_alpha_size > 52) {
     std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
-    alphabet_size = 52;
+    new_alpha_size = 52;
   }
-  ::alphabet = max_alphabet.substr(0,alphabet_size);
+  ::alphabet = max_alphabet.substr(0,new_alpha_size);
+  ::alphabet_size = ::alphabet.size();
 }
 
 /** Initialize the number of possible phenotypes */
@@ -72,7 +74,7 @@ string createRootString() {
 */
 vector<string> mut(const string g) { 
   vector<string> result;
-  result.reserve((alphabet.size() -1) * ::length );
+  result.reserve((::alphabet_size -1) * ::length );
   for(int pos = ::length - 1; pos != -1; --pos) { 
     string::iterator alphabet_end;
     for(string::iterator alternative = alphabet.begin(), alphabet_end = alphabet.end();
