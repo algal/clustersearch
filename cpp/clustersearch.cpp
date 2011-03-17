@@ -27,6 +27,8 @@ using std::tr1::unordered_set;
 typedef string geno;
 typedef unsigned int pheno;
 
+extern "C" void reseed(unsigned int seed);
+
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
 unsigned int numOfColors = 3;
@@ -51,7 +53,10 @@ void initialize_alphabet_size(unsigned int length) {
 
 /** Initialize the number of possible phenotypes */
 void initialize_numOfColors(const unsigned int num) { 
-  ::numOfColors = num; 
+  if ( num != ::numOfColors ) {
+    ::numOfColors = num; 
+    reseed(0);
+  }
 }
 
 /** creates string with all chars equal, implicitly defining length of
@@ -92,8 +97,8 @@ vector<string> mut(const string g) {
 /* generates random int phenotype */
 inline
 pheno colorOf(const geno & g) {
-  return rand() % numOfColors;
-  //  return 
+  //  return rand() % numOfColors;
+    return ::die();
 }
 
 /* s1 - keys(m)
@@ -289,7 +294,7 @@ int main(int argc, char *argv[])
   }
 
   //  srand(time(NULL)); // seed the random number generator
-  std::srand(seed); // seed the random number generator
+  reseed(seed); // seed the random number generator
 
   // display one search
   if (false) {
@@ -308,20 +313,20 @@ int main(int argc, char *argv[])
     cout << "results.exits_size = " << results.exits_size << endl;
   }
 
-    // benchmark 10 random searches
-  if (false) {
-    for(int i =0; i < 1000; ++i) {
-      doRun(4,4,5);
+    // benchmark many random searches
+  if (true) {
+    for(int i =0; i < 5; ++i) {
+      doRun(8,4,5);
     }
   }
 
   // check 2nd call of random
   if (false) {
     for(int i =0; i < 3; ++i) {
-      std::srand(seed); // seed the random number generator
+      reseed(seed); // seed the random number generator
       (void) doRun(10,4,5);
       const unordered_map<geno,pheno> result1 = doRun(10,4,5);
-      std::srand(seed); // seed the random number generator
+      reseed(seed); // seed the random number generator
       (void) doRun(10,4,5);
       const unordered_map<geno,pheno> result2 = doRun(10,4,5);
       if( result1 != result2) 
@@ -332,7 +337,7 @@ int main(int argc, char *argv[])
   }
 
   // check rand
-  if (true) {
+  if (false) {
     for(int i = 0; i < 100; ++i)
       cout << die() << endl;
   }
