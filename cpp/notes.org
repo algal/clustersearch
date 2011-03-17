@@ -29,6 +29,11 @@
 
     with rolling all operations into one loop
 
+    instead of re-iterating thru the map to calc stats, should just
+    calc stats as the search goes
+
+    so instead of building one map observed, build two: cluster and
+    perimeter. and keep a running count of their size.
 
 *** alternative representations for geno
 
