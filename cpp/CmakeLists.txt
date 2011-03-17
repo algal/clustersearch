@@ -4,8 +4,11 @@ cmake_minimum_required(VERSION 2.8.1)
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 
-# set(CMAKE_C_COMPILER "/sw/bin/gcc-fsf-4.5")
-# set(CMAKE_CXX_COMPILER "/sw/bin/c++-fsf-4.5")
+#set(CMAKE_C_COMPILER "/sw/bin/gcc-fsf-4.5")
+#set(CMAKE_CXX_COMPILER "/sw/bin/c++-fsf-4.5")
+
+#set(CMAKE_C_COMPILER "gcc")
+#set(CMAKE_CXX_COMPILER "g++")
 
 #### system description
 
