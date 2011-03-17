@@ -21,7 +21,7 @@ _srand.argtypes = [ c_uint ]
 _calculate_measures = libclustersearch.calculate_measures
 _calculate_measures.argtypes = [ c_uint,c_uint,c_uint]
 
-#from ctypes import *
+# define result struct for calculate_measure
 from ctypes import Structure
 class cluster_measure(Structure):
     _fields_ = [("cluster_size", c_uint),
