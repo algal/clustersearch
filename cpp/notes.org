@@ -2,16 +2,33 @@
 
 * todo
 
-** TODO implement func for calculating stats
+** TODO implement func for calculating stats over multiple runs
 
    Boost accumulators can calculate mean and variance incrementally.
    faster to do calculate on complete results of run?
+
 ** TODO setup logging macro or boost logging
+
+*** ezlogger?
+    http://axter.com/ezlogger/
+
 ** DONE implement func for doing runs 
-** DONE move PRINT support into other file
+
+** DONE better randomness
+
+   switch to <tr1/random>
+   verify re-seeding works as expected thru python library.
+   http://www.boost.org/doc/libs/1_39_0/libs/random/index.html
+
+   tried. but performance slower.
 ** TODO lookinto perf possibilities
 
    need to configure alphabetsize and string size at runtime.
+
+*** replace set_difference and set_intersection
+
+    with rolling all operations into one loop
+
 
 *** alternative representations for geno
 
@@ -64,16 +81,10 @@
 
 *** tuned hashing function for unordered_map
 
+*** better unordered_map or unordered_set
 
+    use djb's cribit?
+    http://www.imperialviolet.org/binary/critbit.pdf
 
-* better randomness
-switch to <tr1/random>
-verify re-seeding works as expected thru python library.
-http://www.boost.org/doc/libs/1_39_0/libs/random/index.html
-
-* better unordered_map or unordered_set
-use djb's cribit?
-http://www.imperialviolet.org/binary/critbit.pdf
-
-* replace std::string with something customized?
+*** replace std::string with something customized?
 compile with std=c++0x to ensure return value optimization
