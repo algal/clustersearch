@@ -281,7 +281,7 @@ int main(int argc, char *argv[])
   std::srand(seed); // seed the random number generator
 
   // display one search
-  if (true) {
+  if (false) {
     cout << "searching with:" << endl;
     cout << "\tlength = " << length << endl;
     cout << "\talphabetsize = " << alphabetsize << endl;
@@ -297,13 +297,28 @@ int main(int argc, char *argv[])
     cout << "results.exits_size = " << results.exits_size << endl;
   }
 
-  if (false) {
     // benchmark 10 random searches
+  if (false) {
     for(int i =0; i < 1000; ++i) {
       doRun(4,4,5);
     }
   }
 
+  // check 2nd call of random
+  if (true) {
+    for(int i =0; i < 3; ++i) {
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+      if( result1 != result2) 
+	cout << "doRun() identical on 1st call after re-seeding" << endl;
+       else
+	 cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+    }
+  }
   
   return 0;
 }
