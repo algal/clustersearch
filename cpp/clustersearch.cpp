@@ -243,7 +243,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 }
 
 extern "C"
-void srand(unsigned int seed) {
+void reseed(unsigned int seed) {
   std::srand(seed);
 }
 

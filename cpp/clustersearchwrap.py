@@ -4,7 +4,7 @@ This module wraps the dynamic library clustersearch.dylib.
 It defines three functions for external use:
   calculate_measures_as_tuple
   calculate_measures
-  srand
+  reseed
 """
 
 from ctypes.util import find_library
@@ -13,9 +13,9 @@ from ctypes import c_uint
 
 libclustersearch = cdll.LoadLibrary(find_library('clustersearch'))
 
-# load function srand
-_srand = libclustersearch.srand
-_srand.argtypes = [ c_uint ]
+# load function reseed
+_reseed = libclustersearch.reseed
+_reseed.argtypes = [ c_uint ]
 
 # load function calculate_measures
 _calculate_measures = libclustersearch.calculate_measures
@@ -43,14 +43,14 @@ def calculate_measures_as_tuple(length,alphabetsize,colors):
     x = _calculate_measures(length,alphabetsize,colors)
     return (x.cluster_size ,x.perimeter_size ,x.colors ,x.exits_size)
 
-def srand(seed):
+def reseed(seed):
     """Seeds the random number generator.
 
     Reseeding to the same start value (e.g., 0), should cause
     subsequent searches to produce the same result. But it does not. I
     don't know why.
     """
-    _srand(seed)
+    _reseed(seed)
 
 def calculate_measures(length,alphabetsize,colors):
     "Returns dict of basic measures from a single cluster search"
