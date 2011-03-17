@@ -59,10 +59,8 @@ namespace configs {
   double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
 
-random_engine_t random_engine(0);
-random_distribution_t random_distribution(0,numOfColors-1);
-random_generator_t die(random_engine,random_distribution);
-
+random_generator_t die(random_engine_t(0),
+                       random_distribution_t(0,numOfColors-1));
 }
 
 /** Initialize the alphabet to a different size */
