@@ -13,6 +13,14 @@
 
 #include "printable.hpp"
 
+//#define DEBUG
+
+#ifdef DEBUG
+#define TRACE(arg) arg
+#else
+#define TRACE(arg)
+#endif
+
 using std::string;
 using std::list;
 using std::cout;
@@ -74,8 +82,8 @@ vector<string> mut(const string g) {
 	mutant.reserve(::length); // may improve perf
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
-	//	cout << "generated mutant " << mutant << endl;
-      }
+	TRACE(	cout << "generated mutant " << mutant << endl; )
+	  }
     }
   }
   return result;
@@ -93,7 +101,7 @@ pheno colorOf(const geno & g) {
    @param[in] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
 
- */
+*/
 template <class T, class TVal>
 vector<T> set_difference(const vector<T> & s1, 
 			 const unordered_map<T,TVal> & m) {
@@ -111,7 +119,7 @@ vector<T> set_difference(const vector<T> & s1,
    @param[in] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
 
- */
+*/
 template <class T, class TVal>
 vector<T> set_intersection(const vector<T> & s1,
 			   const unordered_map<T,TVal> & m) {
@@ -145,23 +153,23 @@ unordered_map<geno,pheno> search(const geno& root) {
     // process head of queue of nodes till to be traversed
     cursor = to_traverse.front();
     to_traverse.pop_front();
-//    cout << "Traversing from node " << cursor << endl;
-    // compute the neighbors not previously observed
-    vector<geno> all_neighbors(mut(cursor));
+    TRACE(cout << "Traversing from node " << cursor << endl;)
+      // compute the neighbors not previously observed
+      vector<geno> all_neighbors(mut(cursor));
     vector<geno> new_neighbors(set_difference(all_neighbors, observed));
-//    cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;
-    // if there are some new nodes to observe ...
-    if(!new_neighbors.empty()) {
-      unordered_map<geno,pheno> newly_observed;
-      for(vector<geno>::iterator g = new_neighbors.begin(); 
-	  g != new_neighbors.end(); ++g) {
-	// "discover" the colors and record the visit
-	if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
-	  // and  plan to visit only the special ones later
-	  to_traverse.push_back(*g);
+    TRACE(cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl;)
+      // if there are some new nodes to observe ...
+      if(!new_neighbors.empty()) {
+	unordered_map<geno,pheno> newly_observed;
+	for(vector<geno>::iterator g = new_neighbors.begin(); 
+	    g != new_neighbors.end(); ++g) {
+	  // "discover" the colors and record the visit
+	  if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
+	    // and  plan to visit only the special ones later
+	    to_traverse.push_back(*g);
+	  }
 	}
       }
-    }
   }
   return observed;
 }
@@ -204,7 +212,7 @@ struct cluster_measures {
    Calculates measures of a cluster.
 
    Relies on that the search only observes the cluster and its perimeter.
- */
+*/
 cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m) {
   cluster_measures results;
 
@@ -216,22 +224,22 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   for(unordered_map<geno,pheno>::const_iterator it = m.begin(); it != m.end(); ++it) {
     const geno g = it->first;
     const pheno p = it->second;
-    //    cout << "searching g=" << g << endl;
-    // .. in the perimeter ...
-    if(p != CLUSTER_COLOR) {
-      //      cout << "\twhich is in the perimeter" << endl;
-      // ... tally it, track its pheno
-      ++perimeter_size;
-      perimeter_colors.insert(p);
-      //      cout << "\tadded its color" << endl;
-      vector<geno> mutants( set_intersection( mut(g),m) );
-      //      cout << "\tcalculated its (observed) mutants: " << mutants << endl;
-      for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
-	if(m.find(*it_mut)->second == CLUSTER_COLOR) {
-	  ++exits_size;
-	}
+    TRACE(cout << "searching g=" << g << endl;)
+      // .. in the perimeter ...
+      if(p != CLUSTER_COLOR) {
+	TRACE(cout << "\twhich is in the perimeter" << endl;)
+	  // ... tally it, track its pheno
+	  ++perimeter_size;
+	perimeter_colors.insert(p);
+	TRACE(cout << "\tadded its color" << endl;)
+	  vector<geno> mutants( set_intersection( mut(g),m) );
+	TRACE(cout << "\tcalculated its (observed) mutants: " << mutants << endl;)
+	  for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
+	    if(m.find(*it_mut)->second == CLUSTER_COLOR) {
+	      ++exits_size;
+	    }
+	  }
       }
-    }
   }
 
   results.perimeter_size = perimeter_size;
@@ -297,15 +305,15 @@ int main(int argc, char *argv[])
     cout << "results.exits_size = " << results.exits_size << endl;
   }
 
-    // benchmark 10 random searches
-  if (false) {
-    for(int i =0; i < 1000; ++i) {
+  // benchmark 10 random searches
+  if (true) {
+    for(int i =0; i < 10; ++i) {
       doRun(4,4,5);
     }
   }
 
   // check 2nd call of random
-  if (true) {
+  if (false) {
     for(int i =0; i < 3; ++i) {
       std::srand(seed); // seed the random number generator
       (void) doRun(10,4,5);
@@ -315,8 +323,8 @@ int main(int argc, char *argv[])
       const unordered_map<geno,pheno> result2 = doRun(10,4,5);
       if( result1 != result2) 
 	cout << "doRun() identical on 1st call after re-seeding" << endl;
-       else
-	 cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+      else
+	cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
     }
   }
   
