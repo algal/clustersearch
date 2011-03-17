@@ -10,6 +10,7 @@
 // #include <tr1/unordered_set>
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
+#include "boost/tr1/random.hpp"
 
 #include "printable.hpp"
 
@@ -26,11 +27,18 @@ using std::tr1::unordered_set;
 typedef string geno;
 typedef unsigned int pheno;
 
+typedef std::tr1::mt19937 random_engine_t;
+typedef std::tr1::uniform_int<int> random_distribution_t;
+typedef std::tr1::variate_generator<random_engine_t, random_distribution_t> random_generator_t;
+
 // don't touch these globals, which define how all functions work
 const pheno CLUSTER_COLOR = 0;
 unsigned int numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
 unsigned int length=0;
+random_engine_t random_engine(0);
+random_distribution_t random_distribution(0,numOfColors-1);
+random_generator_t die(random_engine,random_distribution);
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int length) {
@@ -86,6 +94,7 @@ vector<string> mut(const string g) {
 inline
 pheno colorOf(const geno & g) {
   return rand() % numOfColors;
+  //  return 
 }
 
 /* s1 - keys(m)
@@ -245,6 +254,10 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 extern "C"
 void reseed(unsigned int seed) {
   std::srand(seed);
+
+  random_engine_t engine(seed);
+  random_distribution_t dist(0,numOfColors-1);
+  ::die = random_generator_t(engine,dist);
 }
 
 extern "C"
