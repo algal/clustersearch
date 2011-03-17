@@ -66,3 +66,14 @@
 
 
 
+* better randomness
+switch to <tr1/random>
+verify re-seeding works as expected thru python library.
+http://www.boost.org/doc/libs/1_39_0/libs/random/index.html
+
+* better unordered_map or unordered_set
+use djb's cribit?
+http://www.imperialviolet.org/binary/critbit.pdf
+
+* replace std::string with something customized?
+compile with std=c++0x to ensure return value optimization
