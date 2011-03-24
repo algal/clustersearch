@@ -370,7 +370,7 @@ int main(int argc, char *argv[])
   std::srand(seed); // seed the random number generator
 
   // display one search
-  if (false) {
+  if (true) {
     cout << "searching with:" << endl;
     cout << "\tlength = " << length << endl;
     cout << "\talphabetsize = " << alphabetsize << endl;
@@ -379,11 +379,12 @@ int main(int argc, char *argv[])
     unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
     cout << mm << endl;
     
-    cluster_measures results = calculate_measures_from_run(mm);
+    extended_cluster_measures results = extend_measures(calculate_measures_from_run(mm));
     cout << "cluster_size = " << results.cluster_size << endl;
     cout << "results.perimeter_size = " << results.perimeter_size << endl;
     cout << "results.colors = " << results.colors << endl;
     cout << "results.exits_size = " << results.exits_size << endl;
+    cout << "results.robustness = " << results.robustness << endl;
   }
 
   // benchmark 10 random searches
