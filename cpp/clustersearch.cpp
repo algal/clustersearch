@@ -84,7 +84,7 @@ vector<string> mut(const string g) {
 	mutant.reserve(::length); // may improve perf
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
-	TRACE(	cout << "generated mutant " << mutant << endl; )
+	TRACE(	cout << "generated mutant " << mutant << endl;)
 	  }
     }
   }
