@@ -85,7 +85,7 @@ vector<string> mut(const string g) {
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
 	TRACE(	cout << "generated mutant " << mutant << endl);
-	  }
+      }
     }
   }
   return result;
@@ -156,22 +156,22 @@ unordered_map<geno,pheno> search(const geno& root) {
     cursor = to_traverse.front();
     to_traverse.pop_front();
     TRACE(cout << "Traversing from node " << cursor << endl);
-      // compute the neighbors not previously observed
-      vector<geno> all_neighbors(mut(cursor));
+    // compute the neighbors not previously observed
+    vector<geno> all_neighbors(mut(cursor));
     vector<geno> new_neighbors(set_difference(all_neighbors, observed));
     TRACE(cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl);
-      // if there are some new nodes to observe ...
-      if(!new_neighbors.empty()) {
-	unordered_map<geno,pheno> newly_observed;
-	for(vector<geno>::iterator g = new_neighbors.begin(); 
-	    g != new_neighbors.end(); ++g) {
-	  // "discover" the colors and record the visit
-	  if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
-	    // and  plan to visit only the special ones later
-	    to_traverse.push_back(*g);
-	  }
+    // if there are some new nodes to observe ...
+    if(!new_neighbors.empty()) {
+      unordered_map<geno,pheno> newly_observed;
+      for(vector<geno>::iterator g = new_neighbors.begin(); 
+	  g != new_neighbors.end(); ++g) {
+	// "discover" the colors and record the visit
+	if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
+	  // and  plan to visit only the special ones later
+	  to_traverse.push_back(*g);
 	}
       }
+    }
   }
   return observed;
 }
@@ -227,21 +227,21 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
     const geno g = it->first;
     const pheno p = it->second;
     TRACE(cout << "searching g=" << g << endl);
-      // .. in the perimeter ...
-      if(p != CLUSTER_COLOR) {
-	TRACE(cout << "\twhich is in the perimeter" << endl);
-	  // ... tally it, track its pheno
-	  ++perimeter_size;
-	perimeter_colors.insert(p);
-	TRACE(cout << "\tadded its color" << endl);
-	  vector<geno> mutants( set_intersection( mut(g),m) );
-	TRACE(cout << "\tcalculated its (observed) mutants: " << mutants << endl);
-	  for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
-	    if(m.find(*it_mut)->second == CLUSTER_COLOR) {
-	      ++exits_size;
-	    }
-	  }
+    // .. in the perimeter ...
+    if(p != CLUSTER_COLOR) {
+      TRACE(cout << "\twhich is in the perimeter" << endl);
+      // ... tally it, track its pheno
+      ++perimeter_size;
+      perimeter_colors.insert(p);
+      TRACE(cout << "\tadded its color" << endl);
+      vector<geno> mutants( set_intersection( mut(g),m) );
+      TRACE(cout << "\tcalculated its (observed) mutants: " << mutants << endl);
+      for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
+	if(m.find(*it_mut)->second == CLUSTER_COLOR) {
+	  ++exits_size;
+	}
       }
+    }
   }
 
   results.perimeter_size = perimeter_size;
