@@ -162,7 +162,6 @@ unordered_map<geno,pheno> search(const geno& root) {
     TRACE(cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl);
     // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
-      unordered_map<geno,pheno> newly_observed;
       for(vector<geno>::iterator g = new_neighbors.begin(); 
 	  g != new_neighbors.end(); ++g) {
 	// "discover" the colors and record the visit
