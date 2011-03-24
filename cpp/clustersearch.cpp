@@ -200,10 +200,10 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
 
 extern "C" 
 struct cluster_measures {
-  unsigned int cluster_size;
-  unsigned int perimeter_size;
-  unsigned int colors;
-  unsigned int exits_size;
+  unsigned int cluster_size;	// s
+  unsigned int perimeter_size;	// t
+  unsigned int colors;		// E
+  unsigned int exits_size;	// u
 };
 
 /**
@@ -256,6 +256,35 @@ void reseed(unsigned int seed) {
 extern "C"
 cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
+}
+
+extern "C"
+struct extended_cluster_measures {
+  unsigned int cluster_size;	// s
+  unsigned int perimeter_size;	// t
+  unsigned int colors;	        // E
+  unsigned int exits_size;	// u
+  double robustness;            // r
+};
+
+// Add robustness to calculates measures from a run
+extended_cluster_measures extend_measures(const cluster_measures cmeasures)
+{
+  extended_cluster_measures x;
+  x.cluster_size	= cmeasures.cluster_size;
+  x.perimeter_size	= cmeasures.perimeter_size;
+  x.colors		= cmeasures.colors;
+  x.exits_size		= cmeasures.exits_size;
+  
+  const double sl = x.cluster_size * ::length;
+  x.robustness = (sl - x.exits_size) / sl;
+  return x;
+}
+
+extern "C"
+extended_cluster_measures calculate_extended_measures(const unsigned int length, const unsigned int alphabetsize, 
+					     const unsigned int numOfColors) {
+  return extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
 }
 
 int main(int argc, char *argv[])
