@@ -1,7 +1,5 @@
 #include <iostream>
-#include <set>
 #include <list>
-#include <map>
 #include <vector>
 #include <iterator>
 #include <ctime>
@@ -25,7 +23,6 @@ using std::string;
 using std::list;
 using std::cout;
 using std::endl;
-using std::set;
 using std::vector;
 
 using std::tr1::unordered_map;
@@ -141,7 +138,7 @@ vector<T> set_intersection(const vector<T> & s1,
    Nodes x and y are connected if x is in mut(y). Each node x has
    color colorOf(x).
 
-   Returns a std::map of the observed nodes and their colors.
+   Returns a std::unordered_map of the observed nodes and their colors.
 */
 unordered_map<geno,pheno> search(const geno& root) {
   unordered_map<geno,pheno> observed;
