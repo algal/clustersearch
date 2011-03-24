@@ -9,6 +9,11 @@
 #include "boost/tr1/unordered_map.hpp"
 #include "boost/tr1/unordered_set.hpp"
 
+#include "boost/accumulators/accumulators.hpp"
+#include "boost/accumulators/statistics/stats.hpp"
+#include "boost/accumulators/statistics/mean.hpp"
+#include "boost/accumulators/statistics/moment.hpp"
+
 #include "printable.hpp"
 
 //#define DEBUG
@@ -258,6 +263,8 @@ cluster_measures calculate_measures(const unsigned int length, const unsigned in
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
+// calculate cluster_measures AND robustness
+
 extern "C"
 struct extended_cluster_measures {
   unsigned int cluster_size;	// s
@@ -267,24 +274,71 @@ struct extended_cluster_measures {
   double robustness;            // r
 };
 
-// Add robustness to calculates measures from a run
+// Add robustness to cluster_measures from a run
 extended_cluster_measures extend_measures(const cluster_measures cmeasures)
 {
-  extended_cluster_measures x;
-  x.cluster_size	= cmeasures.cluster_size;
-  x.perimeter_size	= cmeasures.perimeter_size;
-  x.colors		= cmeasures.colors;
-  x.exits_size		= cmeasures.exits_size;
-  
-  const double sl = x.cluster_size * ::length;
-  x.robustness = (sl - x.exits_size) / sl;
+  const double sl = cmeasures.cluster_size * ::length;
+
+  extended_cluster_measures x = {
+    cmeasures.cluster_size,
+    cmeasures.perimeter_size,
+    cmeasures.colors,
+    cmeasures.exits_size,
+    ((sl - cmeasures.exits_size) / sl)
+  };
   return x;
 }
 
 extern "C"
-extended_cluster_measures calculate_extended_measures(const unsigned int length, const unsigned int alphabetsize, 
-					     const unsigned int numOfColors) {
+extended_cluster_measures calculate_extended_measures(const unsigned int length, 
+						      const unsigned int alphabetsize, 
+						      const unsigned int numOfColors) {
   return extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
+}
+
+// calculate means of the cluster measures
+
+extern "C"
+struct stats_extended_cluster_measures {
+  double mean_cluster_size;	// s
+  double mean_perimeter_size;	// t
+  double mean_colors;	        // E
+  double mean_exits_size;	// u
+  double mean_robustness;       // r
+};
+
+stats_extended_cluster_measures calculate_statistics(const unsigned int length, 
+						     const unsigned int alphabetsize, 
+						     const unsigned int numOfColors,
+						     const unsigned int samples) {
+  using namespace boost::accumulators;
+
+  accumulator_set<unsigned int, stats<tag::mean> > cluster_size_acc;
+  accumulator_set<unsigned int, stats<tag::mean> > perimeter_size_acc;
+  accumulator_set<unsigned int, stats<tag::mean> > colors_acc;
+  accumulator_set<unsigned int, stats<tag::mean> > exits_size_acc;
+  accumulator_set<double,       stats<tag::mean> > robustness_acc;
+  
+  extended_cluster_measures r;
+  for(unsigned int i = 0; i < samples; ++i ) {
+    r = extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
+    
+    cluster_size_acc(r.cluster_size);
+    perimeter_size_acc(r.perimeter_size);
+    colors_acc(r.colors);
+    exits_size_acc(r.exits_size);
+    robustness_acc(r.robustness);
+  }  
+
+  stats_extended_cluster_measures result =
+    {
+      mean(cluster_size_acc),
+      mean(perimeter_size_acc),
+      mean(colors_acc),
+      mean(exits_size_acc),
+      mean(robustness_acc)
+    };
+  return  result;
 }
 
 int main(int argc, char *argv[])
