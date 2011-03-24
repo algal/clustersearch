@@ -387,7 +387,7 @@ int main(int argc, char *argv[])
   }
 
   // benchmark 10 random searches
-  if (true) {
+  if (false) {
     for(int i =0; i < 10; ++i) {
       doRun(4,4,5);
     }
@@ -408,6 +408,24 @@ int main(int argc, char *argv[])
 	cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
     }
   }
-  
+
+  // calculate stats
+  if (true) {
+    unsigned int samples = 10;
+
+    cout << "searching with:" << endl;
+    cout << "\tlength = " << length << endl;
+    cout << "\talphabetsize = " << alphabetsize << endl;
+    cout << "\tnumOfColors = " << numOfColors << endl;
+    cout << "\tsamples = " << samples << endl;
+
+    stats_extended_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
+    
+    cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
+    cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
+    cout << "mean results.colors = "		<< results.mean_colors << endl;
+    cout << "mean results.exits_size = "	<< results.mean_exits_size << endl;
+    cout << "mean results.robustness = "	<< results.mean_robustness << endl;
+  }
   return 0;
 }
