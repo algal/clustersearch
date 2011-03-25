@@ -10,6 +10,7 @@ It defines three functions for external use:
 from ctypes.util import find_library
 from ctypes import cdll
 from ctypes import c_uint
+from ctypes import c_double
 
 libclustersearch = cdll.LoadLibrary(find_library('clustersearch'))
 
@@ -19,7 +20,7 @@ _reseed.argtypes = [ c_uint ]
 
 # load function calculate_measures
 _calculate_measures = libclustersearch.calculate_measures
-_calculate_measures.argtypes = [ c_uint,c_uint,c_uint]
+_calculate_measures.argtypes = [ c_uint, c_uint, c_uint]
 
 # define result struct for calculate_measure
 from ctypes import Structure
@@ -27,21 +28,18 @@ class cluster_measure(Structure):
     _fields_ = [("cluster_size", c_uint),
                 ("perimeter_size", c_uint),
                 ("colors", c_uint),
-                ("exits_size", c_uint)]
+                ("exits_size", c_uint),
+                ("robustness", c_double)]
     def __repr__(self):
         s= """cluster_size   = %s
 perimeter_size = %s
 colors         = %s
-exits_size     = %s""" % (self.cluster_size ,self.perimeter_size ,self.colors ,self.exits_size)
+exits_size     = %s
+robustness     = %s""" % (self.cluster_size, self.perimeter_size, self.colors, self.exits_size, self.robustness)
         return s
     pass
 
 _calculate_measures.restype = cluster_measure
-
-def calculate_measures_as_tuple(length,alphabetsize,colors):
-    "Returns tuple of basic measures from a single cluster search"
-    x = _calculate_measures(length,alphabetsize,colors)
-    return (x.cluster_size ,x.perimeter_size ,x.colors ,x.exits_size)
 
 def reseed(seed):
     """Seeds the random number generator.
@@ -52,15 +50,14 @@ def reseed(seed):
     """
     _reseed(seed)
 
+def calculate_measures_as_tuple(length,alphabetsize,colors):
+    "Returns tuple of basic measures from a single cluster search"
+    x = _calculate_measures(length,alphabetsize,colors)
+    return (x.cluster_size ,x.perimeter_size ,x.colors ,x.exits_size, x.robustness)
+
 def calculate_measures(length,alphabetsize,colors):
     "Returns dict of basic measures from a single cluster search"
+    measurenames = ["cluster_size", "perimeter_size", "colors", "exits_size", "robustness"]
     t = calculate_measures_as_tuple(length,alphabetsize,colors)
-    d = dict()
-    d["cluster_size"] = t[0]
-    d["perimeter_size"] = t[1]
-    d["colors"] = t[2]
-    d["exits_size"] = t[3]
+    d = dict(zip(measurenames,t))
     return d
-
-
-    

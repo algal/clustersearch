@@ -214,6 +214,7 @@ struct cluster_measures {
   unsigned int perimeter_size;	// t
   unsigned int colors;		// E
   unsigned int exits_size;	// u
+  double robustness;            // r
 };
 
 /**
@@ -254,7 +255,8 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   results.cluster_size = m.size() - results.perimeter_size;
   results.colors = perimeter_colors.size();
   results.exits_size = exits_size;
-
+  const double sl  = (results.cluster_size * ::length);
+  results.robustness = double(sl - exits_size) / sl;
   return results;
 }
 
@@ -263,43 +265,8 @@ cluster_measures calculate_measures(const unsigned int length, const unsigned in
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
 }
 
-// calculate cluster_measures AND robustness
-
 extern "C"
-struct extended_cluster_measures {
-  unsigned int cluster_size;	// s
-  unsigned int perimeter_size;	// t
-  unsigned int colors;	        // E
-  unsigned int exits_size;	// u
-  double robustness;            // r
-};
-
-// Add robustness to cluster_measures from a run
-extended_cluster_measures extend_measures(const cluster_measures cmeasures)
-{
-  const double sl = cmeasures.cluster_size * ::length;
-
-  extended_cluster_measures x = {
-    cmeasures.cluster_size,
-    cmeasures.perimeter_size,
-    cmeasures.colors,
-    cmeasures.exits_size,
-    ((sl - cmeasures.exits_size) / sl)
-  };
-  return x;
-}
-
-extern "C"
-extended_cluster_measures calculate_extended_measures(const unsigned int length, 
-						      const unsigned int alphabetsize, 
-						      const unsigned int numOfColors) {
-  return extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
-}
-
-// calculate means of the cluster measures
-
-extern "C"
-struct mean_extended_cluster_measures {
+struct mean_cluster_measures {
   double mean_cluster_size;	// s
   double mean_perimeter_size;	// t
   double mean_colors;	        // E
@@ -307,7 +274,8 @@ struct mean_extended_cluster_measures {
   double mean_robustness;       // r
 };
 
-mean_extended_cluster_measures calculate_statistics(const unsigned int length, 
+// calculate means of the cluster measures
+mean_cluster_measures calculate_statistics(const unsigned int length, 
 						     const unsigned int alphabetsize, 
 						     const unsigned int numOfColors,
 						     const unsigned int samples) {
@@ -319,9 +287,9 @@ mean_extended_cluster_measures calculate_statistics(const unsigned int length,
   accumulator_set<unsigned int, stats<tag::mean> > exits_size_acc;
   accumulator_set<double,       stats<tag::mean> > robustness_acc;
   
-  extended_cluster_measures r;
+  cluster_measures r;
   for(unsigned int i = 0; i < samples; ++i ) {
-    r = calculate_extended_measures(length,alphabetsize,numOfColors);
+    r = calculate_measures(length,alphabetsize,numOfColors);
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
@@ -329,7 +297,7 @@ mean_extended_cluster_measures calculate_statistics(const unsigned int length,
     robustness_acc(r.robustness);
   }  
 
-  mean_extended_cluster_measures result =
+  mean_cluster_measures result =
     {
       mean(cluster_size_acc),
       mean(perimeter_size_acc),
@@ -378,7 +346,7 @@ int main(int argc, char *argv[])
     unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
     cout << mm << endl;
     
-    extended_cluster_measures results = extend_measures(calculate_measures_from_run(mm));
+    cluster_measures results = calculate_measures_from_run(mm);
     cout << "cluster_size = " << results.cluster_size << endl;
     cout << "results.perimeter_size = " << results.perimeter_size << endl;
     cout << "results.colors = " << results.colors << endl;
@@ -419,7 +387,7 @@ int main(int argc, char *argv[])
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tsamples = " << samples << endl;
 
-    mean_extended_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
+    mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
     
     cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
     cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
