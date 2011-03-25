@@ -315,7 +315,7 @@ string usage() {
     "Prints measures from one search with given parameters, or else means over sample searches"
     "\n"
     "\n"
-    " Arguments: \n"
+    "Arguments: \n"
     " length        length of genotype strings \n"
     " alphabetsize  possible symbols in position of a genotype string \n"
     " colors        number of possible 'phenotype' colors \n"
