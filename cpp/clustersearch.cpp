@@ -276,9 +276,9 @@ struct mean_cluster_measures {
 
 // calculate means of the cluster measures
 mean_cluster_measures calculate_statistics(const unsigned int length, 
-						     const unsigned int alphabetsize, 
-						     const unsigned int numOfColors,
-						     const unsigned int samples) {
+					   const unsigned int alphabetsize, 
+					   const unsigned int numOfColors,
+					   const unsigned int samples) {
   using namespace boost::accumulators;
 
   accumulator_set<unsigned int, stats<tag::mean> > cluster_size_acc;
