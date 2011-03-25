@@ -308,52 +308,81 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   return  result;
 }
 
+
+string usage() {
+  return 
+    "Usage: clusters LENGTH ALPHABETSIZE COLORS [SAMPLES] \n"
+    "Prints measures from one search with given parameters, or else means over sample searches"
+    "\n"
+    "\n"
+    " Arguments: \n"
+    " length        length of genotype strings \n"
+    " alphabetsize  possible symbols in position of a genotype string \n"
+    " colors        number of possible 'phenotype' colors \n"
+    " samples       number of searches to perform \n";
+}
+
 int main(int argc, char *argv[])
 {
-  cout << "Called with " << argc-1 << " arguments. Try calling with length alphabetsize numofColors." << endl;
-
   unsigned int seed;
   unsigned int length;
   unsigned int alphabetsize;
   unsigned int numOfColors;
 
+  unsigned int samples =0;
+
   seed = 0;
   
-  if (argc == 1) {
-    length = 3;
-    alphabetsize =2;
-    numOfColors =3;
-  }
-  else if(argc == 4) {
+  if(argc==4 || argc==5) {
+    if(argc == 5)
+      samples           = std::atoi(argv[4]);
+    
     length		= std::atoi(argv[1]);
     alphabetsize	= std::atoi(argv[2]);
     numOfColors		= std::atoi(argv[3]);
   }
   else {
+    std::cerr << usage() << endl;
     exit(1);
   }
 
   //  srand(time(NULL)); // seed the random number generator
   std::srand(seed); // seed the random number generator
 
-  // display one search
-  if (true) {
+  const bool NORMAL_EXECUTION = true;
+  if(NORMAL_EXECUTION) {
     cout << "searching with:" << endl;
     cout << "\tlength = " << length << endl;
     cout << "\talphabetsize = " << alphabetsize << endl;
     cout << "\tnumOfColors = " << numOfColors << endl;
 
-    unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
-    cout << mm << endl;
+    // display one search
+    if (samples == 0) {
+
+      unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
+      cout << mm << endl;
     
-    cluster_measures results = calculate_measures_from_run(mm);
-    cout << "cluster_size = " << results.cluster_size << endl;
-    cout << "results.perimeter_size = " << results.perimeter_size << endl;
-    cout << "results.colors = " << results.colors << endl;
-    cout << "results.exits_size = " << results.exits_size << endl;
-    cout << "results.robustness = " << results.robustness << endl;
+      cluster_measures results = calculate_measures_from_run(mm);
+      cout << "cluster_size = " << results.cluster_size << endl;
+      cout << "results.perimeter_size = " << results.perimeter_size << endl;
+      cout << "results.colors = " << results.colors << endl;
+      cout << "results.exits_size = " << results.exits_size << endl;
+      cout << "results.robustness = " << results.robustness << endl;
+    }
+    else {
+      cout << "\tsamples = " << samples << endl;
+
+      mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
+    
+      cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
+      cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
+      cout << "mean results.colors = "		<< results.mean_colors << endl;
+      cout << "mean results.exits_size = "	<< results.mean_exits_size << endl;
+      cout << "mean results.robustness = "	<< results.mean_robustness << endl;
+    }
   }
 
+  
   // benchmark 10 random searches
   if (false) {
     for(int i =0; i < 10; ++i) {
@@ -377,23 +406,5 @@ int main(int argc, char *argv[])
     }
   }
 
-  // calculate stats
-  if (true) {
-    unsigned int samples = 10;
-
-    cout << "searching with:" << endl;
-    cout << "\tlength = " << length << endl;
-    cout << "\talphabetsize = " << alphabetsize << endl;
-    cout << "\tnumOfColors = " << numOfColors << endl;
-    cout << "\tsamples = " << samples << endl;
-
-    mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
-    
-    cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
-    cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
-    cout << "mean results.colors = "		<< results.mean_colors << endl;
-    cout << "mean results.exits_size = "	<< results.mean_exits_size << endl;
-    cout << "mean results.robustness = "	<< results.mean_robustness << endl;
-  }
   return 0;
 }
