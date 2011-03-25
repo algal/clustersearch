@@ -203,6 +203,11 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   return search(origin);
 }
 
+extern "C"
+void reseed(unsigned int seed) {
+  std::srand(seed);
+}
+
 extern "C" 
 struct cluster_measures {
   unsigned int cluster_size;	// s
@@ -251,11 +256,6 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   results.exits_size = exits_size;
 
   return results;
-}
-
-extern "C"
-void reseed(unsigned int seed) {
-  std::srand(seed);
 }
 
 extern "C"
