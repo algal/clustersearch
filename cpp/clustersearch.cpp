@@ -321,7 +321,7 @@ mean_extended_cluster_measures calculate_statistics(const unsigned int length,
   
   extended_cluster_measures r;
   for(unsigned int i = 0; i < samples; ++i ) {
-    r = extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
+    r = calculate_extended_measures(length,alphabetsize,numOfColors);
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
