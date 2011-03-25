@@ -299,7 +299,7 @@ extended_cluster_measures calculate_extended_measures(const unsigned int length,
 // calculate means of the cluster measures
 
 extern "C"
-struct stats_extended_cluster_measures {
+struct mean_extended_cluster_measures {
   double mean_cluster_size;	// s
   double mean_perimeter_size;	// t
   double mean_colors;	        // E
@@ -307,7 +307,7 @@ struct stats_extended_cluster_measures {
   double mean_robustness;       // r
 };
 
-stats_extended_cluster_measures calculate_statistics(const unsigned int length, 
+mean_extended_cluster_measures calculate_statistics(const unsigned int length, 
 						     const unsigned int alphabetsize, 
 						     const unsigned int numOfColors,
 						     const unsigned int samples) {
@@ -322,7 +322,6 @@ stats_extended_cluster_measures calculate_statistics(const unsigned int length,
   extended_cluster_measures r;
   for(unsigned int i = 0; i < samples; ++i ) {
     r = extend_measures(calculate_measures_from_run(doRun(length,alphabetsize,numOfColors)));
-    
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
@@ -330,7 +329,7 @@ stats_extended_cluster_measures calculate_statistics(const unsigned int length,
     robustness_acc(r.robustness);
   }  
 
-  stats_extended_cluster_measures result =
+  mean_extended_cluster_measures result =
     {
       mean(cluster_size_acc),
       mean(perimeter_size_acc),
@@ -420,7 +419,7 @@ int main(int argc, char *argv[])
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tsamples = " << samples << endl;
 
-    stats_extended_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
+    mean_extended_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
     
     cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
     cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
