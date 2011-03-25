@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      4332,        131]
-NotebookOptionsPosition[      3735,        104]
-NotebookOutlinePosition[      4112,        121]
-CellTagsIndexPosition[      4069,        118]
+NotebookDataLength[      4556,        134]
+NotebookOptionsPosition[      3958,        107]
+NotebookOutlinePosition[      4335,        124]
+CellTagsIndexPosition[      4292,        121]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -24,86 +24,89 @@ Cell[BoxData[
  RowBox[{"Directory", "[", "]"}]], "Input",
  CellChangeTimes->{{3.5100580100599413`*^9, 3.510058011914765*^9}}],
 
-Cell[BoxData["\<\"/Users/alexis\"\>"], "Output",
- CellChangeTimes->{3.510058012321754*^9}]
+Cell[BoxData["\<\"/Users/alexis/workspace/clustersearch/cpp/build\"\>"], \
+"Output",
+ CellChangeTimes->{3.510058012321754*^9, 3.510060084174416*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"SetDirectory", "[", "\"\<workspace/clustersearch/cpp/build\>\"", 
-  "]"}]], "Input",
- CellChangeTimes->{{3.510058020552155*^9, 3.5100580569971523`*^9}}],
+ RowBox[{"SetDirectory", "[", 
+  "\"\</Users/alexis/workspace/clustersearch/cpp/build\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.510058020552155*^9, 3.5100580569971523`*^9}, {
+  3.5100628420611277`*^9, 3.510062845920013*^9}}],
 
-Cell[BoxData["\<\"/Users/alexis/workspace/clustersearch/cpp/build\"\>"], \
-"Output",
- CellChangeTimes->{3.5100580573067217`*^9}]
+Cell[BoxData["$Failed"], "Output",
+ CellChangeTimes->{3.5100580573067217`*^9, 3.510060081531982*^9}]
 }, Open  ]],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"(*", " ", 
-   RowBox[{
-    RowBox[{"Returns", " ", "means", " ", "of", " ", "cluster_size"}], ",", 
-    " ", "perimeter_size", ",", " ", "colors", ",", " ", "exits_size", ",", 
-    " ", "robustness"}], " ", "*)"}], "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{
-    RowBox[{"MeanClusterMeasures", "[", 
-     RowBox[{"length_", ",", "alpha_", ",", "colors_", ",", "samples_"}], 
-     "]"}], ":=", "\[IndentingNewLine]", 
-    RowBox[{"Block", "[", 
+   RowBox[{"MeanClusterMeasures", "[", 
+    RowBox[{"length_", ",", "alpha_", ",", "colors_", ",", "samples_"}], 
+    "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Returns", " ", "means", " ", "of", " ", "cluster_size"}], ",", 
+     " ", "perimeter_size", ",", " ", "colors", ",", " ", "exits_size", ",", 
+     " ", "robustness"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"args", ",", "command"}], "}"}], ",", "\[IndentingNewLine]", 
      RowBox[{
-      RowBox[{"{", 
-       RowBox[{"args", ",", "command"}], "}"}], ",", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{"args", "=", 
-        RowBox[{"StringJoin", " ", "@@", " ", 
-         RowBox[{"Riffle", "[", 
-          RowBox[{
-           RowBox[{"ToString", " ", "/@", " ", 
-            RowBox[{"{", 
-             RowBox[{"length", ",", "alpha", ",", "colors", ",", "samples"}], 
-             "}"}]}], ",", "\"\< \>\""}], "]"}]}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{"command", "=", 
-        RowBox[{"StringJoin", "[", 
+      RowBox[{"args", "=", 
+       RowBox[{"StringJoin", " ", "@@", " ", 
+        RowBox[{"Riffle", "[", 
          RowBox[{
-         "\"\<!./clusters \>\"", ",", "args", ",", "\"\< silent\>\""}], 
+          RowBox[{"ToString", " ", "/@", " ", 
+           RowBox[{"{", 
+            RowBox[{"length", ",", "alpha", ",", "colors", ",", "samples"}], 
+            "}"}]}], ",", "\"\< \>\""}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"command", "=", 
+       RowBox[{"StringJoin", "[", 
+        RowBox[{"\"\<!./clusters \>\"", ",", "args", ",", "\"\< silent\>\""}],
          "]"}]}], ";", "\[IndentingNewLine]", 
-       RowBox[{"Flatten", " ", "@", " ", 
-        RowBox[{"ReadList", "[", 
-         RowBox[{"command", ",", "Number", ",", 
-          RowBox[{"RecordLists", "\[Rule]", "True"}]}], "]"}]}]}]}], 
-     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]"}]}]], "Input",
+      RowBox[{"Flatten", " ", "@", " ", 
+       RowBox[{"ReadList", "[", 
+        RowBox[{"command", ",", "Number", ",", 
+         RowBox[{"RecordLists", "\[Rule]", "True"}]}], "]"}]}]}]}], "]"}]}], 
+  "\[IndentingNewLine]"}]], "Input",
  CellChangeTimes->{{3.5100581776685543`*^9, 3.5100582141203423`*^9}, {
-  3.510058387618038*^9, 3.510058431396817*^9}, {3.510058711545712*^9, 
-  3.5100587491341467`*^9}, {3.51005893117393*^9, 3.5100589656847563`*^9}, {
-  3.510059068538856*^9, 3.510059103472283*^9}, {3.5100591381029177`*^9, 
-  3.510059157391724*^9}, {3.51005933562284*^9, 3.510059457316463*^9}, {
-  3.510059709815835*^9, 3.510059733300704*^9}, {3.510059764134203*^9, 
-  3.5100597807960453`*^9}}],
+   3.510058387618038*^9, 3.510058431396817*^9}, {3.510058711545712*^9, 
+   3.5100587491341467`*^9}, {3.51005893117393*^9, 3.5100589656847563`*^9}, {
+   3.510059068538856*^9, 3.510059103472283*^9}, {3.5100591381029177`*^9, 
+   3.510059157391724*^9}, {3.51005933562284*^9, 3.510059457316463*^9}, {
+   3.510059709815835*^9, 3.510059733300704*^9}, {3.510059764134203*^9, 
+   3.5100597807960453`*^9}, 3.5100600879512568`*^9, {3.5100628258461742`*^9, 
+   3.510062831929981*^9}}],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"MeanClusterMeasures", "[", 
-  RowBox[{"10", ",", "2", ",", "4", ",", "2"}], "]"}]], "Input",
+  RowBox[{"10", ",", "2", ",", "4", ",", "100"}], "]"}]], "Input",
  CellChangeTimes->{{3.510059144078924*^9, 3.5100591519967747`*^9}, 
-   3.510059544205997*^9, 3.510059664314248*^9}],
+   3.510059544205997*^9, 3.510059664314248*^9, {3.5100601077513933`*^9, 
+   3.51006012131238*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"231", ",", "702.5`", ",", "3", ",", "1691", ",", "0.26741`"}], 
+  RowBox[{
+  "210.43`", ",", "632.34`", ",", "3", ",", "1535.74`", ",", "0.244798`"}], 
   "}"}]], "Output",
  CellChangeTimes->{{3.5100591523901463`*^9, 3.510059160410845*^9}, 
    3.5100593642487803`*^9, {3.510059428303925*^9, 3.51005945973771*^9}, 
    3.510059544775934*^9, {3.510059586157566*^9, 3.5100595888820953`*^9}, {
-   3.510059653032803*^9, 3.510059664647016*^9}}]
+   3.510059653032803*^9, 3.510059664647016*^9}, {3.510060098351884*^9, 
+   3.510060123520687*^9}}]
 }, Open  ]]
 },
 WindowSize->{740, 756},
-WindowMargins->{{Automatic, 62}, {40, Automatic}},
+WindowMargins->{{Automatic, 94}, {Automatic, 38}},
 ShowSelection->True,
 FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
@@ -122,16 +125,16 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 125, 2, 27, "Input"],
-Cell[707, 26, 90, 1, 27, "Output"]
+Cell[707, 26, 148, 2, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[834, 32, 176, 3, 27, "Input"],
-Cell[1013, 37, 128, 2, 27, "Output"]
+Cell[892, 33, 241, 4, 27, "Input"],
+Cell[1136, 39, 100, 1, 27, "Output"]
 }, Open  ]],
-Cell[1156, 42, 1915, 42, 133, "Input"],
+Cell[1251, 43, 1927, 41, 118, "Input"],
 Cell[CellGroupData[{
-Cell[3096, 88, 232, 4, 27, "Input"],
-Cell[3331, 94, 388, 7, 27, "Output"]
+Cell[3203, 88, 285, 5, 27, "Input"],
+Cell[3491, 95, 451, 9, 27, "Output"]
 }, Open  ]]
 }
 ]
