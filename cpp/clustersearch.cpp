@@ -363,22 +363,22 @@ int main(int argc, char *argv[])
       cout << mm << endl;
     
       cluster_measures results = calculate_measures_from_run(mm);
-      cout << "cluster_size = " << results.cluster_size << endl;
-      cout << "results.perimeter_size = " << results.perimeter_size << endl;
-      cout << "results.colors = " << results.colors << endl;
-      cout << "results.exits_size = " << results.exits_size << endl;
-      cout << "results.robustness = " << results.robustness << endl;
+      cout << "cluster_size		= " << results.cluster_size << endl;
+      cout << "results.perimeter_size	= " << results.perimeter_size << endl;
+      cout << "results.colors		= " << results.colors << endl;
+      cout << "results.exits_size	= " << results.exits_size << endl;
+      cout << "results.robustness	= " << results.robustness << endl;
     }
     else {
       cout << "\tsamples = " << samples << endl;
 
       mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
     
-      cout << "mean cluster_size = "		<< results.mean_cluster_size << endl;
-      cout << "mean results.perimeter_size = "	<< results.mean_perimeter_size << endl;
-      cout << "mean results.colors = "		<< results.mean_colors << endl;
-      cout << "mean results.exits_size = "	<< results.mean_exits_size << endl;
-      cout << "mean results.robustness = "	<< results.mean_robustness << endl;
+      cout << "mean cluster_size		= " << results.mean_cluster_size << endl;
+      cout << "mean results.perimeter_size	= " << results.mean_perimeter_size << endl;
+      cout << "mean results.colors		= " << results.mean_colors << endl;
+      cout << "mean results.exits_size		= " << results.mean_exits_size << endl;
+      cout << "mean results.robustness		= " << results.mean_robustness << endl;
     }
   }
 
