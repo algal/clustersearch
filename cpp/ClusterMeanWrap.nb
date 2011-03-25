@@ -1,0 +1,140 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      4332,        131]
+NotebookOptionsPosition[      3735,        104]
+NotebookOutlinePosition[      4112,        121]
+CellTagsIndexPosition[      4069,        118]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Directory", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.5100580100599413`*^9, 3.510058011914765*^9}}],
+
+Cell[BoxData["\<\"/Users/alexis\"\>"], "Output",
+ CellChangeTimes->{3.510058012321754*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", "\"\<workspace/clustersearch/cpp/build\>\"", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.510058020552155*^9, 3.5100580569971523`*^9}}],
+
+Cell[BoxData["\<\"/Users/alexis/workspace/clustersearch/cpp/build\"\>"], \
+"Output",
+ CellChangeTimes->{3.5100580573067217`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Returns", " ", "means", " ", "of", " ", "cluster_size"}], ",", 
+    " ", "perimeter_size", ",", " ", "colors", ",", " ", "exits_size", ",", 
+    " ", "robustness"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"MeanClusterMeasures", "[", 
+     RowBox[{"length_", ",", "alpha_", ",", "colors_", ",", "samples_"}], 
+     "]"}], ":=", "\[IndentingNewLine]", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"args", ",", "command"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"args", "=", 
+        RowBox[{"StringJoin", " ", "@@", " ", 
+         RowBox[{"Riffle", "[", 
+          RowBox[{
+           RowBox[{"ToString", " ", "/@", " ", 
+            RowBox[{"{", 
+             RowBox[{"length", ",", "alpha", ",", "colors", ",", "samples"}], 
+             "}"}]}], ",", "\"\< \>\""}], "]"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"command", "=", 
+        RowBox[{"StringJoin", "[", 
+         RowBox[{
+         "\"\<!./clusters \>\"", ",", "args", ",", "\"\< silent\>\""}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Flatten", " ", "@", " ", 
+        RowBox[{"ReadList", "[", 
+         RowBox[{"command", ",", "Number", ",", 
+          RowBox[{"RecordLists", "\[Rule]", "True"}]}], "]"}]}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.5100581776685543`*^9, 3.5100582141203423`*^9}, {
+  3.510058387618038*^9, 3.510058431396817*^9}, {3.510058711545712*^9, 
+  3.5100587491341467`*^9}, {3.51005893117393*^9, 3.5100589656847563`*^9}, {
+  3.510059068538856*^9, 3.510059103472283*^9}, {3.5100591381029177`*^9, 
+  3.510059157391724*^9}, {3.51005933562284*^9, 3.510059457316463*^9}, {
+  3.510059709815835*^9, 3.510059733300704*^9}, {3.510059764134203*^9, 
+  3.5100597807960453`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MeanClusterMeasures", "[", 
+  RowBox[{"10", ",", "2", ",", "4", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.510059144078924*^9, 3.5100591519967747`*^9}, 
+   3.510059544205997*^9, 3.510059664314248*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"231", ",", "702.5`", ",", "3", ",", "1691", ",", "0.26741`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.5100591523901463`*^9, 3.510059160410845*^9}, 
+   3.5100593642487803`*^9, {3.510059428303925*^9, 3.51005945973771*^9}, 
+   3.510059544775934*^9, {3.510059586157566*^9, 3.5100595888820953`*^9}, {
+   3.510059653032803*^9, 3.510059664647016*^9}}]
+}, Open  ]]
+},
+WindowSize->{740, 756},
+WindowMargins->{{Automatic, 62}, {40, Automatic}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
+2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 125, 2, 27, "Input"],
+Cell[707, 26, 90, 1, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[834, 32, 176, 3, 27, "Input"],
+Cell[1013, 37, 128, 2, 27, "Output"]
+}, Open  ]],
+Cell[1156, 42, 1915, 42, 133, "Input"],
+Cell[CellGroupData[{
+Cell[3096, 88, 232, 4, 27, "Input"],
+Cell[3331, 94, 388, 7, 27, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
