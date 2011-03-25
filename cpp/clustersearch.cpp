@@ -311,15 +311,16 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
 
 string usage() {
   return 
-    "Usage: clusters LENGTH ALPHABETSIZE COLORS [SAMPLES] \n"
-    "Prints measures from one search with given parameters, or else means over sample searches"
+    "Usage: clusters LENGTH ALPHABETSIZE COLORS [[SAMPLES] SILENT]\n"
+    "Prints measures from one search with given parameters, or else means over samples searches"
     "\n"
     "\n"
     "Arguments: \n"
     " length        length of genotype strings \n"
     " alphabetsize  possible symbols in position of a genotype string \n"
     " colors        number of possible 'phenotype' colors \n"
-    " samples       number of searches to perform \n";
+    " samples       number of searches to perform \n"
+    " silent        only print out numbers \n";
 }
 
 int main(int argc, char *argv[])
@@ -331,10 +332,14 @@ int main(int argc, char *argv[])
 
   unsigned int samples =0;
 
+  bool silent = false;
   seed = 0;
   
-  if(argc==4 || argc==5) {
-    if(argc == 5)
+  if(argc==4 || argc==5 || argc==6) {
+    if(argc ==6)
+      silent = true;
+
+    if(argc == 5 || argc == 6)
       samples           = std::atoi(argv[4]);
     
     length		= std::atoi(argv[1]);
@@ -351,10 +356,13 @@ int main(int argc, char *argv[])
 
   const bool NORMAL_EXECUTION = true;
   if(NORMAL_EXECUTION) {
-    cout << "searching with:" << endl;
-    cout << "\tlength = " << length << endl;
-    cout << "\talphabetsize = " << alphabetsize << endl;
-    cout << "\tnumOfColors = " << numOfColors << endl;
+
+    if(!silent) {
+      cout << "searching with:" << endl;
+      cout << "\tlength = " << length << endl;
+      cout << "\talphabetsize = " << alphabetsize << endl;
+      cout << "\tnumOfColors = " << numOfColors << endl;
+    }
 
     // display one search
     if (samples == 0) {
@@ -370,15 +378,25 @@ int main(int argc, char *argv[])
       cout << "results.robustness	= " << results.robustness << endl;
     }
     else {
-      cout << "\tsamples = " << samples << endl;
+      if(!silent)
+	cout << "\tsamples = " << samples << endl;
 
       mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
     
-      cout << "mean cluster_size		= " << results.mean_cluster_size << endl;
-      cout << "mean results.perimeter_size	= " << results.mean_perimeter_size << endl;
-      cout << "mean results.colors		= " << results.mean_colors << endl;
-      cout << "mean results.exits_size		= " << results.mean_exits_size << endl;
-      cout << "mean results.robustness		= " << results.mean_robustness << endl;
+      if(!silent) {
+	cout << "mean cluster_size		= " << results.mean_cluster_size << endl;
+	cout << "mean results.perimeter_size	= " << results.mean_perimeter_size << endl;
+	cout << "mean results.colors		= " << results.mean_colors << endl;
+	cout << "mean results.exits_size		= " << results.mean_exits_size << endl;
+	cout << "mean results.robustness		= " << results.mean_robustness << endl;
+      }
+      else {
+	cout << results.mean_cluster_size << endl;
+	cout << results.mean_perimeter_size << endl;
+	cout << results.mean_colors << endl;
+	cout << results.mean_exits_size << endl;
+	cout << results.mean_robustness << endl;
+      }
     }
   }
 
