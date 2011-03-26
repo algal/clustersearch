@@ -37,12 +37,17 @@ typedef string geno;
 typedef unsigned int pheno;
 
 // don't touch these globals, which define how all functions work
-const pheno CLUSTER_COLOR = 0;
 unsigned int numOfColors = 3;
-string alphabet = "ABC"; // must be in lexicographical order
+pheno CLUSTER_COLOR = 0;
+
 size_t alphabet_size = 3;
+string alphabet = "ABC"; // must be in lexicographical order
+
 unsigned int length=0;
-double gray_fraction=-1;
+
+const double GRAY_UNUSED=0.0;
+double gray_fraction=GRAY_UNUSED;
+vector<double> cdf;
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int new_alpha_size) {
@@ -58,6 +63,8 @@ void initialize_alphabet_size(unsigned int new_alpha_size) {
 /** Initialize the number of possible phenotypes */
 void initialize_numOfColors(const unsigned int num) { 
   ::numOfColors = num; 
+  // define: CLUSTER_COLOR=last in the list
+  CLUSTER_COLOR = ::numOfColors-1;
 }
 
 /** creates string with all chars equal, implicitly defining length of
@@ -66,16 +73,34 @@ void initialize_length(size_t length) {
   ::length = length;
 }
 
-// initialize gray_fraction
+/** initialize gray_fraction
+    
+    @param g if g=0, then gray is not used as a color, and all colors
+    are equally likely. If 0<g<1, then g is probability of a random
+    point being gray, and all other colors are equally likely (i.e.,
+    (1-g)/(numOfColors-1).
+
+ */
 void initialize_gray_fraction(const double g) {
   ::gray_fraction = g;
-  // FIXME: construct ::cdf here.
-}
 
-/** creates string with all chars equal, implicitly defining length of
-    all string in the genotype space */
-string createRootString() { 
-  return string(::length, alphabet[0]); 
+  if( ::gray_fraction == GRAY_UNUSED)
+    return;
+
+  // define: first color is gray
+  // pdf[0] = gray_fraction
+  // pdf[i] = (1-g)/(1-numOfCOlors) , when i!=0
+  vector<double> pdf(numOfColors, ((1-::gray_fraction) / (::numOfColors-1)) );
+  pdf[0] = ::gray_fraction;
+
+  vector<double> cdf;
+  cdf.reserve(pdf.size());
+  double running_sum = 0;
+  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
+    running_sum += *it;
+    cdf.push_back(running_sum);
+  }
+  ::cdf = cdf;
 }
 
 /**
@@ -101,38 +126,33 @@ vector<string> mut(const string g) {
 }
 
 
-pheno randomChoice() {
-  vector<double> cdf;
-  // FIXME: implement random phenotype with specified colors
-  return rand() % numOfColors;
-}
+/** Generates random phenotype.
 
-/* generates random phenotype.
+    If g == GRAY_UNUSED, then all phenotypes are uniformly distributed. 
 
-   this pheno is picked uniformly from the set
-   {0,1,..,(numOfColors-1)} in the default, when ::gray_fraction=-1.0
-
-   Otherwise, this phenotype is picked at random assuming the 
-   probability mass function such that:
-
-   P( color_gray ) = gray_fraction
-   P( color_i )    = ((1-gray_fraction)/(numOfColors-1))
+    Otherwise, then the "gray" phenotype has probability g, and all
+    the others are uniformly distributed.
 */
 inline
 pheno colorOf(const geno & g) {
-  if( ::gray_fraction == -1 )
-    return rand() % numOfColors;
-  else
-    return randomChoice();
+  if( ::gray_fraction == GRAY_UNUSED )
+    return rand() % ::numOfColors;
+  else {
+    const double real = (double)rand() / (RAND_MAX + 1);
+    for(unsigned int i = 0; i < ::numOfColors; ++i) {
+      if( real < ::cdf[i] )
+	return i;
+    }
+  }
+  // assert(ERROR)
+  return ::numOfColors-1;
 }
-
 
 
 /* s1 - keys(m)
    
    @param[in] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
-
 */
 template <class T, class TVal>
 vector<T> set_difference(const vector<T> & s1, 
@@ -227,7 +247,7 @@ unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int al
   initialize_numOfColors(numOfColors);
   initialize_length(length);
 
-  const geno origin = createRootString();
+  const geno origin = string(::length, alphabet[0]);
   return search(origin);
 }
 
