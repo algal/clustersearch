@@ -166,8 +166,7 @@ pheno colorOf(const geno & g) {
    @param[in] m an unordered_map with keys of T
 */
 template <class T, class TVal>
-vector<T> set_difference(const vector<T> & s1, 
-			 const unordered_map<T,TVal> & m) {
+vector<T> set_difference(const vector<T> & s1, const unordered_map<T,TVal> & m) {
   vector<T> result;
   for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
     if (m.find(*it_add) == m.end() ) {
@@ -177,15 +176,14 @@ vector<T> set_difference(const vector<T> & s1,
   return result;
 }
 
+
 /* intersection of s1 and keys(m)
    
    @param[in] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
-
 */
 template <class T, class TVal>
-vector<T> set_intersection(const vector<T> & s1,
-			   const unordered_map<T,TVal> & m) {
+vector<T> set_intersection(const vector<T> & s1, const unordered_map<T,TVal> & m) {
   vector<T> result;
   for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
     if (m.find(*it_add) != m.end() ) {
@@ -194,6 +192,7 @@ vector<T> set_intersection(const vector<T> & s1,
   }
   return result;
 }
+
 
 /**
    Searches breadth-first from ROOT, recording the color of every node
