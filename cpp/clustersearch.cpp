@@ -14,6 +14,10 @@
 #include "boost/accumulators/statistics/mean.hpp"
 #include "boost/accumulators/statistics/moment.hpp"
 
+
+#include "boost/program_options.hpp"
+
+
 #include "printable.hpp"
 
 //#define DEBUG
@@ -381,6 +385,40 @@ string usage() {
 
 int main(int argc, char *argv[])
 {
+  namespace po = boost::program_options;
+
+  {
+    unsigned int alphabetsize;
+    unsigned int length;
+    unsigned int numOfColors;
+    double gray;
+    unsigned int samples;
+    unsigned int seed;
+    unsigned int verbosity;
+
+    // Declare the supported options.
+    po::options_description desc("Allowed options");
+    desc.add_options()
+      ("help", "produce help message")
+      ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "set alphabet size")
+      ("length",  po::value<unsigned int>(&length)	->default_value(8), "set string length")
+      ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "set number of colors")
+      ("gray",    po::value<double      >(&gray)	->default_value(0.0), "set probability a string is gray")
+      ("samples", po::value<unsigned int>(&samples)	->default_value(1), "set samples")
+      ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "set pseudorandom seed")
+      ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "set verbosity")
+      ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);    
+
+    if (vm.count("help")) {
+      cout << desc << "\n";
+      return 1;
+    }
+  }
+
   unsigned int seed;
   unsigned int length;
   unsigned int alphabetsize;
