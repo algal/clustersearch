@@ -90,7 +90,7 @@ void initialize_gray_fraction(const double g) {
   // define: first color is gray
   // pdf[0] = gray_fraction
   // pdf[i] = (1-g)/(1-numOfCOlors) , when i!=0
-  vector<double> pdf(numOfColors, ((1-::gray_fraction) / (::numOfColors-1)) );
+  vector<double> pdf(::numOfColors, ((1-::gray_fraction) / (::numOfColors-1)) );
   pdf[0] = ::gray_fraction;
 
   vector<double> cdf;
