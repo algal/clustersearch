@@ -404,7 +404,11 @@ int main(int argc, char *argv[])
       ("length",  po::value<unsigned int>(&length)	->default_value(8), "set string length")
       ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "set number of colors")
       ("gray",    po::value<double      >(&gray)	->default_value(0.0), "set probability a string is gray")
+      // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
+      // that is, if gray=0.0, then it does not contribtue to number of colors
       ("samples", po::value<unsigned int>(&samples)	->default_value(1), "set samples")
+      // samples=1 does one search and gives its stats
+      // samples>1 returns the means of the stats
       ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "set pseudorandom seed")
       ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "set verbosity")
       ;
