@@ -19,8 +19,8 @@
    Chosen based on specified cumulative distribution."
   (let ((r (random-real)))
     (loop for bucket-max in cdf
-	  for chosen from 0
-	  thereis (when (< r bucket-max) chosen))))
+          for chosen from 0
+          thereis (when (< r bucket-max) chosen))))
 
 (defun random-with-pdf (pdf)
   (random-with-cdf (cdf<-pdf pdf)))
