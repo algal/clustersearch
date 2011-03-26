@@ -153,7 +153,7 @@ pheno colorOf(const geno & g) {
   if( configs::gray_fraction == configs::GRAY_UNUSED )
     return rand() % configs::numOfColors;
   else {
-    const double real = (double)rand() / (RAND_MAX + 1);
+    const double real = ((double)rand()) / ((double) (RAND_MAX + 1)); // FIXME?
     for(unsigned int i = 0; i < configs::numOfColors; ++i) {
       if( real < configs::cdf[i] )
 	return i;
