@@ -36,18 +36,21 @@ using std::tr1::unordered_set;
 typedef string geno;
 typedef unsigned int pheno;
 
-// don't touch these globals, which define how all functions work
-unsigned int numOfColors = 3;
-pheno CLUSTER_COLOR = 0;
+namespace configs {
+  // don't touch these globals, which define how all functions work
+  unsigned int numOfColors = 3;
+  pheno CLUSTER_COLOR = 0;
+  
+  size_t alphabet_size = 3;
+  string alphabet = "ABC"; // must be in lexicographical order
+  
+  unsigned int length=0;
+  
+  const double GRAY_UNUSED=0.0;
+  double gray_fraction=GRAY_UNUSED;
+  vector<double> cdf;
+}
 
-size_t alphabet_size = 3;
-string alphabet = "ABC"; // must be in lexicographical order
-
-unsigned int length=0;
-
-const double GRAY_UNUSED=0.0;
-double gray_fraction=GRAY_UNUSED;
-vector<double> cdf;
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int new_alpha_size) {
@@ -56,21 +59,21 @@ void initialize_alphabet_size(unsigned int new_alpha_size) {
     std::cerr << "ERROR: maximum alphabet size is 52. defaulting to 52" << endl;
     new_alpha_size = 52;
   }
-  ::alphabet = max_alphabet.substr(0,new_alpha_size);
-  ::alphabet_size = ::alphabet.size();
-}
-
-/** Initialize the number of possible phenotypes */
-void initialize_numOfColors(const unsigned int num) { 
-  ::numOfColors = num; 
-  // define: CLUSTER_COLOR=last in the list
-  CLUSTER_COLOR = ::numOfColors-1;
+  configs::alphabet = max_alphabet.substr(0,new_alpha_size);
+  configs::alphabet_size = configs::alphabet.size();
 }
 
 /** creates string with all chars equal, implicitly defining length of
     all string in the genotype space */
 void initialize_length(size_t length) { 
-  ::length = length;
+  configs::length = length;
+}
+
+/** Initialize the number of possible phenotypes */
+void initialize_numOfColors(const unsigned int num) { 
+  configs::numOfColors = num; 
+  // define: CLUSTER_COLOR=last in the list
+  configs::CLUSTER_COLOR = configs::numOfColors-1;
 }
 
 /** initialize gray_fraction
@@ -79,19 +82,18 @@ void initialize_length(size_t length) {
     are equally likely. If 0<g<1, then g is probability of a random
     point being gray, and all other colors are equally likely (i.e.,
     (1-g)/(numOfColors-1).
-
  */
 void initialize_gray_fraction(const double g) {
-  ::gray_fraction = g;
+  configs::gray_fraction = g;
 
-  if( ::gray_fraction == GRAY_UNUSED)
+  if( configs::gray_fraction == configs::GRAY_UNUSED)
     return;
 
   // define: first color is gray
   // pdf[0] = gray_fraction
   // pdf[i] = (1-g)/(1-numOfCOlors) , when i!=0
-  vector<double> pdf(::numOfColors, ((1-::gray_fraction) / (::numOfColors-1)) );
-  pdf[0] = ::gray_fraction;
+  vector<double> pdf(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
+  pdf[0] = configs::gray_fraction;
 
   vector<double> cdf;
   cdf.reserve(pdf.size());
@@ -100,22 +102,31 @@ void initialize_gray_fraction(const double g) {
     running_sum += *it;
     cdf.push_back(running_sum);
   }
-  ::cdf = cdf;
+  configs::cdf = cdf;
 }
 
-/**
-   Returns mutants
-*/
+void initialize(const unsigned int alphabetsize, 
+		const unsigned int length, 
+		const unsigned int numOfColors,
+		const double gray_fraction=0.0) {
+  initialize_alphabet_size(alphabetsize);
+  initialize_numOfColors(numOfColors);
+  initialize_length(length);
+  initialize_gray_fraction(gray_fraction);
+}
+
+//   Returns mutants
 vector<string> mut(const string g) { 
   vector<string> result;
-  result.reserve((::alphabet_size -1) * ::length );
-  for(int pos = ::length - 1; pos != -1; --pos) { 
+  result.reserve((configs::alphabet_size -1) * configs::length );
+  for(int pos = configs::length - 1; pos != -1; --pos) { 
     string::iterator alphabet_end;
-    for(string::iterator alternative = alphabet.begin(), alphabet_end = alphabet.end();
+    for(string::iterator alternative = configs::alphabet.begin(), 
+	  alphabet_end = configs::alphabet.end();
 	alternative != alphabet_end; ++alternative) {
       if (*alternative != g[pos]) {
 	string mutant(g);
-	mutant.reserve(::length); // may improve perf
+	mutant.reserve(configs::length); // may improve perf
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
 	TRACE(	cout << "generated mutant " << mutant << endl);
@@ -135,17 +146,17 @@ vector<string> mut(const string g) {
 */
 inline
 pheno colorOf(const geno & g) {
-  if( ::gray_fraction == GRAY_UNUSED )
-    return rand() % ::numOfColors;
+  if( configs::gray_fraction == configs::GRAY_UNUSED )
+    return rand() % configs::numOfColors;
   else {
     const double real = (double)rand() / (RAND_MAX + 1);
-    for(unsigned int i = 0; i < ::numOfColors; ++i) {
-      if( real < ::cdf[i] )
+    for(unsigned int i = 0; i < configs::numOfColors; ++i) {
+      if( real < configs::cdf[i] )
 	return i;
     }
   }
   // assert(ERROR)
-  return ::numOfColors-1;
+  return configs::numOfColors-1;
 }
 
 
@@ -195,7 +206,7 @@ vector<T> set_intersection(const vector<T> & s1,
 */
 unordered_map<geno,pheno> search(const geno& root) {
   unordered_map<geno,pheno> observed;
-  observed[root]=CLUSTER_COLOR;
+  observed[root]=configs::CLUSTER_COLOR;
 
   list<geno> to_traverse;
   to_traverse.push_back(root);
@@ -215,7 +226,7 @@ unordered_map<geno,pheno> search(const geno& root) {
       for(vector<geno>::iterator g = new_neighbors.begin(); 
 	  g != new_neighbors.end(); ++g) {
 	// "discover" the colors and record the visit
-	if ((observed[*g] = colorOf(*g)) == CLUSTER_COLOR) {
+	if ((observed[*g] = colorOf(*g)) == configs::CLUSTER_COLOR) {
 	  // and  plan to visit only the special ones later
 	  to_traverse.push_back(*g);
 	}
@@ -243,11 +254,9 @@ unordered_map<geno,pheno> search(const geno& root) {
 
 */
 unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  initialize_alphabet_size(alphabetsize);
-  initialize_numOfColors(numOfColors);
-  initialize_length(length);
+  initialize(alphabetsize,length,numOfColors,0.0);
 
-  const geno origin = string(::length, alphabet[0]);
+  const geno origin = string(configs::length, configs::alphabet[0]);
   return search(origin);
 }
 
@@ -283,7 +292,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
     const pheno p = it->second;
     TRACE(cout << "searching g=" << g << endl);
     // .. in the perimeter ...
-    if(p != CLUSTER_COLOR) {
+    if(p != configs::CLUSTER_COLOR) {
       TRACE(cout << "\twhich is in the perimeter" << endl);
       // ... tally it, track its pheno
       ++perimeter_size;
@@ -292,7 +301,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
       vector<geno> mutants( set_intersection( mut(g),m) );
       TRACE(cout << "\tcalculated its (observed) mutants: " << mutants << endl);
       for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
-	if(m.find(*it_mut)->second == CLUSTER_COLOR) {
+	if(m.find(*it_mut)->second == configs::CLUSTER_COLOR) {
 	  ++exits_size;
 	}
       }
@@ -303,7 +312,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   results.cluster_size = m.size() - results.perimeter_size;
   results.colors = perimeter_colors.size();
   results.exits_size = exits_size;
-  const double sl  = (results.cluster_size * ::length);
+  const double sl  = (results.cluster_size * configs::length);
   results.robustness = double(sl - exits_size) / sl;
   return results;
 }
