@@ -42,6 +42,7 @@ unsigned int numOfColors = 3;
 string alphabet = "ABC"; // must be in lexicographical order
 size_t alphabet_size = 3;
 unsigned int length=0;
+double gray_fraction=-1;
 
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int new_alpha_size) {
@@ -63,6 +64,12 @@ void initialize_numOfColors(const unsigned int num) {
     all string in the genotype space */
 void initialize_length(size_t length) { 
   ::length = length;
+}
+
+// initialize gray_fraction
+void initialize_gray_fraction(const double g) {
+  ::gray_fraction = g;
+  // FIXME: construct ::cdf here.
 }
 
 /** creates string with all chars equal, implicitly defining length of
@@ -94,11 +101,32 @@ vector<string> mut(const string g) {
 }
 
 
-/* generates random int phenotype */
-inline
-pheno colorOf(const geno & g) {
+pheno randomChoice() {
+  vector<double> cdf;
+  // FIXME: implement random phenotype with specified colors
   return rand() % numOfColors;
 }
+
+/* generates random phenotype.
+
+   this pheno is picked uniformly from the set
+   {0,1,..,(numOfColors-1)} in the default, when ::gray_fraction=-1.0
+
+   Otherwise, this phenotype is picked at random assuming the 
+   probability mass function such that:
+
+   P( color_gray ) = gray_fraction
+   P( color_i )    = ((1-gray_fraction)/(numOfColors-1))
+*/
+inline
+pheno colorOf(const geno & g) {
+  if( ::gray_fraction == -1 )
+    return rand() % numOfColors;
+  else
+    return randomChoice();
+}
+
+
 
 /* s1 - keys(m)
    
@@ -399,7 +427,6 @@ int main(int argc, char *argv[])
       }
     }
   }
-
   
   // benchmark 10 random searches
   if (false) {
