@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 2.8.1)
 
+#cmake search paths
+# macports
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /opt/local/lib)
+set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} /opt/local/include)
+message("CMAKE_LIBRARY_PATH=${CMAKE_LIBRARY_PATH}")
+message("CMAKE_INCLUDE_PATH=${CMAKE_INCLUDE_PATH}")
+
 #### compiler toolchain
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -19,16 +26,24 @@ project(CLUSTERSEARCH)
 #set(CMAKE_BUILD_TYPE Release) # generic optimization
 set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 
-#### external libraries
+#### external libraries to use
 
 find_package(Boost 1.41.0 REQUIRED)
-# message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
-# message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
+message("Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
+message("Boost_INCLUDE_DIR=${Boost_INCLUDE_DIR}")
 
-# executables
+find_library(BOOST_PROGRAM_OPTIONS_LIBRARY NAMES libboost_program_options.dylib)
+message("BOOST_PROGRAM_OPTIONS_LIBRARY=${BOOST_PROGRAM_OPTIONS_LIBRARY}")
+
 include_directories(${Boost_INCLUDE_DIR})
+
+# libraries to build
 add_library(clustersearch SHARED clustersearch.cpp)
+target_link_libraries(clustersearch ${BOOST_PROGRAM_OPTIONS_LIBRARY})
+
+# executables to build
 add_executable(clusters clustersearch.cpp printable.hpp)
+target_link_libraries(clusters ${BOOST_PROGRAM_OPTIONS_LIBRARY})
 
 #####
 ##### Instructions

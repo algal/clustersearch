@@ -421,6 +421,7 @@ int main(int argc, char *argv[])
       cout << desc << "\n";
       return 1;
     }
+    return 0;
   }
 
   unsigned int seed;
