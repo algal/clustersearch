@@ -10,14 +10,18 @@ if(TRUE) # macports
 endif()
 
 #### compiler toolchain
-set(CMAKE_C_COMPILER "/usr/bin/clang")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+set(compiler "sys-clang")
 
-#set(CMAKE_C_COMPILER "/sw/bin/gcc-fsf-4.5")
-#set(CMAKE_CXX_COMPILER "/sw/bin/c++-fsf-4.5")
-
-#set(CMAKE_C_COMPILER "gcc")
-#set(CMAKE_CXX_COMPILER "g++")
+if(compiler STREQUAL "sys-clang")
+  set(CMAKE_C_COMPILER "/usr/bin/clang")
+  set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+elseif(compiler STREQUAL "sys-gcc")
+  set(CMAKE_C_COMPILER "gcc")
+  set(CMAKE_CXX_COMPILER "g++")
+elseif(compiler STREQUAL "fink-gcc")
+  set(CMAKE_C_COMPILER "/sw/bin/gcc-fsf-4.5")
+  set(CMAKE_CXX_COMPILER "/sw/bin/c++-fsf-4.5")
+endif()
 
 #### system description
 
