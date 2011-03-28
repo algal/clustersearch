@@ -83,10 +83,9 @@ void initialize_numOfColors(const unsigned int num) {
 /** initialize gray_fraction
     
     @param g if g=0, then gray is not used as a color, and all colors
-    are equally likely. If 0<g<1, then g is probability of a random
-    point being gray, and all other colors are equally likely (i.e.,
-    (1-g)/(numOfColors-1).
-*/
+    are uniformly distributed. If 0<g<1, then g is probability of a
+    random point being gray, and all other colors are equally likely
+    (i.e., they have probability (1-g)/(numOfColors-1). */
 void initialize_gray_fraction(const double g) {
   configs::gray_fraction = g;
 
@@ -99,12 +98,13 @@ void initialize_gray_fraction(const double g) {
   vector<double> pdf(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
   pdf[0] = configs::gray_fraction;
 
+  // define cdf, scaled [0,RAND_MAX)
   vector<double> cdf;
   cdf.reserve(pdf.size());
   double running_sum = 0;
   for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
     running_sum += *it;
-    cdf.push_back(running_sum);
+    cdf.push_back(running_sum * RAND_MAX);
   }
   configs::cdf = cdf;
   TRACE(cout << "Initialized configs::cdf to: " << configs::cdf << endl);
@@ -155,10 +155,10 @@ pheno colorOf(const geno & g) {
   if( configs::gray_fraction == configs::GRAY_UNUSED )
     return rand() % configs::numOfColors;
   else {
-    const double real = ((double)rand()) / ((double) RAND_MAX);
-    TRACE(cout << "colorOf: generated real=" << real << endl);
+    const unsigned int r = rand();
+    TRACE(cout << "colorOf: generated rand r=" << r << endl);
     for(unsigned int i = 0; i < configs::numOfColors; ++i) {
-      if( real < configs::cdf[i] )
+      if( r < configs::cdf[i] )
 	return i;
     }
   }
