@@ -20,7 +20,7 @@ _reseed.argtypes = [ c_uint ]
 
 # load function calculate_measures
 _calculate_measures = libclustersearch.calculate_measures
-_calculate_measures.argtypes = [ c_uint, c_uint, c_uint]
+_calculate_measures.argtypes = [ c_uint, c_uint, c_uint, c_double ]
 
 # define result struct for calculate_measure
 from ctypes import Structure
@@ -50,14 +50,14 @@ def reseed(seed):
     """
     _reseed(seed)
 
-def calculate_measures_as_tuple(length,alphabetsize,colors):
+def calculate_measures_as_tuple(alphabetsize,length,colors,gray=0.0):
     "Returns tuple of basic measures from a single cluster search"
-    x = _calculate_measures(length,alphabetsize,colors)
+    x = _calculate_measures(length,alphabetsize,colors,gray)
     return (x.cluster_size ,x.perimeter_size ,x.colors ,x.exits_size, x.robustness)
 
-def calculate_measures(length,alphabetsize,colors):
+def calculate_measures(alphabetsize,length,colors,gray=0.0):
     "Returns dict of basic measures from a single cluster search"
     measurenames = ["cluster_size", "perimeter_size", "colors", "exits_size", "robustness"]
-    t = calculate_measures_as_tuple(length,alphabetsize,colors)
+    t = calculate_measures_as_tuple(alphabetsize,length,colors,gray)
     d = dict(zip(measurenames,t))
     return d
