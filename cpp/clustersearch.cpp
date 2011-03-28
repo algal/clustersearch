@@ -327,7 +327,10 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 }
 
 extern "C"
-cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors,const double gray) {
+cluster_measures calculate_measures(const unsigned int length, 
+				    const unsigned int alphabetsize, 
+				    const unsigned int numOfColors,
+				    const double gray) {
   return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors,gray));
 }
 
