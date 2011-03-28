@@ -411,8 +411,8 @@ int main(int argc, char *argv[])
     ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of searches to perform")
     // samples=1 does one search and gives its stats
     // samples>1 returns the means of the stats
-    ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed")
-    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity")
+    ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed (non-negative integer)")
+    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity (0, 1, or 2)")
     ;
 
   po::variables_map vm;
@@ -425,7 +425,7 @@ int main(int argc, char *argv[])
 	 << endl << desc << endl
 	 << endl 
 	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
-	 << "ALPHABETSIZE symbols, where each string is randomly assigned one of" << endl
+	 << "ALPHA symbols, where each string is randomly assigned one of" << endl
 	 << "COLORS possible colors." << endl
 	 << endl
 	 << "By default colors are dstributed uniformly; but if GRAY is non-zero," << endl
