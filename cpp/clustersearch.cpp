@@ -400,17 +400,17 @@ int main(int argc, char *argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
       ("help", "produce help message")
-      ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "set alphabet size")
-      ("length",  po::value<unsigned int>(&length)	->default_value(8), "set string length")
-      ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "set number of colors")
-      ("gray",    po::value<double      >(&gray)	->default_value(0.0), "set probability a string is gray")
+      ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
+      ("length",  po::value<unsigned int>(&length)	->default_value(8), "string length")
+      ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "number of colors")
+      ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is gray")
       // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
       // that is, if gray=0.0, then it does not contribtue to number of colors
-      ("samples", po::value<unsigned int>(&samples)	->default_value(1), "set samples")
+      ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of samples")
       // samples=1 does one search and gives its stats
       // samples>1 returns the means of the stats
-      ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "set pseudorandom seed")
-      ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "set verbosity")
+      ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed")
+      ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity")
       ;
 
     po::variables_map vm;
@@ -418,7 +418,10 @@ int main(int argc, char *argv[])
     po::notify(vm);    
 
     if (vm.count("help")) {
-      cout << desc << "\n";
+      cout << "Usage: clusters" << endl
+	   << "Prints cluster measures from a search over a random graph" << endl
+	   << endl 
+	   << desc << "\n";
       return 1;
     }
     return 0;
