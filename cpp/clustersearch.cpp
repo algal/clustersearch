@@ -86,7 +86,7 @@ void initialize_numOfColors(const unsigned int num) {
     are equally likely. If 0<g<1, then g is probability of a random
     point being gray, and all other colors are equally likely (i.e.,
     (1-g)/(numOfColors-1).
- */
+*/
 void initialize_gray_fraction(const double g) {
   configs::gray_fraction = g;
 
@@ -387,45 +387,45 @@ int main(int argc, char *argv[])
 {
   namespace po = boost::program_options;
 
-    unsigned int alphabetsize;
-    unsigned int length;
-    unsigned int numOfColors;
-    double gray;
-    unsigned int samples;
-    unsigned int seed;
-    unsigned int verbosity;
-    const unsigned int VERBOSITY_NONE = 0;
-    const unsigned int VERBOSITY_LOW = 1;
-    const unsigned int VERBOSITY_HIGH = 2;
+  unsigned int alphabetsize;
+  unsigned int length;
+  unsigned int numOfColors;
+  double gray;
+  unsigned int samples;
+  unsigned int seed;
+  unsigned int verbosity;
+  const unsigned int VERBOSITY_NONE = 0;
+  const unsigned int VERBOSITY_LOW = 1;
+  const unsigned int VERBOSITY_HIGH = 2;
 
-    // Declare the supported options.
-    po::options_description desc("Allowed options");
-    desc.add_options()
-      ("help", "produce help message")
-      ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
-      ("length",  po::value<unsigned int>(&length)	->default_value(8), "string length")
-      ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "number of colors")
-      ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is gray")
-      // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
-      // that is, if gray=0.0, then it does not contribtue to number of colors
-      ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of samples")
-      // samples=1 does one search and gives its stats
-      // samples>1 returns the means of the stats
-      ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed")
-      ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity")
-      ;
+  // Declare the supported options.
+  po::options_description desc("Allowed options");
+  desc.add_options()
+    ("help", "produce help message")
+    ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
+    ("length",  po::value<unsigned int>(&length)	->default_value(8), "string length")
+    ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "number of colors")
+    ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is gray")
+    // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
+    // that is, if gray=0.0, then it does not contribtue to number of colors
+    ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of samples")
+    // samples=1 does one search and gives its stats
+    // samples>1 returns the means of the stats
+    ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed")
+    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity")
+    ;
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);    
+  po::variables_map vm;
+  po::store(po::parse_command_line(argc, argv, desc), vm);
+  po::notify(vm);    
 
-    if (vm.count("help")) {
-      cout << "Usage: clusters" << endl
-	   << "Prints cluster measures from a search over a random graph" << endl
-	   << endl 
-	   << desc << "\n";
-      return 1;
-    }
+  if (vm.count("help")) {
+    cout << "Usage: clusters" << endl
+	 << "Prints cluster measures from a search over a random graph" << endl
+	 << endl 
+	 << desc << "\n";
+    return 1;
+  }
 
 
   //  srand(time(NULL)); // seed the random number generator
@@ -495,27 +495,28 @@ int main(int argc, char *argv[])
       }
     }
   }
-  
-  // benchmark 10 random searches
-  if (false) {
-    for(int i =0; i < 10; ++i) {
-      doRun(4,4,5);
+  else {
+    // benchmark 10 random searches
+    if (false) {
+      for(int i =0; i < 10; ++i) {
+	doRun(4,4,5);
+      }
     }
-  }
 
-  // check 2nd call of random
-  if (false) {
-    for(int i =0; i < 3; ++i) {
-      std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
-      std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
-      if( result1 != result2) 
-	cout << "doRun() identical on 1st call after re-seeding" << endl;
-      else
-	cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+    // check 2nd call of random
+    if (false) {
+      for(int i =0; i < 3; ++i) {
+	std::srand(seed); // seed the random number generator
+	(void) doRun(10,4,5);
+	const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+	std::srand(seed); // seed the random number generator
+	(void) doRun(10,4,5);
+	const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+	if( result1 != result2) 
+	  cout << "doRun() identical on 1st call after re-seeding" << endl;
+	else
+	  cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+      }
     }
   }
 
