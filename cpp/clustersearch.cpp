@@ -327,8 +327,8 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 }
 
 extern "C"
-cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors));
+cluster_measures calculate_measures(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors,const double gray) {
+  return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors,gray));
 }
 
 extern "C"
@@ -344,7 +344,8 @@ struct mean_cluster_measures {
 mean_cluster_measures calculate_statistics(const unsigned int length, 
 					   const unsigned int alphabetsize, 
 					   const unsigned int numOfColors,
-					   const unsigned int samples) {
+					   const unsigned int samples,
+					   const double gray) {
   using namespace boost::accumulators;
 
   accumulator_set<unsigned int, stats<tag::mean> > cluster_size_acc;
@@ -355,7 +356,7 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   
   cluster_measures r;
   for(unsigned int i = 0; i < samples; ++i ) {
-    r = calculate_measures(length,alphabetsize,numOfColors);
+    r = calculate_measures(length,alphabetsize,numOfColors,gray);
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
@@ -492,7 +493,7 @@ int main(int argc, char *argv[])
       if(verbosity > VERBOSITY_NONE)
 	cout << endl << "Calculating statistics over " << samples << " searches." << endl;
 
-      mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
+      mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples,gray);
     
       if( verbosity > VERBOSITY_NONE ) {
 	cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
