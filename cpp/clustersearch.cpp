@@ -450,8 +450,6 @@ int main(int argc, char *argv[])
 
   const bool NORMAL_EXECUTION = true;
   if(NORMAL_EXECUTION) {
-    cout << "verbosity = " << verbosity << endl;
-
     if(verbosity > VERBOSITY_NONE) {
       cout << "searching with:" << endl;
       cout << "\talphabetsize = " << alphabetsize << endl;
