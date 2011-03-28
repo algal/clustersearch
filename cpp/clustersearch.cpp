@@ -405,10 +405,10 @@ int main(int argc, char *argv[])
     ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
     ("length",  po::value<unsigned int>(&length)	->default_value(8), "string length")
     ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "number of colors")
-    ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is gray")
+    ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is 'gray'")
     // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
     // that is, if gray=0.0, then it does not contribtue to number of colors
-    ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of samples")
+    ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of searches to perform")
     // samples=1 does one search and gives its stats
     // samples>1 returns the means of the stats
     ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed")
@@ -421,9 +421,20 @@ int main(int argc, char *argv[])
 
   if (vm.count("help")) {
     cout << "Usage: clusters" << endl
-	 << "Prints cluster measures from a search over a random graph" << endl
+	 << "Prints cluster measures from a search over a random string graph" << endl
+	 << endl << desc << endl
 	 << endl 
-	 << desc << "\n";
+	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
+	 << "ALPHABETSIZE symbols, where each string is randomly assigned one of" << endl
+	 << "COLORS possible colors." << endl
+	 << endl
+	 << "By default colors are dstributed uniformly; but if GRAY is non-zero," << endl
+	 << "then GRAY defines the probability that a randomly chosen node is" << endl
+	 << "GRAY, and the rest are distributed uniformly." << endl
+	 << endl
+	 << "The first color, color 0, is the color of the cluster we searched. The" << endl
+	 << "last color, color (COLORS-1) is gray, if GRAY is non-zero." << endl
+      ;
     return 1;
   }
 
@@ -433,7 +444,6 @@ int main(int argc, char *argv[])
 
   const bool NORMAL_EXECUTION = true;
   if(NORMAL_EXECUTION) {
-
     cout << "verbosity = " << verbosity << endl;
 
     if(verbosity > VERBOSITY_NONE) {
