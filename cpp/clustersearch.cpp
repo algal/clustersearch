@@ -437,8 +437,8 @@ int main(int argc, char *argv[])
 	 << "then GRAY defines the probability that a randomly chosen node is" << endl
 	 << "GRAY, and the rest are distributed uniformly." << endl
 	 << endl
-	 << "The first color, color 0, is the color of the cluster we searched. The" << endl
-	 << "last color, color (COLORS-1) is gray, if GRAY is non-zero." << endl
+	 << "The last color, color (COLORS-1), is the color of the cluster we searched." << endl
+	 << "If GRAY is non-zero, the first color (color 0) is gray." << endl
       ;
     return 1;
   }
