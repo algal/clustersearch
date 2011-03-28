@@ -387,7 +387,6 @@ int main(int argc, char *argv[])
 {
   namespace po = boost::program_options;
 
-  {
     unsigned int alphabetsize;
     unsigned int length;
     unsigned int numOfColors;
@@ -395,6 +394,9 @@ int main(int argc, char *argv[])
     unsigned int samples;
     unsigned int seed;
     unsigned int verbosity;
+    const unsigned int VERBOSITY_NONE = 0;
+    const unsigned int VERBOSITY_LOW = 1;
+    const unsigned int VERBOSITY_HIGH = 2;
 
     // Declare the supported options.
     po::options_description desc("Allowed options");
@@ -424,34 +426,7 @@ int main(int argc, char *argv[])
 	   << desc << "\n";
       return 1;
     }
-    return 0;
-  }
 
-  unsigned int seed;
-  unsigned int length;
-  unsigned int alphabetsize;
-  unsigned int numOfColors;
-
-  unsigned int samples =0;
-
-  bool silent = false;
-  seed = 0;
-  
-  if(argc==4 || argc==5 || argc==6) {
-    if(argc ==6)
-      silent = true;
-
-    if(argc == 5 || argc == 6)
-      samples           = std::atoi(argv[4]);
-    
-    length		= std::atoi(argv[1]);
-    alphabetsize	= std::atoi(argv[2]);
-    numOfColors		= std::atoi(argv[3]);
-  }
-  else {
-    std::cerr << usage() << endl;
-    exit(1);
-  }
 
   //  srand(time(NULL)); // seed the random number generator
   std::srand(seed); // seed the random number generator
@@ -459,40 +434,59 @@ int main(int argc, char *argv[])
   const bool NORMAL_EXECUTION = true;
   if(NORMAL_EXECUTION) {
 
-    if(!silent) {
+    cout << "verbosity = " << verbosity << endl;
+
+    if(verbosity > VERBOSITY_NONE) {
       cout << "searching with:" << endl;
-      cout << "\tlength = " << length << endl;
       cout << "\talphabetsize = " << alphabetsize << endl;
+      cout << "\tlength = " << length << endl;
       cout << "\tnumOfColors = " << numOfColors << endl;
+      cout << "\tgray = " << gray << endl;
+      cout << "\tseed = " << seed << endl;
     }
 
     // display one search
-    if (samples == 0) {
-
+    if (samples == 1) {
+      if( verbosity > VERBOSITY_NONE) 
+	cout << endl << "As samples=1, performing one search" << endl;
+      
       unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
-      cout << mm << endl;
-    
+
+      if(verbosity == VERBOSITY_HIGH) {
+	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
+	cout << mm << endl;
+      }    
+
       cluster_measures results = calculate_measures_from_run(mm);
-      cout << "cluster_size		= " << results.cluster_size << endl;
-      cout << "results.perimeter_size	= " << results.perimeter_size << endl;
-      cout << "results.colors		= " << results.colors << endl;
-      cout << "results.exits_size	= " << results.exits_size << endl;
-      cout << "results.robustness	= " << results.robustness << endl;
+      if( verbosity > VERBOSITY_NONE ) {
+	cout << "results.cluster_size   = s = " << results.cluster_size << endl;
+	cout << "results.perimeter_size = t = " << results.perimeter_size << endl;
+	cout << "results.colors         = E = " << results.colors << endl;
+	cout << "results.exits_size     = u = " << results.exits_size << endl;
+	cout << "results.robustness     = r = " << results.robustness << endl;
+      } 
+      else if( verbosity  == VERBOSITY_NONE ) {
+	cout << results.cluster_size << endl;
+	cout << results.perimeter_size << endl;
+	cout << results.colors << endl;
+	cout << results.exits_size << endl;
+	cout << results.robustness << endl;
+      }
     }
-    else {
-      if(!silent)
-	cout << "\tsamples = " << samples << endl;
+    else if (samples > 1) {
+      if(verbosity > VERBOSITY_NONE)
+	cout << endl << "Calculating statistics over " << samples << " searches." << endl;
 
       mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples);
     
-      if(!silent) {
-	cout << "mean cluster_size		= " << results.mean_cluster_size << endl;
-	cout << "mean results.perimeter_size	= " << results.mean_perimeter_size << endl;
-	cout << "mean results.colors		= " << results.mean_colors << endl;
-	cout << "mean results.exits_size		= " << results.mean_exits_size << endl;
-	cout << "mean results.robustness		= " << results.mean_robustness << endl;
+      if( verbosity > VERBOSITY_NONE ) {
+	cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
+	cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
+	cout << "mean results.colors            = E = " << results.mean_colors << endl;
+	cout << "mean results.exits_size        = u = " << results.mean_exits_size << endl;
+	cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
       }
-      else {
+      else if( verbosity  == VERBOSITY_NONE ) {
 	cout << results.mean_cluster_size << endl;
 	cout << results.mean_perimeter_size << endl;
 	cout << results.mean_colors << endl;
