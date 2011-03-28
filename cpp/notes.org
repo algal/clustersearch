@@ -25,7 +25,7 @@
 
    need to configure alphabetsize and string size at runtime.
 
-*** replace set_difference and set_intersection
+*** intertwingle search() and calculate_measures()
 
     with rolling all operations into one loop
 
@@ -34,6 +34,11 @@
 
     so instead of building one map observed, build two: cluster and
     perimeter. and keep a running count of their size.
+
+*** replace set_difference and set_intersection
+
+    with nonconsing versions.
+
 
 *** alternative representations for geno
 
