@@ -107,6 +107,7 @@ void initialize_gray_fraction(const double g) {
     cdf.push_back(running_sum);
   }
   configs::cdf = cdf;
+  TRACE(cout << "Initialized configs::cdf to: " << configs::cdf << endl);
 }
 
 void initialize(const unsigned int alphabetsize, 
@@ -121,6 +122,7 @@ void initialize(const unsigned int alphabetsize,
 
 //   Returns mutants
 vector<string> mut(const string g) { 
+  TRACE(cout << " generating mutants of " << g << ":" << endl);
   vector<string> result;
   result.reserve((configs::alphabet_size -1) * configs::length );
   for(int pos = configs::length - 1; pos != -1; --pos) { 
@@ -133,7 +135,7 @@ vector<string> mut(const string g) {
 	mutant.reserve(configs::length); // may improve perf
 	mutant[pos] = *alternative;
 	result.push_back(mutant);
-	TRACE(	cout << "generated mutant " << mutant << endl);
+	TRACE(	cout << "  generated mutant " << mutant << endl);
       }
     }
   }
@@ -153,7 +155,8 @@ pheno colorOf(const geno & g) {
   if( configs::gray_fraction == configs::GRAY_UNUSED )
     return rand() % configs::numOfColors;
   else {
-    const double real = ((double)rand()) / ((double) (RAND_MAX + 1)); // FIXME?
+    const double real = ((double)rand()) / ((double) RAND_MAX);
+    TRACE(cout << "colorOf: generated real=" << real << endl);
     for(unsigned int i = 0; i < configs::numOfColors; ++i) {
       if( real < configs::cdf[i] )
 	return i;
@@ -223,7 +226,9 @@ unordered_map<geno,pheno> search(const geno& root) {
     // compute the neighbors not previously observed
     vector<geno> all_neighbors(mut(cursor));
     vector<geno> new_neighbors(set_difference(all_neighbors, observed));
-    TRACE(cout << "\tFound " << cursor << " had neighbors " << all_neighbors << " of which the previously unobserved were " << new_neighbors << endl);
+    TRACE(cout << " Found " << cursor << endl 
+	  << "  had neighbors: " << all_neighbors << endl 
+	  << "  of which the previously unobserved are: " << new_neighbors << endl);
     // if there are some new nodes to observe ...
     if(!new_neighbors.empty()) {
       for(vector<geno>::iterator g = new_neighbors.begin(); 
@@ -243,7 +248,7 @@ unordered_map<geno,pheno> search(const geno& root) {
    Do a search run.
    
    Returns dictionary over all points in a cluster (i.e., neutral
-   network) and its mutational neighborhood, 'picked' from random
+   network) and its mutational neighborhood, 'picked' from a random
    string graph with string LENGTH, built from an alphabet of
    ALPHABETSIZE, where every node is painted one color out of
    NUMOFCOLORS.
@@ -256,9 +261,8 @@ unordered_map<geno,pheno> search(const geno& root) {
    - alphabetsize and numOfColors must be < 26 
 
 */
-unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
-  initialize(alphabetsize,length,numOfColors,0.0);
-
+unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
+  initialize(alphabetsize,length,numOfColors,gray);
   const geno origin = string(configs::length, configs::alphabet[0]);
   return search(origin);
 }
@@ -289,11 +293,13 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   unsigned int exits_size=0;
   unsigned int perimeter_size =0;
 
+  TRACE(cout << "Processing map to calculate measures" << endl);
+
   // for every item ...
   for(unordered_map<geno,pheno>::const_iterator it = m.begin(); it != m.end(); ++it) {
     const geno g = it->first;
     const pheno p = it->second;
-    TRACE(cout << "searching g=" << g << endl);
+    TRACE(cout << "Searching g=" << g << endl);
     // .. in the perimeter ...
     if(p != configs::CLUSTER_COLOR) {
       TRACE(cout << "\twhich is in the perimeter" << endl);
@@ -402,17 +408,17 @@ int main(int argc, char *argv[])
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
-    ("alpha",   po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
-    ("length",  po::value<unsigned int>(&length)	->default_value(8), "string length")
-    ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3), "number of colors")
-    ("gray",    po::value<double      >(&gray)	->default_value(0.0), "probability a string is 'gray'")
+    ("alpha",  po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
+    ("length", po::value<unsigned int>(&length)      ->default_value(8), "string length")
+    ("colors", po::value<unsigned int>(&numOfColors) ->default_value(3), "number of colors")
+    ("gray",   po::value<double      >(&gray)        ->default_value(0.0), "probability a string is 'gray'")
     // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
     // that is, if gray=0.0, then it does not contribtue to number of colors
     ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of searches to perform")
     // samples=1 does one search and gives its stats
     // samples>1 returns the means of the stats
     ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed (non-negative integer)")
-    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(0), "verbosity (0, 1, or 2)")
+    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(1), "verbosity (0, 1, or 2)")
     ;
 
   po::variables_map vm;
@@ -423,7 +429,6 @@ int main(int argc, char *argv[])
     cout << "Usage: clusters" << endl
 	 << "Prints cluster measures from a search over a random string graph" << endl
 	 << endl << desc << endl
-	 << endl 
 	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
 	 << "ALPHA symbols, where each string is randomly assigned one of" << endl
 	 << "COLORS possible colors." << endl
@@ -460,7 +465,7 @@ int main(int argc, char *argv[])
       if( verbosity > VERBOSITY_NONE) 
 	cout << endl << "As samples=1, performing one search" << endl;
       
-      unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors));
+      unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors,gray));
 
       if(verbosity == VERBOSITY_HIGH) {
 	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
