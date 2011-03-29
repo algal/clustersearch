@@ -268,7 +268,7 @@ unordered_map<geno,pheno> search(const geno& root) {
 	if ( discovered_color == configs::CLUSTER_COLOR ) {
 	  cluster.insert(*g);
 	  ++cluster_size;
-	  // and  plan to traverse from the in-cluster ones later
+	  // and plan to traverse from the in-cluster ones later
 	  to_traverse.push_back(*g);
 	}
 	else {
