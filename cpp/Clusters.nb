@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     11061,        315]
-NotebookOptionsPosition[      9394,        250]
-NotebookOutlinePosition[      9925,        273]
-CellTagsIndexPosition[      9841,        268]
+NotebookDataLength[      6389,        170]
+NotebookOptionsPosition[      5751,        142]
+NotebookOutlinePosition[      6129,        159]
+CellTagsIndexPosition[      6086,        156]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -26,7 +26,7 @@ Cell[BoxData[
 
 Cell[BoxData["\<\"/Users/alexis\"\>"], "Output",
  CellChangeTimes->{3.510058012321754*^9, 3.510060084174416*^9, 
-  3.5103404768287287`*^9}]
+  3.5103404768287287`*^9, 3.5104236647638206`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -40,7 +40,7 @@ Cell[BoxData[
 Cell[BoxData["\<\"/Users/alexis/workspace/clustersearch/cpp/build\"\>"], \
 "Output",
  CellChangeTimes->{3.5100580573067217`*^9, 3.510060081531982*^9, 
-  3.510340481894681*^9}]
+  3.510340481894681*^9, 3.510423667115568*^9}]
 }, Open  ]],
 
 Cell[BoxData[
@@ -134,115 +134,7 @@ Cell[BoxData[
    3.510059544775934*^9, {3.510059586157566*^9, 3.5100595888820953`*^9}, {
    3.510059653032803*^9, 3.510059664647016*^9}, {3.510060098351884*^9, 
    3.510060123520687*^9}, 3.510340538715658*^9, {3.5103406332224197`*^9, 
-   3.5103406398724833`*^9}}]
-}, Open  ]],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"a", "=", "\"\<hello world string\>\""}], ";"}]], "Input",
- CellChangeTimes->{{3.5103400789906607`*^9, 3.5103400846556873`*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["a"], "Input",
- CellChangeTimes->{{3.510340086550251*^9, 3.510340087144121*^9}}],
-
-Cell[BoxData["\<\"hello world string\"\>"], "Output",
- CellChangeTimes->{3.510340087497199*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"a", " ", "+=", " ", "\"\<new string\>\""}]], "Input",
- CellChangeTimes->{{3.510340088907802*^9, 3.510340091827046*^9}}],
-
-Cell[BoxData[
- RowBox[{"\<\"hello world string\"\>", "+", "\<\"new string\"\>"}]], "Output",\
-
- CellChangeTimes->{3.510340093160136*^9}]
-}, Open  ]],
-
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.510340093806348*^9, 3.510340137817863*^9}}],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"?", "StringJoin"}]], "Input",
- CellChangeTimes->{{3.510340160033009*^9, 3.510340161665242*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  StyleBox["\<\"\\!\\(\\*RowBox[{StyleBox[\\\"\\\\\\\"\\\\!\\\\(\\\\*StyleBox[\
-\\\\\\\"s\\\\\\\",\\\\\\\"TI\\\\\\\"]\\\\_1\\\\)\\\\\\\"\\\", \
-ShowStringCharacters->True], \\\"<>\\\", \
-StyleBox[\\\"\\\\\\\"\\\\!\\\\(\\\\*StyleBox[\\\\\\\"s\\\\\\\",\\\\\\\"TI\\\\\
-\\\"]\\\\_2\\\\)\\\\\\\"\\\", ShowStringCharacters->True], \\\"<>\\\", \
-StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}]\\), \
-\\!\\(\\*RowBox[{\\\"StringJoin\\\", \\\"[\\\", RowBox[{StyleBox[\\\"\\\\\\\"\
-\\\\!\\\\(\\\\*StyleBox[\\\\\\\"s\\\\\\\",\\\\\\\"TI\\\\\\\"]\\\\_1\\\\)\\\\\\\
-\"\\\", ShowStringCharacters->True], \\\",\\\", \
-StyleBox[\\\"\\\\\\\"\\\\!\\\\(\\\\*StyleBox[\\\\\\\"s\\\\\\\",\\\\\\\"TI\\\\\
-\\\"]\\\\_2\\\\)\\\\\\\"\\\", ShowStringCharacters->True], \\\",\\\", \
-StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"]\\\"}]\\) or \
-\\!\\(\\*RowBox[{\\\"StringJoin\\\", \\\"[\\\", RowBox[{\\\"{\\\", \
-RowBox[{StyleBox[\\\"\\\\\\\"\\\\!\\\\(\\\\*StyleBox[\\\\\\\"s\\\\\\\",\\\\\\\
-\"TI\\\\\\\"]\\\\_1\\\\)\\\\\\\"\\\", ShowStringCharacters->True], \\\",\\\", \
-StyleBox[\\\"\\\\\\\"\\\\!\\\\(\\\\*StyleBox[\\\\\\\"s\\\\\\\",\\\\\\\"TI\\\\\
-\\\"]\\\\_2\\\\)\\\\\\\"\\\", ShowStringCharacters->True], \\\",\\\", \
-StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"}\\\"}], \\\"]\\\"}]\\) \
-yields a string consisting of a concatenation of the \
-\\!\\(\\*SubscriptBox[StyleBox[\\\"s\\\", \\\"TI\\\"], StyleBox[\\\"i\\\", \\\
-\"TI\\\"]]\\). \"\>", "MSG"], "\[NonBreakingSpace]", 
-  ButtonBox[
-   StyleBox["\[RightSkeleton]", "SR"],
-   Active->True,
-   BaseStyle->"Link",
-   ButtonData->"paclet:ref/StringJoin"]}]], "Print", "PrintUsage",
- CellChangeTimes->{3.5103401629090967`*^9},
- CellTags->"Info3510343762-6013742"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["a"], "Input",
- CellChangeTimes->{3.5103402322954197`*^9}],
-
-Cell[BoxData[
- RowBox[{"\<\"hello world string\"\>", "+", "\<\"new string\"\>"}]], "Output",\
-
- CellChangeTimes->{3.5103402326690903`*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"a", " ", "=", " ", "\"\<hello\>\""}]], "Input",
- CellChangeTimes->{{3.51034023396739*^9, 3.5103402421985064`*^9}}],
-
-Cell[BoxData["\<\"hello\"\>"], "Output",
- CellChangeTimes->{3.510340242681713*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData["a"], "Input",
- CellChangeTimes->{{3.510340243211866*^9, 3.510340244679652*^9}}],
-
-Cell[BoxData["\<\"hello\"\>"], "Output",
- CellChangeTimes->{3.510340244974881*^9}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"a", " ", "=", " ", 
-  RowBox[{"a", " ", "<>", " ", "\"\< world\>\""}]}]], "Input",
- CellChangeTimes->{{3.5103402456380873`*^9, 3.5103402503709717`*^9}}],
-
-Cell[BoxData["\<\"hello world\"\>"], "Output",
- CellChangeTimes->{3.51034025094413*^9}]
+   3.5103406398724833`*^9}, 3.510423679337762*^9}]
 }, Open  ]],
 
 Cell[BoxData[""], "Input",
@@ -259,64 +151,27 @@ StyleDefinitions->"Default.nb"
 
 (* Internal cache information *)
 (*CellTagsOutline
-CellTagsIndex->{
- "Info3510343762-6013742"->{
-  Cell[6538, 174, 1718, 29, 55, "Print",
-   CellTags->"Info3510343762-6013742"]}
- }
+CellTagsIndex->{}
 *)
 (*CellTagsIndex
-CellTagsIndex->{
- {"Info3510343762-6013742", 9736, 262}
- }
+CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 125, 2, 27, "Input"],
-Cell[707, 26, 139, 2, 27, "Output"]
+Cell[707, 26, 163, 2, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[883, 33, 241, 4, 27, "Input"],
-Cell[1127, 39, 175, 3, 27, "Output"]
+Cell[907, 33, 241, 4, 27, "Input"],
+Cell[1151, 39, 197, 3, 27, "Output"]
 }, Open  ]],
-Cell[1317, 45, 3333, 70, 208, "Input"],
+Cell[1363, 45, 3333, 70, 208, "Input"],
 Cell[CellGroupData[{
-Cell[4675, 119, 382, 6, 27, "Input"],
-Cell[5060, 127, 512, 9, 27, "Output"]
+Cell[4721, 119, 382, 6, 27, "Input"],
+Cell[5106, 127, 534, 9, 27, "Output"]
 }, Open  ]],
-Cell[5587, 139, 162, 3, 27, "Input"],
-Cell[CellGroupData[{
-Cell[5774, 146, 93, 1, 27, "Input"],
-Cell[5870, 149, 95, 1, 27, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[6002, 155, 143, 2, 27, "Input"],
-Cell[6148, 159, 136, 3, 27, "Output"]
-}, Open  ]],
-Cell[6299, 165, 92, 1, 27, "Input"],
-Cell[CellGroupData[{
-Cell[6416, 170, 119, 2, 27, "Input"],
-Cell[6538, 174, 1718, 29, 55, "Print",
- CellTags->"Info3510343762-6013742"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[8293, 208, 71, 1, 27, "Input"],
-Cell[8367, 211, 138, 3, 27, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[8542, 219, 138, 2, 27, "Input"],
-Cell[8683, 223, 82, 1, 27, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[8802, 229, 93, 1, 27, "Input"],
-Cell[8898, 232, 82, 1, 27, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[9017, 238, 176, 3, 27, "Input"],
-Cell[9196, 243, 87, 1, 27, "Output"]
-}, Open  ]],
-Cell[9298, 247, 92, 1, 27, "Input"]
+Cell[5655, 139, 92, 1, 27, "Input"]
 }
 ]
 *)
