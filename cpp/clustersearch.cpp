@@ -169,20 +169,21 @@ pheno colorOf(const geno & g) {
 
 
 // helper for set_difference
+// (to be made function local with c++0x)
+template <class T, class TVal>
 struct is_contained_in {
-  const unordered_map<geno,pheno> & mm;
-  is_contained_in(const unordered_map<geno,pheno> & mmm) : mm(mmm) {}
-  bool operator()(const geno & item) { return (mm.find(item) != mm.end()); }  
+  const unordered_map<T,TVal> & mm;
+  is_contained_in(const unordered_map<T,TVal> & mmm) : mm(mmm) {}
+  bool operator()(const T & item) { return (mm.find(item) != mm.end()); }  
 };
-/* s1 - keys(m)
-   
+/* removes any m keys from s1.
+
    @param[inout] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
-
-   mutates s1 and returns it.
 */
-vector<geno> set_difference(vector<geno> & s1, const unordered_map<geno,pheno> & m) {
-  s1.erase(std::remove_if(s1.begin(),s1.end(), is_contained_in(m)),s1.end());
+template <class T, class TVal>
+vector<T> set_difference(vector<T> & s1, const unordered_map<T,TVal> & m) {
+  s1.erase(std::remove_if(s1.begin(),s1.end(), is_contained_in<T,TVal>(m)),s1.end());
   return s1;
 }
 
