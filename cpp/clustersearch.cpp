@@ -167,20 +167,23 @@ pheno colorOf(const geno & g) {
 }
 
 
+
+// helper for set_difference
+struct is_contained_in {
+  const unordered_map<geno,pheno> & mm;
+  is_contained_in(const unordered_map<geno,pheno> & mmm) : mm(mmm) {}
+  bool operator()(const geno & item) { return (mm.find(item) != mm.end()); }  
+};
 /* s1 - keys(m)
    
-   @param[in] s1 a mathematical set of Ts
+   @param[inout] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
+
+   mutates s1 and returns it.
 */
-template <class T, class TVal>
-vector<T> set_difference(const vector<T> & s1, const unordered_map<T,TVal> & m) {
-  vector<T> result;
-  for(typename vector<T>::const_iterator it_add = s1.begin(); it_add != s1.end(); ++it_add) {
-    if (m.find(*it_add) == m.end() ) {
-      result.push_back(*it_add);
-    }
-  }
-  return result;
+vector<geno> set_difference(vector<geno> & s1, const unordered_map<geno,pheno> & m) {
+  s1.erase(std::remove_if(s1.begin(),s1.end(), is_contained_in(m)),s1.end());
+  return s1;
 }
 
 
@@ -224,15 +227,15 @@ unordered_map<geno,pheno> search(const geno& root) {
     to_traverse.pop_front();
     TRACE(cout << "Traversing from node " << cursor << endl);
     // compute the neighbors not previously observed
-    vector<geno> all_neighbors(mut(cursor));
-    vector<geno> new_neighbors(set_difference(all_neighbors, observed));
-    TRACE(cout << " Found " << cursor << endl 
-	  << "  had neighbors: " << all_neighbors << endl 
-	  << "  of which the previously unobserved are: " << new_neighbors << endl);
+    TRACE(cout << " Found " << cursor << endl);
+    vector<geno> neighbors(mut(cursor));
+    TRACE(cout << "  had neighbors: " << neighbors << endl); 
+    set_difference(neighbors, observed);
+    TRACE(cout << "  of which the previously unobserved are: " << neighbors << endl);
     // if there are some new nodes to observe ...
-    if(!new_neighbors.empty()) {
-      for(vector<geno>::iterator g = new_neighbors.begin(); 
-	  g != new_neighbors.end(); ++g) {
+    if(!neighbors.empty()) {
+      for(vector<geno>::iterator g = neighbors.begin(); 
+	  g != neighbors.end(); ++g) {
 	// "discover" the colors and record the visit
 	if ((observed[*g] = colorOf(*g)) == configs::CLUSTER_COLOR) {
 	  // and  plan to visit only the special ones later
