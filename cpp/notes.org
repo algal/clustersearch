@@ -35,10 +35,9 @@
     so instead of building one map observed, build two: cluster and
     perimeter. and keep a running count of their size.
 
-*** replace set_difference and set_intersection
+*** DONE replace set_difference 
 
     with nonconsing versions.
-
 
 *** alternative representations for geno
 

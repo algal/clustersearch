@@ -187,6 +187,21 @@ vector<T> set_difference(vector<T> & s1, const unordered_map<T,TVal> & m) {
   return s1;
 }
 
+// (to be made function local with c++0x)
+template <class T>
+struct is_in_unordered_set {
+  const unordered_set<T> & mm;
+  is_in_unordered_set(const unordered_set<T> & mmm) : mm(mmm) {}
+  bool operator()(const T & item) { return (mm.find(item) != mm.end()); }  
+};
+
+// removes all m items from s1.
+template <class T>
+vector<T> set_difference(vector<T> & s1, const unordered_set<T> & m) {
+  s1.erase(std::remove_if(s1.begin(),s1.end(), is_in_unordered_set<T>(m)),s1.end());
+  return s1;
+}
+
 
 /* intersection of s1 and keys(m)
    
@@ -215,8 +230,17 @@ vector<T> set_intersection(const vector<T> & s1, const unordered_map<T,TVal> & m
    Returns a std::unordered_map of the observed nodes and their colors.
 */
 unordered_map<geno,pheno> search(const geno& root) {
-  unordered_map<geno,pheno> observed;
-  observed[root]=configs::CLUSTER_COLOR;
+  unordered_set<geno> cluster;
+  unordered_map<geno,pheno> perimeter;
+
+  size_t cluster_size   = 0;
+  size_t perimeter_size = 0;
+  size_t colors		= 0;
+  size_t exits_size	= 0;
+
+  // unordered_map<geno,pheno> observed;
+  cluster.insert(root);
+  // observed[root]=configs::CLUSTER_COLOR;
 
   list<geno> to_traverse;
   to_traverse.push_back(root);
@@ -227,24 +251,43 @@ unordered_map<geno,pheno> search(const geno& root) {
     cursor = to_traverse.front();
     to_traverse.pop_front();
     TRACE(cout << "Traversing from node " << cursor << endl);
-    // compute the neighbors not previously observed
     TRACE(cout << " Found " << cursor << endl);
+
+    // compute the neighbors not previously observed
     vector<geno> neighbors(mut(cursor));
     TRACE(cout << "  had neighbors: " << neighbors << endl); 
-    set_difference(neighbors, observed);
+
+    neighbors = set_difference(neighbors, cluster);
+    neighbors = set_difference(neighbors, perimeter);
     TRACE(cout << "  of which the previously unobserved are: " << neighbors << endl);
+
     // if there are some new nodes to observe ...
     if(!neighbors.empty()) {
-      for(vector<geno>::iterator g = neighbors.begin(); 
-	  g != neighbors.end(); ++g) {
+      for(vector<geno>::iterator g = neighbors.begin(); g != neighbors.end(); ++g) {
 	// "discover" the colors and record the visit
-	if ((observed[*g] = colorOf(*g)) == configs::CLUSTER_COLOR) {
+	const pheno discovered_color = colorOf(*g);
+	if ( discovered_color == configs::CLUSTER_COLOR ) {
+	  cluster.insert(*g);
+	  ++cluster_size;
 	  // and  plan to visit only the special ones later
 	  to_traverse.push_back(*g);
+	}
+	else {
+	  perimeter[*g] = discovered_color;
+	  ++perimeter_size;
 	}
       }
     }
   }
+
+  // could return here with stats instead of just an unordered_map
+
+  unordered_map<geno,pheno> observed;
+  for(unordered_set<geno>::iterator it = cluster.begin(); it != cluster.end(); ++it) {
+    observed[*it] = configs::CLUSTER_COLOR;
+  }
+  observed.insert(perimeter.begin(),perimeter.end());
+  
   return observed;
 }
 
