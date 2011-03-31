@@ -325,8 +325,8 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   results.cluster_size = m.size() - results.perimeter_size;
   results.colors = perimeter_colors.size();
   results.exits_size = exits_size;
-  const double sl  = (results.cluster_size * configs::length);
-  results.robustness = double(sl - exits_size) / sl;
+  unsigned int mutations  = results.cluster_size * configs::length * (configs::alphabet_size - 1 );
+  results.robustness = double(mutations - exits_size) / (double) mutations;
   return results;
 }
 
