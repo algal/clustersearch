@@ -34,10 +34,11 @@ searching with:
 	numOfColors = 3
 	gray = 0
 	seed = 5
+	mode = stats
 
-As samples=1, performing one search
-results.cluster_size   = s = 2174
-results.perimeter_size = t = 4376
-results.colors         = E = 2
-results.exits_size     = u = 23178
-results.robustness     = r = 0.333659
+Mode=stats. Calculating statistics over 1 searches.
+mean results.cluster_size      = s = 2174
+mean results.perimeter_size    = t = 4376
+mean results.colors_seen       = E = 2
+mean results.exits_size        = u = 23178
+mean results.robustness        = r = 0.333659
