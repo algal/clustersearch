@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     82253,       2185]
-NotebookOptionsPosition[     78556,       2057]
-NotebookOutlinePosition[     79091,       2080]
-CellTagsIndexPosition[     79005,       2075]
+NotebookDataLength[     82017,       2192]
+NotebookOptionsPosition[     78320,       2064]
+NotebookOutlinePosition[     78855,       2087]
+CellTagsIndexPosition[     78769,       2082]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -112,6 +112,11 @@ Cell[BoxData[
      "\[IndentingNewLine]", 
      RowBox[{"args", " ", "=", " ", 
       RowBox[{"StringJoin", "[", 
+       RowBox[{
+       "args", ",", "\"\< \>\"", ",", " ", "\"\<--mode=\>\"", ",", "      ", 
+        "\"\<stats\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"args", " ", "=", " ", 
+      RowBox[{"StringJoin", "[", 
        RowBox[{"args", ",", "\"\< \>\"", ",", " ", "\"\<--verbose=0\>\""}], 
        "]"}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"command", "=", 
@@ -135,7 +140,8 @@ Cell[BoxData[
    3.510340522081305*^9}, {3.5103406768631067`*^9, 3.510340679976204*^9}, {
    3.5105520506193666`*^9, 3.510552104583955*^9}, {3.5105522543855267`*^9, 
    3.510552256421369*^9}, {3.510552291198256*^9, 3.510552325430792*^9}, 
-   3.510561311459401*^9, {3.5105676323020267`*^9, 3.510567634321313*^9}}],
+   3.510561311459401*^9, {3.5105676323020267`*^9, 3.510567634321313*^9}, {
+   3.51057730445497*^9, 3.510577317732739*^9}}],
 
 Cell["\<\
 For example, we can search one cluster given binary length-10 strings with 4 \
@@ -166,7 +172,8 @@ Cell[BoxData[
    3.5105520818216333`*^9, 3.510552114948311*^9}, {3.5105522517667933`*^9, 
    3.510552277044957*^9}, 3.510552318494301*^9, 3.510554888807517*^9, 
    3.5105611120181227`*^9, 3.510561315305785*^9, 3.510563597131831*^9, 
-   3.510563956782443*^9, 3.510568090164467*^9, 3.510568155242072*^9}]
+   3.510563956782443*^9, 3.510568090164467*^9, 3.510568155242072*^9, {
+   3.510577298624317*^9, 3.51057732157582*^9}}]
 }, Open  ]],
 
 Cell["\<\
@@ -976,7 +983,7 @@ yyuh3obB4IOv2/z5/wCwTtJ0
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {5.4, 10.8}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.1\"",
      TooltipStyle->"TextStyling"],
@@ -1005,7 +1012,7 @@ e9mpwH/BD+Ol
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {5.1, 10.2}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.15\"",
      TooltipStyle->"TextStyling"],
@@ -1034,7 +1041,7 @@ IC/B7NGcUi3v/wGSFP8G
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {4.800000000000001, 9.600000000000001}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.2\"",
      TooltipStyle->"TextStyling"],
@@ -1063,7 +1070,7 @@ zHWI5gnxDw0S9qo=
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {4.5, 9.}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.25\"",
      TooltipStyle->"TextStyling"],
@@ -1092,7 +1099,7 @@ kRZ3ciN1Pcr+vzDU8wPvyx0B/gGHRAWz
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {4.199999999999999, 8.399999999999999}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.3\"",
      TooltipStyle->"TextStyling"],
@@ -1121,7 +1128,7 @@ h2sOSqk7sbdC/8G1jLoToyNsJVJ3YXb+TdV0LHUXrJFqrjOO+i4sPaG7+ZHt
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {3.9000000000000004`, 7.800000000000001}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.35\"",
      TooltipStyle->"TextStyling"],
@@ -1150,7 +1157,7 @@ AAD8jfSi
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {3.5999999999999996`, 7.199999999999999}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.4\"",
      TooltipStyle->"TextStyling"],
@@ -1179,7 +1186,7 @@ mXcYL+/rnN6ROPwDK+ILaA==
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {3.3, 6.6}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.45\"",
      TooltipStyle->"TextStyling"],
@@ -1208,7 +1215,7 @@ tA==
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {3., 6.}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.5\"",
      TooltipStyle->"TextStyling"],
@@ -1236,7 +1243,7 @@ z7zcBDff32HxeoWzEbD02uDv0LYm7+scePoNcGjRMq1eALQPAEgw93U=
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {2.6999999999999997`, 5.3999999999999995`}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.55\"",
      TooltipStyle->"TextStyling"],
@@ -1264,7 +1271,7 @@ BMDNBwDWkQWN
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {2.4000000000000004`, 4.800000000000001}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.6\"",
      TooltipStyle->"TextStyling"],
@@ -1292,7 +1299,7 @@ hsl7o7nP2+H4lxZVOXh8+qC5z8eh9XUgMEZh8r5o4eeLFr9+Dpvmvl9+rBsm
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {2.0999999999999996`, 4.199999999999999}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.65\"",
      TooltipStyle->"TextStyling"],
@@ -1320,7 +1327,7 @@ X3vIOxB62fzslpe8E3rF4xPv+fdxIu1DU9EAvz8Xn/cPVR3j7A==
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {1.7999999999999996`, 3.599999999999999}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.7\"",
      TooltipStyle->"TextStyling"],
@@ -1348,7 +1355,7 @@ y+DvUGqTtsAI7n9/hwhQAobxGQLgfAAaRf28
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {1.5, 3.}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.75\"",
      TooltipStyle->"TextStyling"],
@@ -1376,7 +1383,7 @@ HwZ/NP3+DhOynY9awO0PcDj8FRShLA4ArJ7tyQ==
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {1.1999999999999997`, 2.3999999999999995`}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.8\"",
      TooltipStyle->"TextStyling"],
@@ -1405,7 +1412,7 @@ uuMK
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {0.9000000000000001, 1.8000000000000003`}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.85\"",
      TooltipStyle->"TextStyling"],
@@ -1433,7 +1440,7 @@ OXsZgi/EwV4W/7/Yt8/N/wswXyd9
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {0.5999999999999999, 1.1999999999999997`}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.9\"",
      TooltipStyle->"TextStyling"],
@@ -1461,7 +1468,7 @@ RQeoG/Bp9pu3m2w3RF/PVET2+w9UYyOY
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {0.2999999999999996, 0.5999999999999992}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=0.95\"",
      TooltipStyle->"TextStyling"],
@@ -1480,7 +1487,7 @@ OB90nE86zhcd55uO80PH+aXjrP58BC9/b6Y=
       AxesLabel->{
         FormBox["m", TraditionalForm], 
         FormBox["\"E\"", TraditionalForm]},
-      PlotRange->{{0, 64}, {0., 0.}},
+      PlotRange->Automatic,
       PlotRangeClipping->True],
      "\"g=1.\"",
      TooltipStyle->"TextStyling"],
@@ -1489,7 +1496,7 @@ OB90nE86zhcd55uO80PH+aXjrP58BC9/b6Y=
   3.51057353195074*^9, 3.510573712371544*^9, 3.51057385713017*^9, 
    3.510574217495017*^9, {3.5105743103242397`*^9, 3.510574370306231*^9}, 
    3.510574441501687*^9, 3.510575486519779*^9, 3.5105756998405027`*^9, 
-   3.510576351039599*^9}]
+   3.510576351039599*^9, 3.510576427734996*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2056,7 +2063,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 WindowSize->{1316, 1018},
-WindowMargins->{{96, Automatic}, {59, Automatic}},
+WindowMargins->{{66, Automatic}, {Automatic, 30}},
 ShowSelection->True,
 FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
@@ -2068,13 +2075,13 @@ StyleDefinitions->"Default.nb"
 (*CellTagsOutline
 CellTagsIndex->{
  "Info3510572925-2991118"->{
-  Cell[67793, 1760, 533, 12, 49, "Print",
+  Cell[67557, 1767, 533, 12, 49, "Print",
    CellTags->"Info3510572925-2991118"]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"Info3510572925-2991118", 78899, 2069}
+ {"Info3510572925-2991118", 78663, 2076}
  }
 *)
 (*NotebookFileOutline
@@ -2088,104 +2095,104 @@ Cell[1058, 36, 241, 4, 27, "Input"],
 Cell[1302, 42, 365, 5, 27, "Output"]
 }, Open  ]],
 Cell[1682, 50, 177, 4, 26, "Text"],
-Cell[1862, 56, 3791, 81, 223, "Input"],
-Cell[5656, 139, 176, 4, 26, "Text"],
+Cell[1862, 56, 4070, 87, 223, "Input"],
+Cell[5935, 145, 176, 4, 26, "Text"],
 Cell[CellGroupData[{
-Cell[5857, 147, 382, 6, 27, "Input"],
-Cell[6242, 155, 846, 13, 27, "Output"]
+Cell[6136, 153, 382, 6, 27, "Input"],
+Cell[6521, 161, 895, 14, 27, "Output"]
 }, Open  ]],
-Cell[7103, 171, 165, 3, 26, "Text"],
-Cell[7271, 176, 2060, 45, 193, "Input"],
-Cell[9334, 223, 781, 16, 73, "Input"],
-Cell[10118, 241, 624, 20, 206, "Text"],
+Cell[7431, 178, 165, 3, 26, "Text"],
+Cell[7599, 183, 2060, 45, 148, "Input"],
+Cell[9662, 230, 781, 16, 58, "Input"],
+Cell[10446, 248, 624, 20, 206, "Text"],
 Cell[CellGroupData[{
-Cell[10767, 265, 1074, 29, 88, "Input"],
-Cell[11844, 296, 868, 23, 27, "Output"]
+Cell[11095, 272, 1074, 29, 88, "Input"],
+Cell[12172, 303, 868, 23, 27, "Output"]
 }, Open  ]],
-Cell[12727, 322, 117, 1, 26, "Text"],
+Cell[13055, 329, 117, 1, 26, "Text"],
 Cell[CellGroupData[{
-Cell[12869, 327, 189, 3, 27, "Input"],
-Cell[13061, 332, 1351, 38, 93, "Output"]
+Cell[13197, 334, 189, 3, 27, "Input"],
+Cell[13389, 339, 1351, 38, 93, "Output"]
 }, Open  ]],
-Cell[14427, 373, 181, 4, 26, "Text"],
+Cell[14755, 380, 181, 4, 26, "Text"],
 Cell[CellGroupData[{
-Cell[14633, 381, 1179, 32, 88, "Input"],
-Cell[15815, 415, 910, 23, 27, "Output"]
+Cell[14961, 388, 1179, 32, 88, "Input"],
+Cell[16143, 422, 910, 23, 27, "Output"]
 }, Open  ]],
-Cell[16740, 441, 173, 4, 26, "Text"],
-Cell[16916, 447, 1304, 28, 103, "Input"],
+Cell[17068, 448, 173, 4, 26, "Text"],
+Cell[17244, 454, 1304, 28, 103, "Input"],
 Cell[CellGroupData[{
-Cell[18245, 479, 224, 4, 27, "Input"],
-Cell[18472, 485, 1446, 40, 93, "Output"]
+Cell[18573, 486, 224, 4, 27, "Input"],
+Cell[18800, 492, 1446, 40, 93, "Output"]
 }, Open  ]],
-Cell[19933, 528, 152, 3, 26, "Text"],
-Cell[20088, 533, 897, 21, 58, "Input"],
+Cell[20261, 535, 152, 3, 26, "Text"],
+Cell[20416, 540, 897, 21, 58, "Input"],
 Cell[CellGroupData[{
-Cell[21010, 558, 341, 8, 27, "Input"],
-Cell[21354, 568, 470, 12, 237, "Output"]
+Cell[21338, 565, 341, 8, 27, "Input"],
+Cell[21682, 575, 470, 12, 237, "Output"]
 }, Open  ]],
-Cell[21839, 583, 193, 9, 116, "Text"],
+Cell[22167, 590, 193, 9, 116, "Text"],
 Cell[CellGroupData[{
-Cell[22057, 596, 1104, 30, 73, "Input"],
-Cell[23164, 628, 4416, 128, 133, "Output"]
+Cell[22385, 603, 1104, 30, 73, "Input"],
+Cell[23492, 635, 4416, 128, 133, "Output"]
 }, Open  ]],
-Cell[27595, 759, 1792, 43, 133, "Input"],
-Cell[29390, 804, 150, 3, 27, "Input"],
-Cell[29543, 809, 146, 3, 27, "Input"],
-Cell[29692, 814, 3100, 77, 298, "Input"],
+Cell[27923, 766, 1792, 43, 133, "Input"],
+Cell[29718, 811, 150, 3, 27, "Input"],
+Cell[29871, 816, 146, 3, 27, "Input"],
+Cell[30020, 821, 3100, 77, 298, "Input"],
 Cell[CellGroupData[{
-Cell[32817, 895, 136, 2, 27, "Input"],
-Cell[32956, 899, 1571, 34, 240, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[34564, 938, 506, 11, 43, "Input"],
-Cell[35073, 951, 24176, 540, 579, "Output"]
+Cell[33145, 902, 136, 2, 27, "Input"],
+Cell[33284, 906, 1571, 34, 240, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[59286, 1496, 69, 1, 27, "Input"],
-Cell[59358, 1499, 70, 1, 27, "Output"]
+Cell[34892, 945, 506, 11, 43, "Input"],
+Cell[35401, 958, 23612, 540, 573, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[59465, 1505, 385, 12, 27, "Input"],
-Cell[59853, 1519, 147, 3, 27, "Output"]
+Cell[59050, 1503, 69, 1, 27, "Input"],
+Cell[59122, 1506, 70, 1, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[60037, 1527, 258, 7, 27, "Input"],
-Cell[60298, 1536, 317, 7, 27, "Output"]
+Cell[59229, 1512, 385, 12, 27, "Input"],
+Cell[59617, 1526, 147, 3, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[60652, 1548, 365, 9, 27, "Input"],
-Cell[61020, 1559, 920, 22, 244, "Output"]
+Cell[59801, 1534, 258, 7, 27, "Input"],
+Cell[60062, 1543, 317, 7, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[61977, 1586, 1941, 43, 253, "Input"],
-Cell[63921, 1631, 1353, 29, 235, "Output"]
+Cell[60416, 1555, 365, 9, 27, "Input"],
+Cell[60784, 1566, 920, 22, 244, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[65311, 1665, 190, 4, 27, "Input"],
-Cell[65504, 1671, 95, 1, 27, "Output"]
+Cell[61741, 1593, 1941, 43, 253, "Input"],
+Cell[63685, 1638, 1353, 29, 235, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[65636, 1677, 184, 4, 27, "Input"],
-Cell[65823, 1683, 436, 12, 241, "Output"]
+Cell[65075, 1672, 190, 4, 27, "Input"],
+Cell[65268, 1678, 95, 1, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[66296, 1700, 158, 3, 27, "Input"],
-Cell[66457, 1705, 1183, 46, 57, "Output"]
+Cell[65400, 1684, 184, 4, 27, "Input"],
+Cell[65587, 1690, 436, 12, 241, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[67677, 1756, 113, 2, 27, "Input"],
-Cell[67793, 1760, 533, 12, 49, "Print",
+Cell[66060, 1707, 158, 3, 27, "Input"],
+Cell[66221, 1712, 1183, 46, 57, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[67441, 1763, 113, 2, 27, "Input"],
+Cell[67557, 1767, 533, 12, 49, "Print",
  CellTags->"Info3510572925-2991118"]
 }, Open  ]],
-Cell[68341, 1775, 642, 19, 27, "Input"],
+Cell[68105, 1782, 642, 19, 27, "Input"],
 Cell[CellGroupData[{
-Cell[69008, 1798, 191, 4, 27, "Input"],
-Cell[69202, 1804, 2485, 66, 895, "Output"]
+Cell[68772, 1805, 191, 4, 27, "Input"],
+Cell[68966, 1811, 2485, 66, 895, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[71724, 1875, 101, 1, 27, "Input"],
-Cell[71828, 1878, 6712, 176, 152, "Output"]
+Cell[71488, 1882, 101, 1, 27, "Input"],
+Cell[71592, 1885, 6712, 176, 152, "Output"]
 }, Open  ]]
 }
 ]
