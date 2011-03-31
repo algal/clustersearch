@@ -176,7 +176,7 @@ struct is_contained_in {
   is_contained_in(const unordered_map<T,TVal> & mmm) : mm(mmm) {}
   bool operator()(const T & item) { return (mm.find(item) != mm.end()); }  
 };
-/* removes any m keys from s1.
+/* removes any keys in m from s1.
 
    @param[inout] s1 a mathematical set of Ts
    @param[in] m an unordered_map with keys of T
