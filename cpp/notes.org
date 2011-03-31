@@ -2,7 +2,8 @@
 
 * todo
 
- * TODO add switch for outputing raw run data
+** TODO rename input 'colors' or output 'colors'
+** TODO add switch for outputing raw run data
 ** TODO add calculation of variance over a run
 
    Boost accumulators can calculate mean and variance incrementally.
