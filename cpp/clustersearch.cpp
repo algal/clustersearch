@@ -468,7 +468,7 @@ int main(int argc, char *argv[])
       if( verbosity > VERBOSITY_NONE ) {
 	cout << "results.cluster_size   = s = " << results.cluster_size << endl;
 	cout << "results.perimeter_size = t = " << results.perimeter_size << endl;
-	cout << "results.colors         = E = " << results.colors << endl;
+	cout << "results.colors_seen    = E = " << results.colors << endl;
 	cout << "results.exits_size     = u = " << results.exits_size << endl;
 	cout << "results.robustness     = r = " << results.robustness << endl;
       } 
@@ -489,7 +489,7 @@ int main(int argc, char *argv[])
       if( verbosity > VERBOSITY_NONE ) {
 	cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
 	cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
-	cout << "mean results.colors            = E = " << results.mean_colors << endl;
+	cout << "mean results.colors_seen       = E = " << results.mean_colors << endl;
 	cout << "mean results.exits_size        = u = " << results.mean_exits_size << endl;
 	cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
       }
