@@ -2,15 +2,20 @@
 
 * todo
 
-** TODO implement func for calculating stats over multiple runs
+ * TODO add switch for outputing raw run data
+** TODO add calculation of variance over a run
 
    Boost accumulators can calculate mean and variance incrementally.
    faster to do calculate on complete results of run?
 
-** TODO setup logging macro or boost logging
+** DONE setup macro for debug logging
 
 *** ezlogger?
     http://axter.com/ezlogger/
+
+  * boost logging?
+
+  * went with TRACE macro
 
 ** DONE implement func for doing runs 
 
@@ -25,7 +30,7 @@
 
    need to configure alphabetsize and string size at runtime.
 
-*** intertwingle search() and calculate_measures()
+*** TODO intertwingle search() and calculate_measures()
 
     with rolling all operations into one loop
 
@@ -38,7 +43,6 @@
 *** replace set_difference and set_intersection
 
     with nonconsing versions.
-
 
 *** alternative representations for geno
 
