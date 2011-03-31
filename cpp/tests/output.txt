@@ -1,0 +1,43 @@
+78
+162
+2
+420
+0.326923
+82
+161
+2
+440
+0.329268
+87
+164
+2
+460
+0.33908
+73
+165
+2
+388
+0.335616
+90
+162
+2
+450
+0.375
+2174
+4376
+2
+23178
+0.333659
+searching with:
+	alphabetsize = 3
+	length = 8
+	numOfColors = 3
+	gray = 0
+	seed = 5
+
+As samples=1, performing one search
+results.cluster_size   = s = 2174
+results.perimeter_size = t = 4376
+results.colors         = E = 2
+results.exits_size     = u = 23178
+results.robustness     = r = 0.333659
