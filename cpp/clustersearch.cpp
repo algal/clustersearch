@@ -394,6 +394,7 @@ int main(int argc, char *argv[])
   unsigned int samples;
   unsigned int seed;
   unsigned int verbosity;
+  string mode;
   const unsigned int VERBOSITY_NONE = 0;
   const unsigned int VERBOSITY_LOW = 1;
   const unsigned int VERBOSITY_HIGH = 2;
@@ -413,12 +414,13 @@ int main(int argc, char *argv[])
     // samples>1 returns the means of the stats
     ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed (non-negative integer)")
     ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(1), "verbosity (0, 1, or 2)")
+    ("mode", po::value<string>(&mode)   ->default_value("stats"), "stats, data, or bench")
     ;
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
   po::notify(vm);    
-
+  
   if (vm.count("help")) {
     cout << "Usage: clusters" << endl
 	 << "Prints cluster measures from a search over a random string graph" << endl
@@ -441,22 +443,22 @@ int main(int argc, char *argv[])
   //  srand(time(NULL)); // seed the random number generator
   std::srand(seed); // seed the random number generator
 
-  const bool NORMAL_EXECUTION = true;
-  if(NORMAL_EXECUTION) {
-    if(verbosity > VERBOSITY_NONE) {
-      cout << "searching with:" << endl;
-      cout << "\talphabetsize = " << alphabetsize << endl;
-      cout << "\tlength = " << length << endl;
-      cout << "\tnumOfColors = " << numOfColors << endl;
-      cout << "\tgray = " << gray << endl;
-      cout << "\tseed = " << seed << endl;
-    }
+  if(verbosity > VERBOSITY_NONE) {
+    cout << "searching with:" << endl;
+    cout << "\talphabetsize = " << alphabetsize << endl;
+    cout << "\tlength = " << length << endl;
+    cout << "\tnumOfColors = " << numOfColors << endl;
+    cout << "\tgray = " << gray << endl;
+    cout << "\tseed = " << seed << endl;
+    cout << "\tmode = " << mode << endl;
+  }
 
-    // display one search
-    if (samples == 1) {
-      if( verbosity > VERBOSITY_NONE) 
-	cout << endl << "As samples=1, performing one search" << endl;
+  // display one search
+  if (mode == "data") {
+    if( verbosity > VERBOSITY_NONE) 
+      cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
+    for(unsigned int i = 0; i < samples; ++i) {
       unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors,gray));
 
       if(verbosity == VERBOSITY_HIGH) {
@@ -466,6 +468,7 @@ int main(int argc, char *argv[])
 
       cluster_measures results = calculate_measures_from_run(mm);
       if( verbosity > VERBOSITY_NONE ) {
+	cout << endl;
 	cout << "results.cluster_size   = s = " << results.cluster_size << endl;
 	cout << "results.perimeter_size = t = " << results.perimeter_size << endl;
 	cout << "results.colors_seen    = E = " << results.colors << endl;
@@ -473,57 +476,54 @@ int main(int argc, char *argv[])
 	cout << "results.robustness     = r = " << results.robustness << endl;
       } 
       else if( verbosity  == VERBOSITY_NONE ) {
-	cout << results.cluster_size << endl;
-	cout << results.perimeter_size << endl;
-	cout << results.colors << endl;
-	cout << results.exits_size << endl;
-	cout << results.robustness << endl;
-      }
-    }
-    else if (samples > 1) {
-      if(verbosity > VERBOSITY_NONE)
-	cout << endl << "Calculating statistics over " << samples << " searches." << endl;
-
-      mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples,gray);
-    
-      if( verbosity > VERBOSITY_NONE ) {
-	cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
-	cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
-	cout << "mean results.colors_seen       = E = " << results.mean_colors << endl;
-	cout << "mean results.exits_size        = u = " << results.mean_exits_size << endl;
-	cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
-      }
-      else if( verbosity  == VERBOSITY_NONE ) {
-	cout << results.mean_cluster_size << endl;
-	cout << results.mean_perimeter_size << endl;
-	cout << results.mean_colors << endl;
-	cout << results.mean_exits_size << endl;
-	cout << results.mean_robustness << endl;
+	cout << results.cluster_size	<< "\t";;
+	cout << results.perimeter_size	<< "\t";;
+	cout << results.colors		<< "\t";;
+	cout << results.exits_size	<< "\t";;
+	cout << results.robustness	<< endl;
       }
     }
   }
-  else {
-    // benchmark 10 random searches
-    if (false) {
-      for(int i =0; i < 10; ++i) {
-	doRun(4,4,5);
-      }
-    }
+  else if (mode=="stats") {
+    if(verbosity > VERBOSITY_NONE)
+      cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
+    mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples,gray);
+    
+    if( verbosity > VERBOSITY_NONE ) {
+      cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
+      cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
+      cout << "mean results.colors_seen       = E = " << results.mean_colors << endl;
+      cout << "mean results.exits_size        = u = " << results.mean_exits_size << endl;
+      cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
+    }
+    else if( verbosity  == VERBOSITY_NONE ) {
+      cout << results.mean_cluster_size << endl;
+      cout << results.mean_perimeter_size << endl;
+      cout << results.mean_colors << endl;
+      cout << results.mean_exits_size << endl;
+      cout << results.mean_robustness << endl;
+    }
+  }
+  else if (mode=="bench") {
+    // benchmark 1000 random searches
+    for(int i =0; i < 1000; ++i) {
+      doRun(4,4,5);
+    }
+  }
+  else if(mode=="bench2") {
     // check 2nd call of random
-    if (false) {
-      for(int i =0; i < 3; ++i) {
-	std::srand(seed); // seed the random number generator
-	(void) doRun(10,4,5);
-	const unordered_map<geno,pheno> result1 = doRun(10,4,5);
-	std::srand(seed); // seed the random number generator
-	(void) doRun(10,4,5);
-	const unordered_map<geno,pheno> result2 = doRun(10,4,5);
-	if( result1 != result2) 
-	  cout << "doRun() identical on 1st call after re-seeding" << endl;
-	else
-	  cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
-      }
+    for(int i =0; i < 3; ++i) {
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+      std::srand(seed); // seed the random number generator
+      (void) doRun(10,4,5);
+      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+      if( result1 != result2) 
+	cout << "doRun() identical on 1st call after re-seeding" << endl;
+      else
+	cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
     }
   }
 
