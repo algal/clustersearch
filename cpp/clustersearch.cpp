@@ -383,20 +383,6 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
 }
 
 
-string usage() {
-  return 
-    "Usage: clusters LENGTH ALPHABETSIZE COLORS [[SAMPLES] SILENT]\n"
-    "Prints measures from one search with given parameters, or else means over samples searches"
-    "\n"
-    "\n"
-    "Arguments: \n"
-    " length        length of genotype strings \n"
-    " alphabetsize  possible symbols in position of a genotype string \n"
-    " colors        number of possible 'phenotype' colors \n"
-    " samples       number of searches to perform \n"
-    " silent        only print out numbers \n";
-}
-
 int main(int argc, char *argv[])
 {
   namespace po = boost::program_options;
