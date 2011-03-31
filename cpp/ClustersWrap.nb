@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      6389,        170]
-NotebookOptionsPosition[      5751,        142]
-NotebookOutlinePosition[      6129,        159]
-CellTagsIndexPosition[      6086,        156]
+NotebookDataLength[      7055,        182]
+NotebookOptionsPosition[      6417,        154]
+NotebookOutlinePosition[      6794,        171]
+CellTagsIndexPosition[      6751,        168]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -26,7 +26,7 @@ Cell[BoxData[
 
 Cell[BoxData["\<\"/Users/alexis\"\>"], "Output",
  CellChangeTimes->{3.510058012321754*^9, 3.510060084174416*^9, 
-  3.5103404768287287`*^9, 3.5104236647638206`*^9}]
+  3.5103404768287287`*^9, 3.5104236647638206`*^9, 3.51055202226427*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -40,7 +40,7 @@ Cell[BoxData[
 Cell[BoxData["\<\"/Users/alexis/workspace/clustersearch/cpp/build\"\>"], \
 "Output",
  CellChangeTimes->{3.5100580573067217`*^9, 3.510060081531982*^9, 
-  3.510340481894681*^9, 3.510423667115568*^9}]
+  3.510340481894681*^9, 3.510423667115568*^9, 3.510552023721322*^9}]
 }, Open  ]],
 
 Cell[BoxData[
@@ -58,38 +58,46 @@ Cell[BoxData[
    RowBox[{"Block", "[", 
     RowBox[{
      RowBox[{"{", 
-      RowBox[{"args", ",", "command"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"args", ",", "command", ",", 
+       RowBox[{"seed", "=", "0"}]}], "}"}], ",", "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"args", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
         RowBox[{
-        "args", ",", "\"\< \>\"", ",", " ", "\"\<--alpha=\>\"", ",", "    ", 
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--alpha=\>\"", ",", "     ", 
+         
          RowBox[{"ToString", "[", "alpha", "]"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
         RowBox[{
-        "args", ",", "\"\< \>\"", ",", " ", "\"\<--length=\>\"", ",", "  ", 
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--length=\>\"", ",", "   ", 
          RowBox[{"ToString", "[", "length", "]"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
         RowBox[{
-        "args", ",", "\"\< \>\"", ",", " ", "\"\<--colors=\>\"", ",", "  ", 
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--colors=\>\"", ",", "   ", 
          RowBox[{"ToString", "[", "colors", "]"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
         RowBox[{
-        "args", ",", "\"\< \>\"", ",", " ", "\"\<--gray=\>\"", ",", "      ", 
-         
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--gray=\>\"", ",", "       ", 
          RowBox[{"ToString", "[", "gray", "]"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
-        RowBox[{"args", ",", "\"\< \>\"", ",", " ", "\"\<--samples=\>\"", ",", 
+        RowBox[{
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--samples=\>\"", ",", " ", 
          RowBox[{"ToString", "[", "samples", "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"args", " ", "=", " ", 
+       RowBox[{"StringJoin", "[", 
+        RowBox[{
+        "args", ",", "\"\< \>\"", ",", " ", "\"\<--seed=\>\"", ",", "       ", 
+         RowBox[{"ToString", "[", "seed", "]"}]}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"args", " ", "=", " ", 
        RowBox[{"StringJoin", "[", 
@@ -113,7 +121,9 @@ Cell[BoxData[
    3.5100597807960453`*^9}, 3.5100600879512568`*^9, {3.5100628258461742`*^9, 
    3.510062831929981*^9}, {3.510339997958804*^9, 3.510340035061967*^9}, {
    3.5103402627209167`*^9, 3.5103404647231894`*^9}, {3.510340496568365*^9, 
-   3.510340522081305*^9}, {3.5103406768631067`*^9, 3.510340679976204*^9}}],
+   3.510340522081305*^9}, {3.5103406768631067`*^9, 3.510340679976204*^9}, {
+   3.5105520506193666`*^9, 3.510552104583955*^9}, {3.5105522543855267`*^9, 
+   3.510552256421369*^9}, {3.510552291198256*^9, 3.510552325430792*^9}}],
 
 Cell[CellGroupData[{
 
@@ -134,14 +144,16 @@ Cell[BoxData[
    3.510059544775934*^9, {3.510059586157566*^9, 3.5100595888820953`*^9}, {
    3.510059653032803*^9, 3.510059664647016*^9}, {3.510060098351884*^9, 
    3.510060123520687*^9}, 3.510340538715658*^9, {3.5103406332224197`*^9, 
-   3.5103406398724833`*^9}, 3.510423679337762*^9}]
+   3.5103406398724833`*^9}, 3.510423679337762*^9, 3.510552041887535*^9, {
+   3.5105520818216333`*^9, 3.510552114948311*^9}, {3.5105522517667933`*^9, 
+   3.510552277044957*^9}, 3.510552318494301*^9}]
 }, Open  ]],
 
 Cell[BoxData[""], "Input",
  CellChangeTimes->{{3.510340251539967*^9, 3.510340253387306*^9}}]
 },
 WindowSize->{740, 756},
-WindowMargins->{{208, Automatic}, {Automatic, 48}},
+WindowMargins->{{-1, Automatic}, {Automatic, 43}},
 ShowSelection->True,
 FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
 2010)",
@@ -160,18 +172,18 @@ CellTagsIndex->{}
 Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 125, 2, 27, "Input"],
-Cell[707, 26, 163, 2, 27, "Output"]
+Cell[707, 26, 184, 2, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[907, 33, 241, 4, 27, "Input"],
-Cell[1151, 39, 197, 3, 27, "Output"]
+Cell[928, 33, 241, 4, 27, "Input"],
+Cell[1172, 39, 219, 3, 27, "Output"]
 }, Open  ]],
-Cell[1363, 45, 3333, 70, 208, "Input"],
+Cell[1406, 45, 3808, 80, 223, "Input"],
 Cell[CellGroupData[{
-Cell[4721, 119, 382, 6, 27, "Input"],
-Cell[5106, 127, 534, 9, 27, "Output"]
+Cell[5239, 129, 382, 6, 27, "Input"],
+Cell[5624, 137, 682, 11, 27, "Output"]
 }, Open  ]],
-Cell[5655, 139, 92, 1, 27, "Input"]
+Cell[6321, 151, 92, 1, 27, "Input"]
 }
 ]
 *)
