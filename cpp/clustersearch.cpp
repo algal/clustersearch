@@ -395,9 +395,11 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   accumulator_set<unsigned int, stats<tag::mean> > exits_size_acc;
   accumulator_set<double,       stats<tag::mean> > robustness_acc;
   
-  cluster_measures r;
+  initialize(alphabetsize,length,numOfColors,gray);
+  const geno origin = string(configs::length, configs::alphabet[0]);
   for(unsigned int i = 0; i < samples; ++i ) {
-    r = calculate_measures(length,alphabetsize,numOfColors,gray);
+    cluster_measures r;
+    r = calculate_measures_from_run(search(origin));
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
