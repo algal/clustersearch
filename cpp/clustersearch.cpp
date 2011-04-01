@@ -555,21 +555,8 @@ int main(int argc, char *argv[])
       search();
     }
   }
-  else if(mode=="bench2") {
-    // check 2nd call of random
-    for(int i =0; i < 3; ++i) {
-      std::srand(seed); // seed the random number generator
-      (void) initialize_and_search(10,4,5);
-      const unordered_map<geno,pheno> result1 = initialize_and_search(10,4,5);
-      std::srand(seed); // seed the random number generator
-      (void) initialize_and_search(10,4,5);
-      const unordered_map<geno,pheno> result2 = initialize_and_search(10,4,5);
-      if( result1 != result2) 
-	cout << "initialize_and_search() identical on 1st call after re-seeding" << endl;
-      else
-	cout << "initialize_and_search() NOT identical on 1st call after re-seeding" << endl;
-    }
+  else {
+    exit(0);
   }
-
   return 0;
 }
