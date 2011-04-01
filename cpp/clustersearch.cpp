@@ -382,6 +382,27 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   return  result;
 }
 
+vector<double> pdfstr_to_cdf(string pdfstr) {
+  vector<string> tokens;
+  std::stringstream ss(pdfstr);
+  string item;
+  while(std::getline(ss, item, ',')) {
+    tokens.push_back(item);
+  }
+
+  vector<double> result;
+  for(vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it) {
+    std::istringstream i(*it);
+    double val;
+    if(!(i >> val)) {
+      std::cerr << "ERROR: passed invalid pdf argument" << std::endl;
+      exit(1);
+    }
+    
+    result.push_back(val);
+  }
+  return result;
+}
 
 int main(int argc, char *argv[])
 {
