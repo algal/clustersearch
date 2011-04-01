@@ -384,10 +384,13 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
 
 vector<double> pdfstr_to_cdf(string pdfstr) {
   vector<string> tokens;
-  std::stringstream ss(pdfstr);
-  string item;
-  while(std::getline(ss, item, ',')) {
-    tokens.push_back(item);
+
+  {
+    std::stringstream ss(pdfstr);
+    string item;
+    while(std::getline(ss, item, ',')) {
+      tokens.push_back(item);
+    }
   }
 
   vector<double> result;
