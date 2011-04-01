@@ -485,10 +485,6 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-
-  //  srand(time(NULL)); // seed the random number generator
-  std::srand(seed); // seed the random number generator
-
   if(verbosity > VERBOSITY_NONE) {
     cout << "searching with:" << endl;
     cout << "\talphabetsize = " << alphabetsize << endl;
@@ -500,7 +496,10 @@ int main(int argc, char *argv[])
     cout << "\tpdf  = " << pdfstr << endl;
   }
 
-  // display one search
+
+  //  srand(time(NULL)); // seed the random number generator
+  std::srand(seed); // seed the random number generator
+
   if (mode == "data") {
     if( verbosity > VERBOSITY_NONE) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
