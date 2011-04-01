@@ -35,6 +35,7 @@ searching with:
 	gray = 0
 	seed = 5
 	mode = stats
+	pdf  = 
 
 Mode=stats. Calculating statistics over 1 searches.
 mean results.cluster_size      = s = 2174
