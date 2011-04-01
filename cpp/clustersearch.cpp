@@ -505,7 +505,7 @@ int main(int argc, char *argv[])
     if( verbosity > VERBOSITY_NONE) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
-    initialize(alphabetsize,length,numOfColors,gray);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
     for(unsigned int i = 0; i < samples; ++i) {
       unordered_map<geno,pheno> run_results(search());
 
@@ -536,7 +536,7 @@ int main(int argc, char *argv[])
     if(verbosity > VERBOSITY_NONE)
       cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
-    initialize(alphabetsize,length,numOfColors,gray);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
     mean_cluster_measures results = calculate_statistics(samples);
     
     if( verbosity > VERBOSITY_NONE ) {
@@ -556,7 +556,7 @@ int main(int argc, char *argv[])
   }
   else if (mode=="bench") {
     // benchmark 1000 random searches
-    initialize(alphabetsize,length,numOfColors,gray);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
     for(int i =0; i < 10000; ++i) {
       search();
     }
