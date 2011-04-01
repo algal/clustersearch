@@ -365,6 +365,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
   return results;
 }
 
+// provided for external linkage
 extern "C"
 cluster_measures calculate_measures(const unsigned int length, 
 				    const unsigned int alphabetsize, 
@@ -373,7 +374,6 @@ cluster_measures calculate_measures(const unsigned int length,
   return calculate_measures_from_run(initialize_and_search(length,alphabetsize,numOfColors,gray));
 }
 
-extern "C"
 struct mean_cluster_measures {
   double mean_cluster_size;	// s
   double mean_perimeter_size;	// t
