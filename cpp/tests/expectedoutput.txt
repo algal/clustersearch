@@ -43,3 +43,13 @@ mean results.perimeter_size    = t = 4376
 mean results.colors_seen       = E = 2
 mean results.exits_size        = u = 23178
 mean results.robustness        = r = 0.333659
+2192.3
+4357.6
+2
+23330.2
+0.334829
+2177
+4372.8
+2
+23294.4
+0.33117
