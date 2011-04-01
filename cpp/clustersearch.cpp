@@ -103,6 +103,11 @@ vector<double> pdfstr_to_pdf(const string& pdfstr) {
     
     result.push_back(val);
   }
+
+  if ( result.size() != configs::numOfColors ) {
+    cout << "Error: pdfs do not match colors" << endl;
+    exit(1);
+  }
   return result;
 }
 
@@ -113,7 +118,7 @@ vector<double> pdfstr_to_pdf(const string& pdfstr) {
     point being gray, and all other colors are equally likely (i.e.,
     (1-g)/(numOfColors-1).
 */
-void initialize_pdf(const double g, const string pdfstr = "") {
+void initialize_pdf(const double g, const string pdfstr) {
   vector<double> pdf;
 
   if(pdfstr == "") {
@@ -121,13 +126,13 @@ void initialize_pdf(const double g, const string pdfstr = "") {
 
     if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION)
       return;
-
-    // define: first color is gray
-    // pdf[0] = gray_fraction
-    // pdf[i] = (1-g)/(numOfCOlors-1) , when i!=0
-    pdf.assign(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
-    pdf[0] = configs::gray_fraction;
-
+    else {
+      // define: first color is gray
+      // pdf[0] = gray_fraction
+      // pdf[i] = (1-g)/(numOfCOlors-1) , when i!=0
+      pdf.assign(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
+      pdf[0] = configs::gray_fraction;
+    }
   }
   else {
     TRACE(cout << "Initializing pdf from pdfstr=" << pdfstr << endl);
@@ -149,11 +154,12 @@ void initialize_pdf(const double g, const string pdfstr = "") {
 void initialize(const unsigned int alphabetsize, 
 		const unsigned int length, 
 		const unsigned int numOfColors,
-		const double gray_fraction=0.0) {
+		const double gray_fraction=0.0,
+		const string pdfstr="") {
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
   initialize_length(length);
-  initialize_pdf(gray_fraction);
+  initialize_pdf(gray_fraction,pdfstr);
 }
 
 //   Returns mutants
