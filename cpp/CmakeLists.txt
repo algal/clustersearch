@@ -29,6 +29,8 @@ endif()
 
 project(CLUSTERSEARCH)
 
+enable_testing()
+
 #set(CMAKE_BUILD_TYPE Release) # generic optimization
 set(CMAKE_CXX_FLAGS "-O4") # clang super-optimization
 
@@ -50,6 +52,10 @@ target_link_libraries(clustersearch ${BOOST_PROGRAM_OPTIONS_LIBRARY})
 # executables to build
 add_executable(clusters clustersearch.cpp printable.hpp)
 target_link_libraries(clusters ${BOOST_PROGRAM_OPTIONS_LIBRARY})
+
+add_test(NAME mytest
+         WORKING_DIRECTORY /Users/alexis/workspace/clustersearch/cpp/tests/
+         COMMAND runtests.sh)
 
 #####
 ##### Instructions
