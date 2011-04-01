@@ -299,7 +299,7 @@ unordered_map<geno,pheno> search(const geno& root) {
    - alphabetsize and numOfColors must be < 26 
 
 */
-unordered_map<geno,pheno> doRun(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
+unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
   initialize(alphabetsize,length,numOfColors,gray);
   const geno origin = string(configs::length, configs::alphabet[0]);
   return search(origin);
@@ -369,7 +369,7 @@ cluster_measures calculate_measures(const unsigned int length,
 				    const unsigned int alphabetsize, 
 				    const unsigned int numOfColors,
 				    const double gray) {
-  return calculate_measures_from_run(doRun(length,alphabetsize,numOfColors,gray));
+  return calculate_measures_from_run(initialize_and_search(length,alphabetsize,numOfColors,gray));
 }
 
 extern "C"
@@ -506,7 +506,7 @@ int main(int argc, char *argv[])
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
     for(unsigned int i = 0; i < samples; ++i) {
-      unordered_map<geno,pheno> mm(doRun(length,alphabetsize,numOfColors,gray));
+      unordered_map<geno,pheno> mm(initialize_and_search(length,alphabetsize,numOfColors,gray));
 
       if(verbosity == VERBOSITY_HIGH) {
 	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
@@ -555,22 +555,22 @@ int main(int argc, char *argv[])
   else if (mode=="bench") {
     // benchmark 1000 random searches
     for(int i =0; i < 10000; ++i) {
-      doRun(length,alphabetsize,numOfColors);
+      initialize_and_search(length,alphabetsize,numOfColors);
     }
   }
   else if(mode=="bench2") {
     // check 2nd call of random
     for(int i =0; i < 3; ++i) {
       std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+      (void) initialize_and_search(10,4,5);
+      const unordered_map<geno,pheno> result1 = initialize_and_search(10,4,5);
       std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+      (void) initialize_and_search(10,4,5);
+      const unordered_map<geno,pheno> result2 = initialize_and_search(10,4,5);
       if( result1 != result2) 
-	cout << "doRun() identical on 1st call after re-seeding" << endl;
+	cout << "initialize_and_search() identical on 1st call after re-seeding" << endl;
       else
-	cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+	cout << "initialize_and_search() NOT identical on 1st call after re-seeding" << endl;
     }
   }
 
