@@ -506,14 +506,14 @@ int main(int argc, char *argv[])
       
     initialize(alphabetsize,length,numOfColors,gray);
     for(unsigned int i = 0; i < samples; ++i) {
-      unordered_map<geno,pheno> mm(search());
+      unordered_map<geno,pheno> run_results(search());
 
       if(verbosity == VERBOSITY_HIGH) {
 	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
-	cout << mm << endl;
+	cout << run_results << endl;
       }    
 
-      cluster_measures results = calculate_measures_from_run(mm);
+      cluster_measures results = calculate_measures_from_run(run_results);
       if( verbosity > VERBOSITY_NONE ) {
 	cout << endl;
 	cout << "results.cluster_size   = s = " << results.cluster_size << endl;
