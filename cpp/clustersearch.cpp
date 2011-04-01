@@ -14,9 +14,7 @@
 #include "boost/accumulators/statistics/mean.hpp"
 #include "boost/accumulators/statistics/moment.hpp"
 
-
 #include "boost/program_options.hpp"
-
 
 #include "printable.hpp"
 
