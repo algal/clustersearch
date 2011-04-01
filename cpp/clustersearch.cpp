@@ -104,7 +104,7 @@ vector<double> pdfstr_to_pdf(const string& pdfstr) {
   return result;
 }
 
-/** initialize gray_fraction
+/** initialize gray_pdf
     
     @param g if g=0, then gray is not used as a color, and all colors
     are equally likely. If 0<g<1, then g is probability of a random
