@@ -432,7 +432,10 @@ int main(int argc, char *argv[])
   const unsigned int VERBOSITY_HIGH = 2;
 
   // Declare the supported options.
-  po::options_description desc("Allowed options");
+  po::options_description desc("Usage: clusters [OPTIONS]\n"
+			       "Prints cluster measures from a search over a random string graph\n"
+			       "\n"
+			       "Allowed options");
   desc.add_options()
     ("help"										, "produce help message")
     ("alpha",  po::value<unsigned int>(&alphabetsize)	->default_value(2)		, "alphabet size")
@@ -461,11 +464,9 @@ int main(int argc, char *argv[])
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
   po::notify(vm);    
-  
+
   if (vm.count("help")) {
-    cout << "Usage: clusters" << endl
-	 << "Prints cluster measures from a search over a random string graph" << endl
-	 << endl << desc << endl
+    cout << desc << endl
 	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
 	 << "ALPHA symbols, where each string is randomly assigned one of" << endl
 	 << "COLORS possible colors." << endl
