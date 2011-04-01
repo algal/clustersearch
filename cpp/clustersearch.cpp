@@ -382,7 +382,7 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   return  result;
 }
 
-vector<double> pdfstr_to_cdf(string pdfstr) {
+vector<double> pdfstr_to_cdf(const string& pdfstr) {
   vector<string> tokens;
 
   {
@@ -485,6 +485,7 @@ int main(int argc, char *argv[])
     cout << "\tgray = " << gray << endl;
     cout << "\tseed = " << seed << endl;
     cout << "\tmode = " << mode << endl;
+    cout << "\tpdf  = " << pdfstr << endl;
   }
 
   // display one search
