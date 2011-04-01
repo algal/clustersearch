@@ -412,6 +412,7 @@ int main(int argc, char *argv[])
   unsigned int length;
   unsigned int numOfColors;
   double gray;
+  string pdfstr;
   unsigned int samples;
   unsigned int seed;
   unsigned int verbosity;
@@ -432,6 +433,7 @@ int main(int argc, char *argv[])
      "Values:\n"
      "  gray=0: \tall colors have equal probability.\n"
      "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
+    ("pdf", po::value<string>(&pdfstr)			->default_value("")	, "pdf")
     ("samples", po::value<unsigned int>(&samples)	->default_value(1)		, "number of searches to perform")
     ("seed",    po::value<unsigned int>(&seed)		->default_value(0)		, "initial pseudorandom seed (non-negative integer)")
     ("verbose", po::value<unsigned int>(&verbosity)	->default_value(1)		, 
