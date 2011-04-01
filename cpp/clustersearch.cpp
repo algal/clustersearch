@@ -382,12 +382,8 @@ struct mean_cluster_measures {
   double mean_robustness;       // r
 };
 
-// calculate means of the cluster measures
-mean_cluster_measures calculate_statistics(const unsigned int length, 
-					   const unsigned int alphabetsize, 
-					   const unsigned int numOfColors,
-					   const unsigned int samples,
-					   const double gray) {
+// calculate means of the cluster measures over SAMPLES searches
+mean_cluster_measures calculate_statistics(const unsigned int samples) {
   using namespace boost::accumulators;
 
   accumulator_set<unsigned int, stats<tag::mean> > cluster_size_acc;
@@ -396,7 +392,6 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   accumulator_set<unsigned int, stats<tag::mean> > exits_size_acc;
   accumulator_set<double,       stats<tag::mean> > robustness_acc;
   
-  initialize(alphabetsize,length,numOfColors,gray);
   for(unsigned int i = 0; i < samples; ++i ) {
     cluster_measures r;
     r = calculate_measures_from_run(search());
@@ -535,7 +530,8 @@ int main(int argc, char *argv[])
     if(verbosity > VERBOSITY_NONE)
       cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
-    mean_cluster_measures results = calculate_statistics(length,alphabetsize,numOfColors,samples,gray);
+    initialize(alphabetsize,length,numOfColors,gray);
+    mean_cluster_measures results = calculate_statistics(samples);
     
     if( verbosity > VERBOSITY_NONE ) {
       cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
