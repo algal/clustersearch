@@ -49,6 +49,7 @@ namespace configs {
   unsigned int length=0;
   string root = "";
 
+  const double CUSTOM_DISTRIBUTION=-1.0;
   const double UNIFORM_DISTRIBUTION=0.0;
   double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
@@ -135,9 +136,11 @@ void initialize_pdf(const double g, const string pdfstr) {
     }
   }
   else {
+    configs::gray_fraction = configs::CUSTOM_DISTRIBUTION;
+
     TRACE(cout << "Initializing pdf from pdfstr=" << pdfstr << endl);
-    configs::gray_fraction = configs::UNIFORM_DISTRIBUTION;
     pdf = pdfstr_to_pdf(pdfstr);
+    TRACE(cout << "Initializing pdf to" << pdf << endl);
   }
 
   vector<double> cdf;
@@ -194,6 +197,7 @@ vector<string> mut(const string g) {
 */
 inline
 pheno colorOf(const geno & g) {
+  TRACE(cout << "colorOf: configs::gray_fraction == " << configs::gray_fraction << endl);
   if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION )
     return rand() % configs::numOfColors;
   else {
