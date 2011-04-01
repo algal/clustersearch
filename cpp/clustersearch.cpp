@@ -45,9 +45,10 @@ namespace configs {
   
   size_t alphabet_size = 3;
   string alphabet = "ABC"; // must be in lexicographical order
-  
+
   unsigned int length=0;
-  
+  string root = "";
+
   const double UNIFORM_DISTRIBUTION=0.0;
   double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
@@ -69,6 +70,7 @@ void initialize_alphabet_size(unsigned int new_alpha_size) {
     all string in the genotype space */
 void initialize_length(size_t length) { 
   configs::length = length;
+  configs::root = string(configs::length, configs::alphabet[0]);
 }
 
 /** Initialize the number of possible phenotypes */
@@ -248,12 +250,12 @@ vector<T> set_intersection(const vector<T> & s1, const unordered_map<T,TVal> & m
 
    Returns a std::unordered_map of the observed nodes and their colors.
 */
-unordered_map<geno,pheno> search(const geno& root) {
+unordered_map<geno,pheno> search() {
   unordered_map<geno,pheno> observed;
-  observed[root]=configs::CLUSTER_COLOR;
+  observed[configs::root]=configs::CLUSTER_COLOR;
 
   list<geno> to_traverse;
-  to_traverse.push_back(root);
+  to_traverse.push_back(configs::root);
 
   geno cursor;
   while( !to_traverse.empty() ) {
@@ -301,8 +303,7 @@ unordered_map<geno,pheno> search(const geno& root) {
 */
 unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
   initialize(alphabetsize,length,numOfColors,gray);
-  const geno origin = string(configs::length, configs::alphabet[0]);
-  return search(origin);
+  return search();
 }
 
 extern "C"
@@ -396,10 +397,9 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   accumulator_set<double,       stats<tag::mean> > robustness_acc;
   
   initialize(alphabetsize,length,numOfColors,gray);
-  const geno origin = string(configs::length, configs::alphabet[0]);
   for(unsigned int i = 0; i < samples; ++i ) {
     cluster_measures r;
-    r = calculate_measures_from_run(search(origin));
+    r = calculate_measures_from_run(search());
     cluster_size_acc(r.cluster_size);
     perimeter_size_acc(r.perimeter_size);
     colors_acc(r.colors);
