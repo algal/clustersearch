@@ -504,8 +504,9 @@ int main(int argc, char *argv[])
     if( verbosity > VERBOSITY_NONE) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
+    initialize(alphabetsize,length,numOfColors,gray);
     for(unsigned int i = 0; i < samples; ++i) {
-      unordered_map<geno,pheno> mm(initialize_and_search(length,alphabetsize,numOfColors,gray));
+      unordered_map<geno,pheno> mm(search());
 
       if(verbosity == VERBOSITY_HIGH) {
 	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
