@@ -87,7 +87,7 @@ void initialize_numOfColors(const unsigned int num) {
     point being gray, and all other colors are equally likely (i.e.,
     (1-g)/(numOfColors-1).
 */
-void initialize_gray_fraction(const double g) {
+void initialize_pdf(const double g) {
   configs::gray_fraction = g;
 
   if( configs::gray_fraction == configs::GRAY_UNUSED)
@@ -117,7 +117,7 @@ void initialize(const unsigned int alphabetsize,
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
   initialize_length(length);
-  initialize_gray_fraction(gray_fraction);
+  initialize_pdf(gray_fraction);
 }
 
 //   Returns mutants
