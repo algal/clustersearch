@@ -554,8 +554,9 @@ int main(int argc, char *argv[])
   }
   else if (mode=="bench") {
     // benchmark 1000 random searches
+    initialize(alphabetsize,length,numOfColors,gray);
     for(int i =0; i < 10000; ++i) {
-      initialize_and_search(length,alphabetsize,numOfColors);
+      search();
     }
   }
   else if(mode=="bench2") {
