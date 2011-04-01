@@ -491,7 +491,6 @@ int main(int argc, char *argv[])
     cout << "\tpdf  = " << pdfstr << endl;
   }
 
-
   //  srand(time(NULL)); // seed the random number generator
   std::srand(seed); // seed the random number generator
 
