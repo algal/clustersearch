@@ -80,6 +80,32 @@ void initialize_numOfColors(const unsigned int num) {
   configs::CLUSTER_COLOR = configs::numOfColors-1;
 }
 
+// parse pdfstr into a vector<double>
+vector<double> pdfstr_to_pdf(const string& pdfstr) {
+  vector<string> tokens;
+
+  {
+    std::stringstream ss(pdfstr);
+    string item;
+    while(std::getline(ss, item, ',')) {
+      tokens.push_back(item);
+    }
+  }
+
+  vector<double> result;
+  for(vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it) {
+    std::istringstream i(*it);
+    double val;
+    if(!(i >> val)) {
+      std::cerr << "ERROR: passed invalid pdf argument" << std::endl;
+      exit(1);
+    }
+    
+    result.push_back(val);
+  }
+  return result;
+}
+
 /** initialize gray_fraction
     
     @param g if g=0, then gray is not used as a color, and all colors
@@ -87,17 +113,27 @@ void initialize_numOfColors(const unsigned int num) {
     point being gray, and all other colors are equally likely (i.e.,
     (1-g)/(numOfColors-1).
 */
-void initialize_pdf(const double g) {
-  configs::gray_fraction = g;
+void initialize_pdf(const double g, const string pdfstr = "") {
+  vector<double> pdf;
 
-  if( configs::gray_fraction == configs::GRAY_UNUSED)
-    return;
+  if(pdfstr == "") {
+    configs::gray_fraction = g;
 
-  // define: first color is gray
-  // pdf[0] = gray_fraction
-  // pdf[i] = (1-g)/(numOfCOlors-1) , when i!=0
-  vector<double> pdf(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
-  pdf[0] = configs::gray_fraction;
+    if( configs::gray_fraction == configs::GRAY_UNUSED)
+      return;
+
+    // define: first color is gray
+    // pdf[0] = gray_fraction
+    // pdf[i] = (1-g)/(numOfCOlors-1) , when i!=0
+    pdf.assign(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
+    pdf[0] = configs::gray_fraction;
+
+  }
+  else {
+    TRACE(cout << "Initializing pdf from pdfstr=" << pdfstr << endl);
+    configs::gray_fraction = configs::GRAY_UNUSED;
+    pdf = pdfstr_to_pdf(pdfstr);
+  }
 
   vector<double> cdf;
   cdf.reserve(pdf.size());
@@ -382,30 +418,6 @@ mean_cluster_measures calculate_statistics(const unsigned int length,
   return  result;
 }
 
-vector<double> pdfstr_to_cdf(const string& pdfstr) {
-  vector<string> tokens;
-
-  {
-    std::stringstream ss(pdfstr);
-    string item;
-    while(std::getline(ss, item, ',')) {
-      tokens.push_back(item);
-    }
-  }
-
-  vector<double> result;
-  for(vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it) {
-    std::istringstream i(*it);
-    double val;
-    if(!(i >> val)) {
-      std::cerr << "ERROR: passed invalid pdf argument" << std::endl;
-      exit(1);
-    }
-    
-    result.push_back(val);
-  }
-  return result;
-}
 
 int main(int argc, char *argv[])
 {
