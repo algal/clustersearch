@@ -497,9 +497,9 @@ int main(int argc, char *argv[])
     cout << "\tlength = " << length << endl;
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tgray = " << gray << endl;
+    cout << "\tpdf  = " << pdfstr << endl;
     cout << "\tseed = " << seed << endl;
     cout << "\tmode = " << mode << endl;
-    cout << "\tpdf  = " << pdfstr << endl;
   }
 
   //  srand(time(NULL)); // seed the random number generator
