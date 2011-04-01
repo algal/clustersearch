@@ -48,8 +48,8 @@ namespace configs {
   
   unsigned int length=0;
   
-  const double GRAY_UNUSED=0.0;
-  double gray_fraction=GRAY_UNUSED;
+  const double UNIFORM_DISTRIBUTION=0.0;
+  double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
 }
 
@@ -117,7 +117,7 @@ void initialize_pdf(const double g, const string pdfstr = "") {
   if(pdfstr == "") {
     configs::gray_fraction = g;
 
-    if( configs::gray_fraction == configs::GRAY_UNUSED)
+    if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION)
       return;
 
     // define: first color is gray
@@ -129,7 +129,7 @@ void initialize_pdf(const double g, const string pdfstr = "") {
   }
   else {
     TRACE(cout << "Initializing pdf from pdfstr=" << pdfstr << endl);
-    configs::gray_fraction = configs::GRAY_UNUSED;
+    configs::gray_fraction = configs::UNIFORM_DISTRIBUTION;
     pdf = pdfstr_to_pdf(pdfstr);
   }
 
@@ -179,14 +179,14 @@ vector<string> mut(const string g) {
 
 /** Generates random phenotype.
 
-    If g == GRAY_UNUSED, then all phenotypes are uniformly distributed. 
+    If g == UNIFORM_DISTRIBUTION, then all phenotypes are uniformly distributed. 
 
     Otherwise, then the "gray" phenotype has probability g, and all
     the others are uniformly distributed.
 */
 inline
 pheno colorOf(const geno & g) {
-  if( configs::gray_fraction == configs::GRAY_UNUSED )
+  if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION )
     return rand() % configs::numOfColors;
   else {
     const double real = ((double)rand()) / ((double) RAND_MAX);
