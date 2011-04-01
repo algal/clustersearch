@@ -402,19 +402,27 @@ int main(int argc, char *argv[])
   // Declare the supported options.
   po::options_description desc("Allowed options");
   desc.add_options()
-    ("help", "produce help message")
-    ("alpha",  po::value<unsigned int>(&alphabetsize)->default_value(2), "alphabet size")
-    ("length", po::value<unsigned int>(&length)      ->default_value(8), "string length")
-    ("colors", po::value<unsigned int>(&numOfColors) ->default_value(3), "number of colors")
-    ("gray",   po::value<double      >(&gray)        ->default_value(0.0), "probability a string is 'gray'")
-    // if gray=0.0, that is interpreted as meaning that it is impossible, not possible but with zero likilhood.
-    // that is, if gray=0.0, then it does not contribtue to number of colors
-    ("samples", po::value<unsigned int>(&samples)	->default_value(1), "number of searches to perform")
-    // samples=1 does one search and gives its stats
-    // samples>1 returns the means of the stats
-    ("seed",    po::value<unsigned int>(&seed)	->default_value(0), "initial pseudorandom seed (non-negative integer)")
-    ("verbose", po::value<unsigned int>(&verbosity)   ->default_value(1), "verbosity (0, 1, or 2)")
-    ("mode", po::value<string>(&mode)   ->default_value("stats"), "stats, data, or bench")
+    ("help"										, "produce help message")
+    ("alpha",  po::value<unsigned int>(&alphabetsize)	->default_value(2)		, "alphabet size")
+    ("length", po::value<unsigned int>(&length)		->default_value(8)		, "string length")
+    ("colors", po::value<unsigned int>(&numOfColors)	->default_value(3)		, "number of possible colors")
+    ("gray",   po::value<double      >(&gray)		->default_value(0.0)		, 
+     "probability a string is 'gray'\n"
+     "Values:\n"
+     "  gray=0: \tall colors have equal probability.\n"
+     "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
+    ("samples", po::value<unsigned int>(&samples)	->default_value(1)		, "number of searches to perform")
+    ("seed",    po::value<unsigned int>(&seed)		->default_value(0)		, "initial pseudorandom seed (non-negative integer)")
+    ("verbose", po::value<unsigned int>(&verbosity)	->default_value(1)		, 
+     "verbosity\n"
+     "  verbose=0: just results\n"
+     "  verbose=1: results, inputs, labels\n"
+     "  verbose=2: results, inputs, labels, observed nodes")
+    ("mode", po::value<string>(&mode)			->default_value("stats")	, 
+     "stats, data, or bench\n"
+     "  stats: calculate means\n"
+     "  data : dump raw search results\n"
+     "  bench: silently perform 10000 searches")
     ;
 
   po::variables_map vm;
@@ -507,8 +515,8 @@ int main(int argc, char *argv[])
   }
   else if (mode=="bench") {
     // benchmark 1000 random searches
-    for(int i =0; i < 1000; ++i) {
-      doRun(4,4,5);
+    for(int i =0; i < 10000; ++i) {
+      doRun(length,alphabetsize,numOfColors);
     }
   }
   else if(mode=="bench2") {
