@@ -33,9 +33,9 @@ searching with:
 	length = 8
 	numOfColors = 3
 	gray = 0
+	pdf  = 
 	seed = 5
 	mode = stats
-	pdf  = 
 
 Mode=stats. Calculating statistics over 1 searches.
 mean results.cluster_size      = s = 2174
@@ -53,3 +53,8 @@ mean results.robustness        = r = 0.333659
 2
 23294.4
 0.33117
+2158	4392	2	23406	0.322115
+2157	4391	2	23046	0.332232
+2194	4356	2	23268	0.33717
+2214	4336	2	23358	0.340617
+2162	4389	2	23394	0.323716
