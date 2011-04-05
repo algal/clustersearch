@@ -520,19 +520,19 @@ int main(int argc, char *argv[])
 
       cluster_measures results = calculate_measures_from_run(run_results);
       if( verbosity > VERBOSITY_NONE ) {
-	cout << endl;
-	cout << "results.cluster_size   = s = " << results.cluster_size << endl;
-	cout << "results.perimeter_size = t = " << results.perimeter_size << endl;
-	cout << "results.colors_seen    = E = " << results.colors << endl;
-	cout << "results.exits_size     = u = " << results.exits_size << endl;
-	cout << "results.robustness     = r = " << results.robustness << endl;
+	cout << '\n';
+	cout << "results.cluster_size   = s = " << results.cluster_size << '\n';
+	cout << "results.perimeter_size = t = " << results.perimeter_size << '\n';
+	cout << "results.colors_seen    = E = " << results.colors << '\n';
+	cout << "results.exits_size     = u = " << results.exits_size << '\n';
+	cout << "results.robustness     = r = " << results.robustness << '\n';
       } 
       else if( verbosity  == VERBOSITY_NONE ) {
 	cout << results.cluster_size	<< "\t";;
 	cout << results.perimeter_size	<< "\t";;
 	cout << results.colors		<< "\t";;
 	cout << results.exits_size	<< "\t";;
-	cout << results.robustness	<< endl;
+	cout << results.robustness	<< '\n';
       }
     }
   }
