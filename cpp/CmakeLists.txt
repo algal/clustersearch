@@ -45,13 +45,15 @@ message("BOOST_PROGRAM_OPTIONS_LIBRARY=${BOOST_PROGRAM_OPTIONS_LIBRARY}")
 
 include_directories(${Boost_INCLUDE_DIR})
 
-# libraries to build
+# build library and its python wrapper
 add_library(clustersearch SHARED clustersearch.cpp)
 target_link_libraries(clustersearch ${BOOST_PROGRAM_OPTIONS_LIBRARY})
+file(INSTALL clustersearchwrap.py DESTINATION .)
 
-# executables to build
+# build executable and its Mathematica wrapper
 add_executable(clusters clustersearch.cpp printable.hpp)
 target_link_libraries(clusters ${BOOST_PROGRAM_OPTIONS_LIBRARY})
+file(INSTALL ClustersWrap.nb DESTINATION .)
 
 add_test(NAME mytest
          WORKING_DIRECTORY /Users/alexis/workspace/clustersearch/cpp/tests/
