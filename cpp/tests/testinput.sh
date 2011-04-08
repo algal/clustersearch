@@ -8,3 +8,5 @@
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=5 --samples=10
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=6 --samples=5
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=6 --samples=5 --mode=data
+../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=6 --samples=50 --mode=data --gray=0.3
+
