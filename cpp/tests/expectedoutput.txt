@@ -34,6 +34,7 @@ searching with:
 	numOfColors = 3
 	gray = 0
 	pdf  = 
+	randomstart  = 0
 	seed = 5
 	mode = stats
 
