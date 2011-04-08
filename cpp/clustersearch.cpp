@@ -56,6 +56,26 @@ namespace configs {
 }
 
 
+// generates a pdf for a given gray_fraction and numOfColors
+string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
+  vector<double> pdf;
+  if(gray_fraction == 0.0) {
+    pdf.assign(numOfColors, 1 / ((double) numOfColors));
+  } 
+  else {
+    pdf.assign(numOfColors, ((1-gray_fraction) / (numOfColors-1)) );
+    pdf[0] = gray_fraction;
+  }
+  std::ostringstream pdfstrings;
+  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
+    pdfstrings << *it << ',';
+  }
+
+  string result(pdfstrings.str());
+  return result.substr(0,result.size()-1);
+}
+
+
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int new_alpha_size) {
   const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -116,26 +136,23 @@ void initialize_randomstart(const bool randomstart) {
 
 /** initialize gray_pdf
     
-    @param g if g=0, then gray is not used as a color, and all colors
-    are equally likely. If 0<g<1, then g is probability of a random
+    @param g If 0<g<1, then g is probability of a random
     point being gray, and all other colors are equally likely (i.e.,
-    (1-g)/(numOfColors-1).
+    (1-g)/(numOfColors-1). Also, then clobbers pdfstr.
+
+    @param pdfstr if nonempty, then defines a pdf.
+
+    if g==0 and pdfstr is empty, then uniform distro.
 */
-void initialize_pdf(const double g, const string pdfstr) {
+void initialize_pdf(const double g, string pdfstr) {
   vector<double> pdf;
 
-  if(pdfstr == "") {
-    configs::gray_fraction = g;
+  if( g != 0.0 )
+    pdfstr = create_pdf_for_gray(g,configs::numOfColors);
 
-    if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION)
-      return;
-    else {
-      // define: first color is gray
-      // pdf[0] = gray_fraction
-      // pdf[i] = (1-g)/(numOfCOlors-1) , when i!=0
-      pdf.assign(configs::numOfColors, ((1-configs::gray_fraction) / (configs::numOfColors-1)) );
-      pdf[0] = configs::gray_fraction;
-    }
+  if(pdfstr == "") {
+    configs::gray_fraction = configs::UNIFORM_DISTRIBUTION;
+    return; 
   }
   else {
     configs::gray_fraction = configs::CUSTOM_DISTRIBUTION;
@@ -159,33 +176,16 @@ void initialize_pdf(const double g, const string pdfstr) {
 void initialize(const unsigned int alphabetsize, 
 		const unsigned int length, 
 		const unsigned int numOfColors,
-		const double gray_fraction=0.0,
-		const string pdfstr="") {
+		const double gray_fraction,
+		const string pdfstr,
+		const bool randomstart=false) {
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
   initialize_length(length);
   initialize_pdf(gray_fraction,pdfstr);
-  initialize_randomstart(false);
+  initialize_randomstart(randomstart);
 }
 
-// generates a pdf for a given gray_fraction and numOfColors
-string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
-  vector<double> pdf;
-  if(gray_fraction == 0.0) {
-    pdf.assign(numOfColors, 1 / ((double) numOfColors));
-  } 
-  else {
-    pdf.assign(numOfColors, ((1-gray_fraction) / (numOfColors-1)) );
-    pdf[0] = gray_fraction;
-  }
-  std::ostringstream pdfstrings;
-  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
-    pdfstrings << *it << ',';
-  }
-
-  string result(pdfstrings.str());
-  return result.substr(0,result.size()-1);
-}
 
 //   Returns mutants
 vector<string> mut(const string g) { 
@@ -342,7 +342,7 @@ unordered_map<geno,pheno> search() {
 
 */
 unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
-  initialize(alphabetsize,length,numOfColors,gray);
+  initialize(alphabetsize,length,numOfColors,gray, "");
   return search();
 }
 
@@ -556,12 +556,12 @@ int main(int argc, char *argv[])
     if( verbosity > VERBOSITY_NONE) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
     for(unsigned int i = 0; i < samples; ++i) {
       unordered_map<geno,pheno> run_results(search());
 
       if(verbosity == VERBOSITY_HIGH) {
-	cout << "Where cluster has color 0, and gray (if defined) has the maximum color, observed nodes as follows: " << endl;
+	cout << "Observed nodes as follows: " << endl;
 	cout << run_results << endl;
       }    
 
@@ -587,7 +587,7 @@ int main(int argc, char *argv[])
     if(verbosity > VERBOSITY_NONE)
       cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
     mean_cluster_measures results = calculate_statistics(samples);
     
     if( verbosity > VERBOSITY_NONE ) {
@@ -607,13 +607,13 @@ int main(int argc, char *argv[])
   }
   else if (mode=="bench") {
     // benchmark 1000 random searches
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
     for(int i =0; i < 10000; ++i) {
       search();
     }
   }
   else if (mode =="test") {
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
     cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
   }
   else {
