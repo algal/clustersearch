@@ -149,11 +149,12 @@ void initialize_pdf(string pdfstr) {
   TRACE(cout << "Initialized configs::cdf to: " << configs::cdf << endl);
 }
 
+
 void initialize(const unsigned int alphabetsize, 
 		const unsigned int length, 
 		const unsigned int numOfColors,
 		const string pdfstr,
-		const bool randomstart=false) {
+		const bool randomstart) {
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
   initialize_length(length);
