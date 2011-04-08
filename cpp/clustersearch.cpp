@@ -527,14 +527,21 @@ int main(int argc, char *argv[])
     cout << desc << endl
 	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
 	 << "ALPHA symbols, where each string is randomly assigned one of" << endl
-	 << "COLORS possible colors." << endl
+	 << "COLORS possible colors. Nodes are connected if 1 Hamming distance apart." << endl
+	 << "A cluster is a maximal self-connected set of nodes sharing a color." << endl 
 	 << endl
-	 << "By default colors are dstributed uniformly; but if GRAY is non-zero," << endl
+	 << "Non-uniform pdfs:" << endl
+	 << "By default colors are dstributed uniformly. But if GRAY is non-zero," << endl
 	 << "then GRAY defines the probability that a randomly chosen node is" << endl
 	 << "GRAY, and the rest are distributed uniformly." << endl
 	 << endl
-	 << "The last color, color (COLORS-1), is the color of the cluster we searched." << endl
-	 << "If GRAY is non-zero, the first color (color 0) is gray." << endl
+	 << "Alternatively, use PDF to set an arbitrary probability distribution " << endl
+	 << "over the the colors." << endl
+	 <<  endl
+	 << "Cluster color:" << endl
+	 << "By default, the last color, color (COLORS-1), is the color of the " << endl
+	 << "cluster to be searched. Use --randomstart to choose the starting color " << endl
+	 << "randomly using the prevailing distribution." << endl
       ;
     return 1;
   }
