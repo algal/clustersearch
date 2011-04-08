@@ -41,7 +41,7 @@ typedef unsigned int pheno;
 namespace configs {
   // don't touch these globals, which define how all functions work
   unsigned int numOfColors = 3;
-  pheno CLUSTER_COLOR = 0;
+  bool randomstart = false;
   
   size_t alphabet_size = 3;
   string alphabet = "ABC"; // must be in lexicographical order
@@ -77,8 +77,6 @@ void initialize_length(size_t length) {
 /** Initialize the number of possible phenotypes */
 void initialize_numOfColors(const unsigned int num) { 
   configs::numOfColors = num; 
-  // define: CLUSTER_COLOR=last in the list
-  configs::CLUSTER_COLOR = configs::numOfColors-1;
 }
 
 // parse pdfstr into a vector<double>
@@ -110,6 +108,10 @@ vector<double> pdfstr_to_pdf(const string& pdfstr) {
     exit(1);
   }
   return result;
+}
+
+void initialize_randomstart(const bool randomstart) {
+  configs::randomstart = randomstart;
 }
 
 /** initialize gray_pdf
@@ -262,7 +264,15 @@ vector<T> set_intersection(const vector<T> & s1, const unordered_map<T,TVal> & m
 */
 unordered_map<geno,pheno> search() {
   unordered_map<geno,pheno> observed;
-  observed[configs::root]=configs::CLUSTER_COLOR;
+  pheno cluster_color;
+  if(configs::randomstart) {
+    cluster_color = colorOf(configs::root);
+  } 
+  else {
+    cluster_color = configs::numOfColors - 1;
+  }
+
+  observed[configs::root]=cluster_color;
 
   list<geno> to_traverse;
   to_traverse.push_back(configs::root);
@@ -284,7 +294,7 @@ unordered_map<geno,pheno> search() {
       for(vector<geno>::iterator g = neighbors.begin(); 
 	  g != neighbors.end(); ++g) {
 	// "discover" the colors and record the visit
-	if ((observed[*g] = colorOf(*g)) == configs::CLUSTER_COLOR) {
+	if ((observed[*g] = colorOf(*g)) == cluster_color) {
 	  // and  plan to visit only the special ones later
 	  to_traverse.push_back(*g);
 	}
@@ -336,6 +346,7 @@ struct cluster_measures {
    Relies on that the search only observes the cluster and its perimeter.
 */
 cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m) {
+  const pheno cluster_color = m.find(configs::root)->second;
   cluster_measures results;
 
   unordered_set<pheno> perimeter_colors;
@@ -350,7 +361,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
     const pheno p = it->second;
     TRACE(cout << "Searching g=" << g << endl);
     // .. in the perimeter ...
-    if(p != configs::CLUSTER_COLOR) {
+    if(p != cluster_color) {
       TRACE(cout << "\twhich is in the perimeter" << endl);
       // ... tally it, track its pheno
       ++perimeter_size;
@@ -359,7 +370,7 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
       vector<geno> mutants( set_intersection( mut(g),m) );
       TRACE(cout << "\tcalculated its (observed) mutants: " << mutants << endl);
       for(vector<geno>::iterator it_mut = mutants.begin(); it_mut != mutants.end(); ++it_mut) {
-	if(m.find(*it_mut)->second == configs::CLUSTER_COLOR) {
+	if(m.find(*it_mut)->second == cluster_color) {
 	  ++exits_size;
 	}
       }
