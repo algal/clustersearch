@@ -165,6 +165,26 @@ void initialize(const unsigned int alphabetsize,
   initialize_numOfColors(numOfColors);
   initialize_length(length);
   initialize_pdf(gray_fraction,pdfstr);
+  initialize_randomstart(false);
+}
+
+// generates a pdf for a given gray_fraction and numOfColors
+string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
+  vector<double> pdf;
+  if(gray_fraction == 0.0) {
+    pdf.assign(numOfColors, 1 / ((double) numOfColors));
+  } 
+  else {
+    pdf.assign(numOfColors, ((1-gray_fraction) / (numOfColors-1)) );
+    pdf[0] = gray_fraction;
+  }
+  std::ostringstream pdfstrings;
+  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
+    pdfstrings << *it << ',';
+  }
+
+  string result(pdfstrings.str());
+  return result.substr(0,result.size()-1);
 }
 
 //   Returns mutants
@@ -591,6 +611,10 @@ int main(int argc, char *argv[])
     for(int i =0; i < 10000; ++i) {
       search();
     }
+  }
+  else if (mode =="test") {
+    initialize(alphabetsize,length,numOfColors,gray,pdfstr);
+    cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
   }
   else {
     exit(0);
