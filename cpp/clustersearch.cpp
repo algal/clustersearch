@@ -433,6 +433,7 @@ int main(int argc, char *argv[])
   unsigned int numOfColors;
   double gray;
   string pdfstr;
+  bool randomstart;
   unsigned int samples;
   unsigned int seed;
   unsigned int verbosity;
@@ -457,7 +458,9 @@ int main(int argc, char *argv[])
      "  gray=0: \tall colors have equal probability.\n"
      "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
     ("pdf", po::value<string>(&pdfstr)			->default_value("")	, "probability mass function\n"
-     "  \tcomma-delimited values, representing the probability of the different colors. By default, the last color in the list is the color of the cluster being searched.")
+     "  \tcomma-delimited values, representing the probability of the different colors. By default, the last color is the color of the cluster being searched.")
+    ("randomstart"                  , "randomize choice of cluster color\n"
+     "  \tRandomly choose color of original starting point, based on the probability mass function. Default is for cluster color to be the last color in the pmf.")
     ("samples", po::value<unsigned int>(&samples)	->default_value(1)		, "number of searches to perform")
     ("seed",    po::value<unsigned int>(&seed)		->default_value(0)		, "initial pseudorandom seed (non-negative integer)")
     ("verbose", po::value<unsigned int>(&verbosity)	->default_value(1)		, 
@@ -475,6 +478,11 @@ int main(int argc, char *argv[])
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
   po::notify(vm);    
+  
+  if (vm.count("randomstart"))
+    randomstart = true;
+  else
+    randomstart = false;
 
   if (vm.count("help")) {
     cout << desc << endl
@@ -499,6 +507,7 @@ int main(int argc, char *argv[])
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tgray = " << gray << endl;
     cout << "\tpdf  = " << pdfstr << endl;
+    cout << "\trandomstart  = " << randomstart << endl;
     cout << "\tseed = " << seed << endl;
     cout << "\tmode = " << mode << endl;
   }
@@ -529,10 +538,10 @@ int main(int argc, char *argv[])
 	cout << "results.robustness     = r = " << results.robustness << '\n';
       } 
       else if( verbosity  == VERBOSITY_NONE ) {
-	cout << results.cluster_size	<< "\t";;
-	cout << results.perimeter_size	<< "\t";;
-	cout << results.colors		<< "\t";;
-	cout << results.exits_size	<< "\t";;
+	cout << results.cluster_size	<< "\t";
+	cout << results.perimeter_size	<< "\t";
+	cout << results.colors		<< "\t";
+	cout << results.exits_size	<< "\t";
 	cout << results.robustness	<< '\n';
       }
     }
