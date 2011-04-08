@@ -187,10 +187,11 @@ vector<string> mut(const string g) {
 
 /** Generates random phenotype.
 
-    If g == UNIFORM_DISTRIBUTION, then all phenotypes are uniformly distributed. 
+    If configs::gray_fraction == UNIFORM_DISTRIBUTION, then all
+    phenotypes are uniformly distributed.
 
-    Otherwise, then the "gray" phenotype has probability g, and all
-    the others are uniformly distributed.
+    Otherwise, distributed according the pdf, which may be initialized
+    explicitly or by specifying a fraction of gray phenotypes.
 */
 inline
 pheno colorOf(const geno & g) {
@@ -210,7 +211,6 @@ pheno colorOf(const geno & g) {
 }
 
 
-
 // helper for set_difference
 // (to be made function local with c++0x)
 template <class T, class TVal>
@@ -219,6 +219,7 @@ struct is_contained_in {
   is_contained_in(const unordered_map<T,TVal> & mmm) : mm(mmm) {}
   bool operator()(const T & item) { return (mm.find(item) != mm.end()); }  
 };
+
 /* removes any keys in m from s1.
 
    @param[inout] s1 a mathematical set of Ts
