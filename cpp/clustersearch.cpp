@@ -55,27 +55,6 @@ namespace configs {
   vector<double> cdf;
 }
 
-
-// generates a pdf for a given gray_fraction and numOfColors
-string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
-  vector<double> pdf;
-  if(gray_fraction == 0.0) {
-    pdf.assign(numOfColors, 1 / ((double) numOfColors));
-  } 
-  else {
-    pdf.assign(numOfColors, ((1-gray_fraction) / (numOfColors-1)) );
-    pdf[0] = gray_fraction;
-  }
-  std::ostringstream pdfstrings;
-  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
-    pdfstrings << *it << ',';
-  }
-
-  string result(pdfstrings.str());
-  return result.substr(0,result.size()-1);
-}
-
-
 /** Initialize the alphabet to a different size */
 void initialize_alphabet_size(unsigned int new_alpha_size) {
   const string max_alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -144,11 +123,8 @@ void initialize_randomstart(const bool randomstart) {
 
     if g==0 and pdfstr is empty, then uniform distro.
 */
-void initialize_pdf(const double g, string pdfstr) {
+void initialize_pdf(string pdfstr) {
   vector<double> pdf;
-
-  if( g != 0.0 )
-    pdfstr = create_pdf_for_gray(g,configs::numOfColors);
 
   if(pdfstr == "") {
     configs::gray_fraction = configs::UNIFORM_DISTRIBUTION;
@@ -176,13 +152,12 @@ void initialize_pdf(const double g, string pdfstr) {
 void initialize(const unsigned int alphabetsize, 
 		const unsigned int length, 
 		const unsigned int numOfColors,
-		const double gray_fraction,
 		const string pdfstr,
 		const bool randomstart=false) {
   initialize_alphabet_size(alphabetsize);
   initialize_numOfColors(numOfColors);
   initialize_length(length);
-  initialize_pdf(gray_fraction,pdfstr);
+  initialize_pdf(pdfstr);
   initialize_randomstart(randomstart);
 }
 
@@ -341,8 +316,8 @@ unordered_map<geno,pheno> search() {
    - alphabetsize and numOfColors must be < 26 
 
 */
-unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors, const double gray=0.0) {
-  initialize(alphabetsize,length,numOfColors,gray, "");
+unordered_map<geno,pheno> initialize_and_search(const unsigned int length, const unsigned int alphabetsize, const unsigned int numOfColors) {
+  initialize(alphabetsize,length,numOfColors, "",false);
   return search();
 }
 
@@ -410,9 +385,8 @@ cluster_measures calculate_measures_from_run(const unordered_map<geno,pheno> & m
 extern "C"
 cluster_measures calculate_measures(const unsigned int length, 
 				    const unsigned int alphabetsize, 
-				    const unsigned int numOfColors,
-				    const double gray) {
-  return calculate_measures_from_run(initialize_and_search(length,alphabetsize,numOfColors,gray));
+				    const unsigned int numOfColors) {
+  return calculate_measures_from_run(initialize_and_search(length,alphabetsize,numOfColors));
 }
 
 struct mean_cluster_measures {
@@ -452,6 +426,26 @@ mean_cluster_measures calculate_statistics(const unsigned int samples) {
       mean(robustness_acc)
     };
   return  result;
+}
+
+
+// generates a pdf for a given gray_fraction and numOfColors
+string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
+  vector<double> pdf;
+  if(gray_fraction == 0.0) {
+    pdf.assign(numOfColors, 1 / ((double) numOfColors));
+  } 
+  else {
+    pdf.assign(numOfColors, ((1-gray_fraction) / (numOfColors-1)) );
+    pdf[0] = gray_fraction;
+  }
+  std::ostringstream pdfstrings;
+  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
+    pdfstrings << *it << ',';
+  }
+
+  string result(pdfstrings.str());
+  return result.substr(0,result.size()-1);
 }
 
 
@@ -516,6 +510,12 @@ int main(int argc, char *argv[])
     std::cout << desc << std::endl;
     return 1;
   }
+
+  // generate pdf from gray
+  if( gray != 0.0 )
+    pdfstr = create_pdf_for_gray(gray,numOfColors);
+
+
   if (vm.count("randomstart"))
     randomstart = true;
   else
@@ -556,7 +556,7 @@ int main(int argc, char *argv[])
     if( verbosity > VERBOSITY_NONE) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
+    initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     for(unsigned int i = 0; i < samples; ++i) {
       unordered_map<geno,pheno> run_results(search());
 
@@ -587,7 +587,7 @@ int main(int argc, char *argv[])
     if(verbosity > VERBOSITY_NONE)
       cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
+    initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     mean_cluster_measures results = calculate_statistics(samples);
     
     if( verbosity > VERBOSITY_NONE ) {
@@ -607,13 +607,13 @@ int main(int argc, char *argv[])
   }
   else if (mode=="bench") {
     // benchmark 1000 random searches
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
+    initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     for(int i =0; i < 10000; ++i) {
       search();
     }
   }
   else if (mode =="test") {
-    initialize(alphabetsize,length,numOfColors,gray,pdfstr,randomstart);
+    initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
   }
   else {
