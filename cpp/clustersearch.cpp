@@ -629,7 +629,8 @@ int main(int argc, char *argv[])
 	if( verbosity == VERBOSITY_INPUTS ) {
 	  cout << alphabetsize << "\t"
 	       << length       << "\t"
-	       << numOfColors  << "\t";
+	       << numOfColors  << "\t"
+	       << k            << "\t";
 	}
 	cout << results.cluster_size	<< "\t";
 	cout << results.perimeter_size	<< "\t";
