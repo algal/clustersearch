@@ -490,7 +490,7 @@ int main(int argc, char *argv[])
   unsigned int length;
   unsigned int numOfColors;
   double gray;
-  double k;
+  double power;
   string pdfstr;
   bool randomstart;
   unsigned int samples;
@@ -517,11 +517,11 @@ int main(int argc, char *argv[])
      "Values:\n"
      "  gray=0: \tall colors have equal probability.\n"
      "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
-    ("k",       po::value<double      >(&k)		->default_value(0.0)		, 
+    ("power",       po::value<double      >(&power)		->default_value(0.0)		, 
      "parameterization for discrete power law\n"
      "Values:\n"
-     "   k=0 : \tall colors have equal probability.\n"
-     "   else: \tcolor x has probability proportional to x^(-k).")
+     "   power=0 : \tall colors have equal probability.\n"
+     "   else    : \tcolor x has probability proportional to x^(-power).")
     ("pdf",     po::value<string>(&pdfstr)		->default_value("")             , "probability mass function\n"
      "  \tcomma-delimited values, representing the probability of the different colors. By default, the last color is the color of the cluster being searched.")
     ("randomstart"                  , "randomize choice of cluster color\n"
@@ -557,8 +557,8 @@ int main(int argc, char *argv[])
     pdfstr = create_pdf_for_gray(gray,numOfColors);
 
   // generate pdf from gray
-  if( k != 0.0 )
-    pdfstr = create_pdf_for_powerlaw(k,numOfColors);
+  if( power != 0.0 )
+    pdfstr = create_pdf_for_powerlaw(power,numOfColors);
 
   if (vm.count("randomstart"))
     randomstart = true;
@@ -594,7 +594,7 @@ int main(int argc, char *argv[])
     cout << "\tlength = " << length << endl;
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tgray = " << gray << endl;
-    cout << "\tk = " << k << endl;
+    cout << "\tpower = " << power << endl;
     cout << "\tpdf  = " << pdfstr << endl;
     cout << "\trandomstart  = " << randomstart << endl;
     cout << "\tseed = " << seed << endl;
@@ -630,7 +630,7 @@ int main(int argc, char *argv[])
 	  cout << alphabetsize << "\t"
 	       << length       << "\t"
 	       << numOfColors  << "\t"
-	       << k            << "\t";
+	       << power            << "\t";
 	}
 	cout << results.cluster_size	<< "\t";
 	cout << results.perimeter_size	<< "\t";
