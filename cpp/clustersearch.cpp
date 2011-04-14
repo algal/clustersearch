@@ -2,7 +2,6 @@
 #include <list>
 #include <vector>
 #include <iterator>
-#include <ctime>
 #include <cstdlib>
 // #include <tr1/unordered_map>
 // #include <tr1/unordered_set>
@@ -558,7 +557,6 @@ int main(int argc, char *argv[])
     cout << "\tmode = " << mode << endl;
   }
 
-  //  srand(time(NULL)); // seed the random number generator
   std::srand(seed); // seed the random number generator
 
   if (mode == "data") {
