@@ -33,6 +33,7 @@ searching with:
 	length = 8
 	numOfColors = 3
 	gray = 0
+	k = 0
 	pdf  = 
 	randomstart  = 0
 	seed = 5
