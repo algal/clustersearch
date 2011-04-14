@@ -509,20 +509,20 @@ int main(int argc, char *argv[])
 			       "Allowed options");
   desc.add_options()
     ("help"										, "produce help message")
-    ("alpha",  po::value<unsigned int>(&alphabetsize)	->default_value(2)		, "alphabet size")
-    ("length", po::value<unsigned int>(&length)		->default_value(8)		, "string length")
-    ("colors", po::value<unsigned int>(&numOfColors)	->default_value(3)		, "number of possible colors")
-    ("gray",   po::value<double      >(&gray)		->default_value(0.0)		, 
+    ("alpha",   po::value<unsigned int>(&alphabetsize)	->default_value(2)		, "alphabet size")
+    ("length",  po::value<unsigned int>(&length)	->default_value(8)		, "string length")
+    ("colors",  po::value<unsigned int>(&numOfColors)	->default_value(3)		, "number of possible colors")
+    ("gray",    po::value<double      >(&gray)		->default_value(0.0)		, 
      "probability a string is 'gray'\n"
      "Values:\n"
      "  gray=0: \tall colors have equal probability.\n"
      "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
-    ("k",   po::value<double      >(&k)		->default_value(0.0)		, 
+    ("k",       po::value<double      >(&k)		->default_value(0.0)		, 
      "parameterization for discrete power law\n"
      "Values:\n"
      "   k=0 : \tall colors have equal probability.\n"
      "   else: \tcolor x has probability proportional to x^(-k).")
-    ("pdf", po::value<string>(&pdfstr)			->default_value("")	, "probability mass function\n"
+    ("pdf",     po::value<string>(&pdfstr)		->default_value("")             , "probability mass function\n"
      "  \tcomma-delimited values, representing the probability of the different colors. By default, the last color is the color of the cluster being searched.")
     ("randomstart"                  , "randomize choice of cluster color\n"
      "  \tRandomly choose color of original starting point, based on the probability mass function. Default is for cluster color to be the last color in the pmf.")
@@ -534,7 +534,7 @@ int main(int argc, char *argv[])
      "  verbose=1: results, inputs\n"
      "  verbose=2: results, inputs, labels\n"
      "  verbose=3: results, inputs, labels, observed nodes")
-    ("mode", po::value<string>(&mode)			->default_value("stats")	, 
+    ("mode",    po::value<string>(&mode)		->default_value("stats")	, 
      "stats, data, or bench\n"
      "  stats: calculate means\n"
      "  data : dump raw search results\n"
