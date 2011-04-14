@@ -18,7 +18,7 @@
 
 #include "printable.hpp"
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #define TRACE(arg) (arg)
@@ -431,7 +431,9 @@ mean_cluster_measures calculate_statistics(const unsigned int samples) {
 }
 
 
-// generates a pdf for a given gray_fraction and numOfColors
+/** generates a pdf for a given gray_fraction. That is,
+    one color has probabitliy gray_fraction, the rest uniform.
+ */
 string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfColors) {
   vector<double> pdf;
   if(gray_fraction == 0.0) {
@@ -450,10 +452,8 @@ string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfC
   return result.substr(0,result.size()-1);
 }
 
-/** generates a pdf for a discrete power law with parameter k
-
-    pmf(x) = x^(-k)
-
+/** generates a pdf for a discrete power law with parameter k, i.e.,
+    pmf(x) = x^(-k) / normalization
  */
 string create_pdf_for_powerlaw(const double k, const unsigned int numOfColors) {
   TRACE(cout << "k = " << k << endl);
