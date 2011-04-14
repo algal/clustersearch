@@ -464,9 +464,10 @@ int main(int argc, char *argv[])
   unsigned int seed;
   unsigned int verbosity;
   string mode;
-  const unsigned int VERBOSITY_NONE = 0;
-  const unsigned int VERBOSITY_LOW = 1;
-  const unsigned int VERBOSITY_HIGH = 2;
+  const unsigned int VERBOSITY_NONE	= 0;
+  const unsigned int VERBOSITY_INPUTS	= 1;
+  const unsigned int VERBOSITY_LOW	= 2;
+  const unsigned int VERBOSITY_HIGH	= 3;
 
   // Declare the supported options.
   po::options_description desc("Usage: clusters [OPTIONS]\n"
@@ -489,11 +490,12 @@ int main(int argc, char *argv[])
      "  \tRandomly choose color of original starting point, based on the probability mass function. Default is for cluster color to be the last color in the pmf.")
     ("samples", po::value<unsigned int>(&samples)	->default_value(1)		, "number of searches to perform")
     ("seed",    po::value<unsigned int>(&seed)		->default_value(0)		, "initial pseudorandom seed (non-negative integer)")
-    ("verbose", po::value<unsigned int>(&verbosity)	->default_value(1)		, 
+    ("verbose", po::value<unsigned int>(&verbosity)	->default_value(2)		, 
      "verbosity\n"
-     "  verbose=0: just results\n"
-     "  verbose=1: results, inputs, labels\n"
-     "  verbose=2: results, inputs, labels, observed nodes")
+     "  verbose=0: results\n"
+     "  verbose=1: results, inputs\n"
+     "  verbose=2: results, inputs, labels\n"
+     "  verbose=3: results, inputs, labels, observed nodes")
     ("mode", po::value<string>(&mode)			->default_value("stats")	, 
      "stats, data, or bench\n"
      "  stats: calculate means\n"
@@ -530,7 +532,7 @@ int main(int argc, char *argv[])
 	 << "A cluster is a maximal self-connected set of nodes sharing a color." << endl 
 	 << endl
 	 << "Non-uniform pdfs:" << endl
-	 << "By default colors are dstributed uniformly. But if GRAY is non-zero," << endl
+	 << "By default colors are distributed uniformly. But if GRAY is non-zero," << endl
 	 << "then GRAY defines the probability that a randomly chosen node is" << endl
 	 << "GRAY, and the rest are distributed uniformly." << endl
 	 << endl
@@ -545,7 +547,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if(verbosity > VERBOSITY_NONE) {
+  if(verbosity > VERBOSITY_INPUTS) {
     cout << "searching with:" << endl;
     cout << "\talphabetsize = " << alphabetsize << endl;
     cout << "\tlength = " << length << endl;
@@ -560,7 +562,7 @@ int main(int argc, char *argv[])
   std::srand(seed); // seed the random number generator
 
   if (mode == "data") {
-    if( verbosity > VERBOSITY_NONE) 
+    if( verbosity > VERBOSITY_INPUTS) 
       cout << endl << "As mode=data, dumping results from " << samples << " searches" << endl;
       
     initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
@@ -573,7 +575,7 @@ int main(int argc, char *argv[])
       }    
 
       cluster_measures results = calculate_measures_from_run(run_results);
-      if( verbosity > VERBOSITY_NONE ) {
+      if( verbosity > VERBOSITY_INPUTS ) {
 	cout << '\n';
 	cout << "results.cluster_size   = s = " << results.cluster_size << '\n';
 	cout << "results.perimeter_size = t = " << results.perimeter_size << '\n';
@@ -581,7 +583,12 @@ int main(int argc, char *argv[])
 	cout << "results.exits_size     = u = " << results.exits_size << '\n';
 	cout << "results.robustness     = r = " << results.robustness << '\n';
       } 
-      else if( verbosity  == VERBOSITY_NONE ) {
+      else if( verbosity  <= VERBOSITY_INPUTS ) {
+	if( verbosity == VERBOSITY_INPUTS ) {
+	  cout << alphabetsize << "\t"
+	       << length       << "\t"
+	       << numOfColors  << "\t";
+	}
 	cout << results.cluster_size	<< "\t";
 	cout << results.perimeter_size	<< "\t";
 	cout << results.colors		<< "\t";
@@ -591,20 +598,20 @@ int main(int argc, char *argv[])
     }
   }
   else if (mode=="stats") {
-    if(verbosity > VERBOSITY_NONE)
+    if(verbosity > VERBOSITY_INPUTS)
       cout << endl << "Mode=stats. Calculating statistics over " << samples << " searches." << endl;
 
     initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     mean_cluster_measures results = calculate_statistics(samples);
     
-    if( verbosity > VERBOSITY_NONE ) {
+    if( verbosity > VERBOSITY_INPUTS ) {
       cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
       cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
       cout << "mean results.colors_seen       = E = " << results.mean_colors << endl;
       cout << "mean results.exits_size        = u = " << results.mean_exits_size << endl;
       cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
     }
-    else if( verbosity  == VERBOSITY_NONE ) {
+    else if( verbosity  <= VERBOSITY_INPUTS ) {
       cout << results.mean_cluster_size << endl;
       cout << results.mean_perimeter_size << endl;
       cout << results.mean_colors << endl;

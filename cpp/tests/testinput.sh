@@ -4,7 +4,7 @@
 ../build/clusters --verbose=0 --alpha=2 --length=8 --colors=3 --seed=4
 ../build/clusters --verbose=0 --alpha=2 --length=8 --colors=3 --seed=5
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=5
-../build/clusters --verbose=1 --alpha=3 --length=8 --colors=3 --seed=5
+../build/clusters --verbose=2 --alpha=3 --length=8 --colors=3 --seed=5
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=5 --samples=10
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=6 --samples=5
 ../build/clusters --verbose=0 --alpha=3 --length=8 --colors=3 --seed=6 --samples=5 --mode=data
