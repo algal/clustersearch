@@ -630,3 +630,7 @@ int main(int argc, char *argv[])
   }
   return 0;
 }
+
+// Local Variables:
+// compile-command: "cd build && make clusters"
+// End:
