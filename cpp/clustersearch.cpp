@@ -3,6 +3,7 @@
 #include <vector>
 #include <iterator>
 #include <cstdlib>
+#include <numeric>
 // #include <tr1/unordered_map>
 // #include <tr1/unordered_set>
 #include "boost/tr1/unordered_map.hpp"
@@ -17,7 +18,7 @@
 
 #include "printable.hpp"
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define TRACE(arg) (arg)
@@ -449,6 +450,37 @@ string create_pdf_for_gray(const double gray_fraction, const unsigned int numOfC
   return result.substr(0,result.size()-1);
 }
 
+/** generates a pdf for a discrete power law with parameter k
+
+    pmf(x) = x^(-k)
+
+ */
+string create_pdf_for_powerlaw(const double k, const unsigned int numOfColors) {
+  TRACE(cout << "k = " << k << endl);
+  TRACE(cout << "numOfColors = " << numOfColors << endl);
+  vector<double> rawpdf;
+  for(int x = 1; x < (numOfColors + 1); ++x) {
+    rawpdf.push_back( std::pow(x, k * -1) );
+  }
+  TRACE(cout << "rawpdf = " << rawpdf << endl);
+
+  double normalization = std::accumulate(rawpdf.begin(),rawpdf.end(),0.0);
+
+  vector<double> pdf;
+  for(vector<double>::iterator it = rawpdf.begin(); it != rawpdf.end(); ++it) {
+    pdf.push_back( *it / normalization );
+  }
+  TRACE(cout << "pdf = " << pdf << endl);
+  
+  std::ostringstream pdfstrings;
+  for(vector<double>::iterator it = pdf.begin(); it != pdf.end(); ++it) {
+    pdfstrings << *it << ',';
+  }
+  TRACE(cout << "pdfstrings = " << pdfstrings.str() << endl);
+
+  string result(pdfstrings.str());
+  return result.substr(0,result.size()-1);
+}
 
 int main(int argc, char *argv[])
 {
@@ -458,6 +490,7 @@ int main(int argc, char *argv[])
   unsigned int length;
   unsigned int numOfColors;
   double gray;
+  double k;
   string pdfstr;
   bool randomstart;
   unsigned int samples;
@@ -484,6 +517,11 @@ int main(int argc, char *argv[])
      "Values:\n"
      "  gray=0: \tall colors have equal probability.\n"
      "  else  : \tone color has probability gray, and all other colors including the cluster color share an equal probability.")
+    ("k",   po::value<double      >(&k)		->default_value(0.0)		, 
+     "parameterization for discrete power law\n"
+     "Values:\n"
+     "   k=0 : \tall colors have equal probability.\n"
+     "   else: \tcolor x has probability proportional to x^(-k).")
     ("pdf", po::value<string>(&pdfstr)			->default_value("")	, "probability mass function\n"
      "  \tcomma-delimited values, representing the probability of the different colors. By default, the last color is the color of the cluster being searched.")
     ("randomstart"                  , "randomize choice of cluster color\n"
@@ -518,6 +556,9 @@ int main(int argc, char *argv[])
   if( gray != 0.0 )
     pdfstr = create_pdf_for_gray(gray,numOfColors);
 
+  // generate pdf from gray
+  if( k != 0.0 )
+    pdfstr = create_pdf_for_powerlaw(k,numOfColors);
 
   if (vm.count("randomstart"))
     randomstart = true;
@@ -553,6 +594,7 @@ int main(int argc, char *argv[])
     cout << "\tlength = " << length << endl;
     cout << "\tnumOfColors = " << numOfColors << endl;
     cout << "\tgray = " << gray << endl;
+    cout << "\tk = " << k << endl;
     cout << "\tpdf  = " << pdfstr << endl;
     cout << "\trandomstart  = " << randomstart << endl;
     cout << "\tseed = " << seed << endl;
@@ -627,6 +669,10 @@ int main(int argc, char *argv[])
     }
   }
   else if (mode =="test") {
+    initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
+    cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
+  }
+  else if (mode =="test2") {
     initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
   }
