@@ -495,6 +495,7 @@ int main(int argc, char *argv[])
   bool randomstart;
   unsigned int samples;
   unsigned int seed;
+  bool header;
   unsigned int verbosity;
   string mode;
   const unsigned int VERBOSITY_NONE	= 0;
@@ -528,6 +529,7 @@ int main(int argc, char *argv[])
      "  \tRandomly choose color of original starting point, based on the probability mass function. Default is for cluster color to be the last color in the pmf.")
     ("samples", po::value<unsigned int>(&samples)	->default_value(1)		, "number of searches to perform")
     ("seed",    po::value<unsigned int>(&seed)		->default_value(0)		, "initial pseudorandom seed (non-negative integer)")
+    ("header"                                                                           , "print header before data")
     ("verbose", po::value<unsigned int>(&verbosity)	->default_value(2)		, 
      "verbosity\n"
      "  verbose=0: results\n"
@@ -565,6 +567,11 @@ int main(int argc, char *argv[])
   else
     randomstart = false;
 
+  if (vm.count("header"))
+    header = true;
+  else
+    header = false;
+
   if (vm.count("help")) {
     cout << desc << endl
 	 << "Graph nodes are strings of length LENGTH, made from an alphabet of" << endl
@@ -586,6 +593,25 @@ int main(int argc, char *argv[])
 	 << "randomly using the prevailing distribution." << endl
       ;
     return 1;
+  }
+
+  const unsigned int nInputVars=4;
+  const unsigned int nVars=9;
+  const char *longVarnames[nVars] = { "alpha", "length", "colors", "power", "cluster_size", "perimeter_size", "colors_seen", "exits_size", "robustness"};
+  const char *shortVarnames[nVars] = { "a", "l", "m", "k", "s", "t", "E", "u", "r"};
+
+  if(header) {
+    if( verbosity == VERBOSITY_INPUTS ) {
+      cout << "a" << "\t"
+	   << "l" << "\t"
+	   << "m" << "\t"
+	   << "k" << "\t";
+    }
+    cout << "s" << "\t";
+    cout << "t" << "\t";
+    cout << "E" << "\t";
+    cout << "u" << "\t";
+    cout << "r" << '\n';
   }
 
   if(verbosity > VERBOSITY_INPUTS) {
@@ -676,6 +702,14 @@ int main(int argc, char *argv[])
   else if (mode =="test2") {
     initialize(alphabetsize,length,numOfColors,pdfstr,randomstart);
     cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
+  }
+  else if (mode =="test3") {
+    for(int i = 0; i < nVars; ++i) {
+      cout << longVarnames[i] << '\n';
+    }
+    for(const char **varname = longVarnames; varname < (longVarnames + nVars); ++varname) {
+      cout << string(*varname) << '\n';
+    }
   }
   else {
     exit(0);
