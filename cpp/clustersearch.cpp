@@ -627,15 +627,15 @@ int main(int argc, char *argv[])
       } 
       else if( verbosity  <= VERBOSITY_INPUTS ) {
 	if( verbosity == VERBOSITY_INPUTS ) {
-	  cout << alphabetsize << "\t"
-	       << length       << "\t"
-	       << numOfColors  << "\t"
-	       << power            << "\t";
+	  cout << alphabetsize << '\t'
+	       << length       << '\t'
+	       << numOfColors  << '\t'
+	       << power            << '\t';
 	}
-	cout << results.cluster_size	<< "\t";
-	cout << results.perimeter_size	<< "\t";
-	cout << results.colors		<< "\t";
-	cout << results.exits_size	<< "\t";
+	cout << results.cluster_size	<< '\t';
+	cout << results.perimeter_size	<< '\t';
+	cout << results.colors		<< '\t';
+	cout << results.exits_size	<< '\t';
 	cout << results.robustness	<< '\n';
       }
     }
