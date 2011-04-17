@@ -595,11 +595,6 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  const unsigned int nInputVars=4;
-  const unsigned int nVars=9;
-  const char *longVarnames[nVars] = { "alpha", "length", "colors", "power", "cluster_size", "perimeter_size", "colors_seen", "exits_size", "robustness"};
-  const char *shortVarnames[nVars] = { "a", "l", "m", "k", "s", "t", "E", "u", "r"};
-
   if(header) {
     if( verbosity == VERBOSITY_INPUTS ) {
       cout << "a" << "\t"
@@ -704,6 +699,11 @@ int main(int argc, char *argv[])
     cout << "create_pdf_for_gray() == " << create_pdf_for_gray(configs::gray_fraction,configs::numOfColors) << endl;
   }
   else if (mode =="test3") {
+    const unsigned int nInputVars=4;
+    const unsigned int nVars=9;
+    const char *longVarnames[nVars] = { "alpha", "length", "colors", "power", "cluster_size", "perimeter_size", "colors_seen", "exits_size", "robustness"};
+    const char *shortVarnames[nVars] = { "a", "l", "m", "k", "s", "t", "E", "u", "r"};
+    
     for(int i = 0; i < nVars; ++i) {
       cout << longVarnames[i] << '\n';
     }
