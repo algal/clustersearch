@@ -554,13 +554,13 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  // generate pdf from gray
-  if( gray != 0.0 )
-    pdfstr = create_pdf_for_gray(gray,numOfColors);
-
-  // generate pdf from gray
-  if( power != 0.0 )
-    pdfstr = create_pdf_for_powerlaw(power,numOfColors);
+  // set pdf
+  if(pdfstr == "") {
+    if( power != 0.0 )
+      pdfstr = create_pdf_for_powerlaw(power,numOfColors);
+    else if( gray != 0.0 )
+      pdfstr = create_pdf_for_gray(gray,numOfColors);
+  }
 
   if (vm.count("randomstart"))
     randomstart = true;
