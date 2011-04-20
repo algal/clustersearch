@@ -651,7 +651,7 @@ int main(int argc, char *argv[])
 	  cout << alphabetsize << '\t'
 	       << length       << '\t'
 	       << numOfColors  << '\t'
-	       << power            << '\t';
+	       << power        << '\t';
 	}
 	cout << results.cluster_size	<< '\t';
 	cout << results.perimeter_size	<< '\t';
@@ -669,6 +669,7 @@ int main(int argc, char *argv[])
     mean_cluster_measures results = calculate_statistics(samples);
     
     if( verbosity > VERBOSITY_INPUTS ) {
+      cout << '\n';
       cout << "mean results.cluster_size      = s = " << results.mean_cluster_size << endl;
       cout << "mean results.perimeter_size    = t = " << results.mean_perimeter_size << endl;
       cout << "mean results.colors_seen       = E = " << results.mean_colors << endl;
@@ -676,11 +677,17 @@ int main(int argc, char *argv[])
       cout << "mean results.robustness        = r = " << results.mean_robustness << endl;
     }
     else if( verbosity  <= VERBOSITY_INPUTS ) {
-      cout << results.mean_cluster_size << endl;
-      cout << results.mean_perimeter_size << endl;
-      cout << results.mean_colors << endl;
-      cout << results.mean_exits_size << endl;
-      cout << results.mean_robustness << endl;
+	if( verbosity == VERBOSITY_INPUTS ) {
+	  cout << alphabetsize << '\t'
+	       << length       << '\t'
+	       << numOfColors  << '\t'
+	       << power        << '\t';
+	}
+      cout << results.mean_cluster_size	  << '\t';
+      cout << results.mean_perimeter_size << '\t';
+      cout << results.mean_colors         << '\t';
+      cout << results.mean_exits_size     << '\t';
+      cout << results.mean_robustness     << '\n';
     }
   }
   else if (mode=="bench") {
