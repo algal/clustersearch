@@ -61,18 +61,24 @@ get_edges(const unordered_map<geno,pheno> & m) {
     return edges;
 }
 
-std::string graphToDot(const unordered_map<geno,pheno> & m) {
+/* generates dot string for a graph, optionally with phenotype shown */
+std::string graphToDot(const unordered_map<geno,pheno> & m, bool printpheno=false) {
   std::ostringstream result;
-
   result << "graph mygraph {" "\n";
-
-  vector< Edge > edges( get_edges( m ) );
+  vector<Edge> edges( get_edges( m ) );
   for(vector<Edge>::const_iterator it = edges.begin(); it != edges.end(); ++it) {
-    result << " " << it->first << " -- " << it->second << ";" "\n";
+    result << " " << it->first;
+    if(printpheno)
+      result << "(" << m.at(it->first) << ")";
+    result << " -- " << it->second;
+    if(printpheno)    
+      result << "(" << m.at(it->second) << ")";
+    result << ";" "\n";
   }
   result << "}" "\n";
   return result.str();
 }
+
 
 int main() {
     unordered_map<geno,pheno> m;
