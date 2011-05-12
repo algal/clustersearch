@@ -46,6 +46,10 @@ message("BOOST_PROGRAM_OPTIONS_LIBRARY=${BOOST_PROGRAM_OPTIONS_LIBRARY}")
 include_directories(${Boost_INCLUDE_DIR})
 
 # build library and its python wrapper
+add_executable(graphwriter graphwriter.cpp)
+
+
+# build library and its python wrapper
 add_library(clustersearch SHARED clustersearch.cpp)
 target_link_libraries(clustersearch ${BOOST_PROGRAM_OPTIONS_LIBRARY})
 file(INSTALL clustersearchwrap.py DESTINATION .)

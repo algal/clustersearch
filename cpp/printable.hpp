@@ -34,6 +34,13 @@ std::ostream & operator<<(std::ostream & out, std::tr1::unordered_set<T> & s) {
   return out;
 }      
 
+/* prints a pair<T1, T2> */
+template <class T1, class T2>
+std::ostream & operator<<(std::ostream & out, std::pair<T1,T2> & s) {
+  out << "(" << s.first  << " " << s.second  << ")";
+  return out;
+}      
+
 /* prints a vector<T> */
 template <class T>
 std::ostream & operator<<(std::ostream & out, std::vector<T> & s) {
@@ -44,6 +51,7 @@ std::ostream & operator<<(std::ostream & out, std::vector<T> & s) {
   out << "}";
   return out;
 }      
+
 /* prints a set<T> */
 template <class T>
 std::ostream & operator<<(std::ostream & out, std::set<T> & s) {
