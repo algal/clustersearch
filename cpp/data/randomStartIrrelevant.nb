@@ -1,0 +1,168 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      5163,        159]
+NotebookOptionsPosition[      4117,        117]
+NotebookOutlinePosition[      4795,        144]
+CellTagsIndexPosition[      4671,        138]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Testing irrelevance of randomstart\
+\>", "Subtitle",
+ CellChangeTimes->{{3.5120260449965477`*^9, 3.512026051219512*^9}}],
+
+Cell["\<\
+In theory, when searching on a uniform distribution, whether one chooses a \
+color at random should make no difference in the limit of many samples.
+
+This notebook is to verify that the mean of randomstart and the mean of \
+non-randomstart do indeed converge.\
+\>", "Text",
+ CellChangeTimes->{{3.512026052851568*^9, 3.5120261073543167`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "Clusters2"}]], "Input",
+ CellChangeTimes->{{3.512024756643271*^9, 3.51202476444079*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"Clusters2[alpha_,length_,colors_,power_,randomstart_, \
+samples_,mode_:'data'] Returns data of s, t, E, u, r\"\>", "MSG"]], "Print", \
+"PrintUsage",
+ CellChangeTimes->{3.512025864135131*^9},
+ CellTags->"Info3512029463-1185398"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "Map"}]], "Input",
+ CellChangeTimes->{{3.512024767455303*^9, 3.512024768223756*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox["\<\"\\!\\(\\*RowBox[{\\\"Map\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"f\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"expr\\\", \\\
+\"TI\\\"]}], \\\"]\\\"}]\\) or \\!\\(\\*RowBox[{StyleBox[\\\"f\\\", \
+\\\"TI\\\"], \\\"/@\\\", StyleBox[\\\"expr\\\", \\\"TI\\\"]}]\\) applies \
+\\!\\(\\*StyleBox[\\\"f\\\", \\\"TI\\\"]\\) to each element on the first \
+level in \\!\\(\\*StyleBox[\\\"expr\\\", \\\"TI\\\"]\\). \\n\\!\\(\\*RowBox[{\
+\\\"Map\\\", \\\"[\\\", RowBox[{StyleBox[\\\"f\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"expr\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"levelspec\\\", \\\
+\"TI\\\"]}], \\\"]\\\"}]\\) applies \\!\\(\\*StyleBox[\\\"f\\\", \
+\\\"TI\\\"]\\) to parts of \\!\\(\\*StyleBox[\\\"expr\\\", \\\"TI\\\"]\\) \
+specified by \\!\\(\\*StyleBox[\\\"levelspec\\\", \\\"TI\\\"]\\). \"\>", 
+   "MSG"], "\[NonBreakingSpace]", 
+  ButtonBox[
+   StyleBox["\[RightSkeleton]", "SR"],
+   Active->True,
+   BaseStyle->"Link",
+   ButtonData->"paclet:ref/Map"]}]], "Print", "PrintUsage",
+ CellChangeTimes->{3.512024768655513*^9},
+ CellTags->"Info3512028368-1185398"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"With", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"alpha", "=", "2"}], ",", 
+     RowBox[{"length", "=", "8"}], ",", 
+     RowBox[{"colors", "=", "8"}], ",", 
+     RowBox[{"power", "=", "0"}], ",", 
+     RowBox[{"samples", "=", "100000"}], ",", 
+     RowBox[{"mode", "=", "\"\<data\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"randStart", " ", "=", " ", 
+     RowBox[{"Clusters2", "[", 
+      RowBox[{
+      "alpha", ",", "length", ",", "colors", ",", "power", ",", "True", ",", 
+       "samples", ",", "mode"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"nonRandStart", " ", "=", " ", 
+     RowBox[{"Clusters2", "[", 
+      RowBox[{
+      "alpha", ",", "length", ",", "colors", ",", "power", ",", "False", ",", 
+       "samples", ",", "mode"}], "]"}]}], ";"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.512025491426573*^9, 3.512025516492529*^9}, {
+   3.512025881558217*^9, 3.5120258958335533`*^9}, {3.512025937513131*^9, 
+   3.512025976768939*^9}, {3.51202601698418*^9, 3.512026020849022*^9}, {
+   3.512026137245261*^9, 3.512026240318335*^9}, 3.512026373467557*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"4.9`", ",", "25", ",", "6.3`", ",", "31", ",", "0.120962`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.5120258847224092`*^9, 3.512025896548987*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{740, 756},
+WindowMargins->{{Automatic, 185}, {45, Automatic}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
+2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info3512028368-1185398"->{
+  Cell[1616, 56, 1099, 20, 55, "Print",
+   CellTags->"Info3512028368-1185398"]},
+ "Info3512029463-1185398"->{
+  Cell[1208, 42, 256, 5, 42, "Print",
+   CellTags->"Info3512029463-1185398"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info3512028368-1185398", 4459, 129},
+ {"Info3512029463-1185398", 4569, 132}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 130, 3, 46, "Subtitle"],
+Cell[712, 27, 351, 7, 71, "Text"],
+Cell[CellGroupData[{
+Cell[1088, 38, 117, 2, 27, "Input"],
+Cell[1208, 42, 256, 5, 42, "Print",
+ CellTags->"Info3512029463-1185398"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1501, 52, 112, 2, 27, "Input"],
+Cell[1616, 56, 1099, 20, 55, "Print",
+ CellTags->"Info3512028368-1185398"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2752, 81, 1144, 26, 58, "Input"],
+Cell[3899, 109, 190, 4, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
