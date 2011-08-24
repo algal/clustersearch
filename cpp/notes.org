@@ -103,3 +103,74 @@
 
 *** replace std::string with something customized?
 compile with std=c++0x to ensure return value optimization
+
+* neutral model
+
+
+** these are Hamming Graphs
+
+** Point1: E and r correlated
+*** Wagner's E vs. r argument
+*** preimage stats vs. cluster stats
+** what conditions produce maximum correlation?
+** what are the main dynamics effecting E and
+** inputs vs outputs:  
+  
+*** cluster growth phase
+
+    (a, l, m, RAND) -> S
+    S + \del -> T
+    S -> s
+    S + T -> U
+    T -> t
+    U -> u
+    (s,u,l,a) -> r
+
+*** cereal box phase
+
+    T + \phi -> E
+
+** <E> vs m. the hump
+
+** correlation
+
+** parameter regimes and their chief dynamics
+*** m drives <t> which bounds <E>
+**** low m ( m << t)
+    too few colors to fill all the slots
+**** high m ( m >> t )
+    too few slots to accommodate all the colors
+
+*** growth process
+
+    bimodal distribution in <s>. Hardest hurdle is first generation of
+    search. many graphs die as singletons.
+
+*** effect of l (string length, als
+
+*** effect of a (alphabet size)
+
+** uniform vs skewed distribution
+*** skewed distribution
+    
+    adds new factor: randomization of initial starting color
+
+    increasing skew has an effect on the cereal box part of the
+    problem: decreases number of expected colors seen
+
+    increasing skew has an effect on the graph growth part of the
+    problem: 
+       
+** diagrams
+*** set S, perimeter T, exits U
+*** <E> vs m
+*** 
+
+
+    
+* motivation
+* model
+** Hamming graph represents mutation graph
+** randomly assign colors (i.e., phenotypes) to nodes
+* conclusions
+

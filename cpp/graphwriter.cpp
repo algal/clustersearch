@@ -46,7 +46,6 @@ typedef std::pair<geno,geno> Edge;
 vector< Edge > 
 get_edges(const unordered_map<geno,pheno> & m) {
     vector< Edge > edges;
-
     // brute force O(n^2) enumeration of non-self, undirected edges
     const unordered_map<geno,pheno>::const_iterator mend = m.end();
     for(unordered_map<geno,pheno>::const_iterator itx = m.begin(); itx != mend; ++itx) {
@@ -64,18 +63,16 @@ get_edges(const unordered_map<geno,pheno> & m) {
 /* generates dot string for a graph, optionally with phenotype shown */
 std::string graphToDot(const unordered_map<geno,pheno> & m, bool printpheno=false) {
   std::ostringstream result;
-  result << "graph mygraph {" "\n";
+  result << "graph mygraph {";
   vector<Edge> edges( get_edges( m ) );
   for(vector<Edge>::const_iterator it = edges.begin(); it != edges.end(); ++it) {
     result << " " << it->first;
-    if(printpheno)
-      result << "(" << m.at(it->first) << ")";
+    if(printpheno) result << "(" << m.at(it->first) << ")";
     result << " -- " << it->second;
-    if(printpheno)    
-      result << "(" << m.at(it->second) << ")";
-    result << ";" "\n";
+    if(printpheno) result << "(" << m.at(it->second) << ")";
+    result << ";";
   }
-  result << "}" "\n";
+  result << "}";
   return result.str();
 }
 
