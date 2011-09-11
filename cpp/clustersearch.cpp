@@ -206,9 +206,9 @@ inline
 pheno colorOf(const geno & g) {
   TRACE(cout << "colorOf: configs::gray_fraction == " << configs::gray_fraction << endl);
   if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION )
-    return rand() % configs::numOfColors;
+    return std::rand() % configs::numOfColors;
   else {
-    const double real = ((double)rand()) / ((double) RAND_MAX);
+    const double real = ((double)std::rand()) / ((double) RAND_MAX);
     TRACE(cout << "colorOf: generated real=" << real << endl);
     for(unsigned int i = 0; i < configs::numOfColors; ++i) {
       if( real < configs::cdf[i] )
@@ -752,21 +752,21 @@ int main(int argc, char *argv[])
      cout << "calling reseed with seed=" << seed << "\n";
      std::srand(seed); // seed the random number generator
 
-     cout << "rand() returning " << rand() << "\n";
-     cout << "rand() returning " << rand() << "\n";
-     const double result1 = rand();
+     cout << "std::rand() returning " << std::rand() << "\n";
+     cout << "std::rand() returning " << std::rand() << "\n";
+     const double result1 = std::rand();
 
      cout << "calling reseed with seed=" << seed << "\n";
      std::srand(seed); // seed the random number generator
 
-     cout << "rand() returning " << rand() << "\n";
-     cout << "rand() returning " << rand() << "\n";
-     const double result2 = rand();
+     cout << "std::rand() returning " << std::rand() << "\n";
+     cout << "std::rand() returning " << std::rand() << "\n";
+     const double result2 = std::rand();
      cout << "comparing result1=" << result1 << "and result2=" << result2 << "\n";
       if( result1 == result2) 
-	cout << "rand() identical on 1st call after re-seeding" << endl;
+	cout << "std::rand() identical on 1st call after re-seeding" << endl;
        else
-	 cout << "rand() NOT identical on 1st call after re-seeding" << endl;
+	 cout << "std::rand() NOT identical on 1st call after re-seeding" << endl;
   }
   else {
     exit(0);
