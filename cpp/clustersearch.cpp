@@ -738,7 +738,7 @@ int main(int argc, char *argv[])
       std::srand(seed); // seed the random number generator
       (void) initialize_and_search(10,4,5);
       const unordered_map<geno,pheno> result2 = initialize_and_search(10,4,5);
-      if( result1 != result2) 
+      if( result1 == result2) 
 	cout << "initialize_and_search() identical on 1st call after re-seeding" << endl;
        else
 	 cout << "initialize_and_search() NOT identical on 1st call after re-seeding" << endl;
@@ -747,6 +747,26 @@ int main(int argc, char *argv[])
   else if (mode =="test5") {
     for(int i = 0; i < 100; ++i)
          cout << configs::die() << endl;
+  }
+  else if (mode =="test6") {
+     cout << "calling reseed with seed=" << seed << "\n";
+     std::srand(seed); // seed the random number generator
+
+     cout << "rand() returning " << rand() << "\n";
+     cout << "rand() returning " << rand() << "\n";
+     const double result1 = rand();
+
+     cout << "calling reseed with seed=" << seed << "\n";
+     std::srand(seed); // seed the random number generator
+
+     cout << "rand() returning " << rand() << "\n";
+     cout << "rand() returning " << rand() << "\n";
+     const double result2 = rand();
+     cout << "comparing result1=" << result1 << "and result2=" << result2 << "\n";
+      if( result1 == result2) 
+	cout << "rand() identical on 1st call after re-seeding" << endl;
+       else
+	 cout << "rand() NOT identical on 1st call after re-seeding" << endl;
   }
   else {
     exit(0);
