@@ -40,8 +40,10 @@ typedef string geno;
 typedef unsigned int pheno;
 
 typedef std::tr1::mt19937 random_engine_t;
-typedef std::tr1::uniform_int<int> random_distribution_t;
-typedef std::tr1::variate_generator<random_engine_t, random_distribution_t> random_generator_t;
+typedef std::tr1::uniform_int<int> uniform_discerete_dist_t;
+typedef std::tr1::uniform_real<double> uniform_real_dist_t;
+typedef std::tr1::variate_generator<random_engine_t, uniform_discerete_dist_t> unif_discrete_generator_t;
+typedef std::tr1::variate_generator<random_engine_t, uniform_real_dist_t> unif_real_generator_t;
 
 namespace configs {
   // don't touch these globals, which define how all functions work
@@ -59,8 +61,11 @@ namespace configs {
   double gray_fraction=UNIFORM_DISTRIBUTION;
   vector<double> cdf;
 
-random_generator_t die(random_engine_t(0),
-                       random_distribution_t(0,numOfColors-1));
+  unif_discrete_generator_t discrete_die(random_engine_t(0),
+                                        uniform_discerete_dist_t(0,numOfColors-1));
+
+  unif_real_generator_t real_die(random_engine_t(0),
+                                    uniform_real_dist_t(0,1));
 }
 
 /** Initialize the alphabet to a different size */
@@ -206,9 +211,9 @@ inline
 pheno colorOf(const geno & g) {
   TRACE(cout << "colorOf: configs::gray_fraction == " << configs::gray_fraction << endl);
   if( configs::gray_fraction == configs::UNIFORM_DISTRIBUTION )
-    return std::rand() % configs::numOfColors;
+       return configs::discrete_die();
   else {
-    const double real = ((double)std::rand()) / ((double) RAND_MAX);
+    const double real = configs::real_die();
     TRACE(cout << "colorOf: generated real=" << real << endl);
     for(unsigned int i = 0; i < configs::numOfColors; ++i) {
       if( real < configs::cdf[i] )
@@ -335,9 +340,11 @@ extern "C"
 void reseed(unsigned int seed) {
   std::srand(seed);
 
-  random_engine_t engine(seed);
-  random_distribution_t dist(0,configs::numOfColors-1);
-  configs::die = random_generator_t(engine,dist);
+  configs::discrete_die = unif_discrete_generator_t(random_engine_t(seed),
+                                           uniform_discerete_dist_t(0,configs::numOfColors-1));
+
+  configs::real_die = unif_real_generator_t(random_engine_t(seed),
+                                           uniform_real_dist_t(0,1));
 }
 
 extern "C" 
@@ -746,7 +753,7 @@ int main(int argc, char *argv[])
   }
   else if (mode =="test5") {
     for(int i = 0; i < 100; ++i)
-         cout << configs::die() << endl;
+         cout << configs::discrete_die() << endl;
   }
   else if (mode =="test6") {
      cout << "calling reseed with seed=" << seed << "\n";
@@ -767,6 +774,10 @@ int main(int argc, char *argv[])
 	cout << "std::rand() identical on 1st call after re-seeding" << endl;
        else
 	 cout << "std::rand() NOT identical on 1st call after re-seeding" << endl;
+  }
+  else if (mode =="test7") {
+    for(int i = 0; i < 1000; ++i)
+         cout << configs::real_die() << endl;
   }
   else {
     exit(0);
