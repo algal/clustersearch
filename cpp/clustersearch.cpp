@@ -336,7 +336,7 @@ void reseed(unsigned int seed) {
   std::srand(seed);
 
   random_engine_t engine(seed);
-  random_distribution_t dist(0,numOfColors-1);
+  random_distribution_t dist(0,configs::numOfColors-1);
   configs::die = random_generator_t(engine,dist);
 }
 
@@ -730,23 +730,23 @@ int main(int argc, char *argv[])
       cout << string(*varname) << '\n';
     }
   }
-  else if (mode="test4") {
+  else if (mode=="test4") {
     for(int i =0; i < 3; ++i) {
       std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result1 = doRun(10,4,5);
+      (void) initialize_and_search(10,4,5);
+      const unordered_map<geno,pheno> result1 = initialize_and_search(10,4,5);
       std::srand(seed); // seed the random number generator
-      (void) doRun(10,4,5);
-      const unordered_map<geno,pheno> result2 = doRun(10,4,5);
+      (void) initialize_and_search(10,4,5);
+      const unordered_map<geno,pheno> result2 = initialize_and_search(10,4,5);
       if( result1 != result2) 
-	cout << "doRun() identical on 1st call after re-seeding" << endl;
+	cout << "initialize_and_search() identical on 1st call after re-seeding" << endl;
        else
-	 cout << "doRun() NOT identical on 1st call after re-seeding" << endl;
+	 cout << "initialize_and_search() NOT identical on 1st call after re-seeding" << endl;
     }
   }
-  else if (mode="test5") {
+  else if (mode =="test5") {
     for(int i = 0; i < 100; ++i)
-      cout << die() << endl;
+         cout << configs::die() << endl;
   }
   else {
     exit(0);
